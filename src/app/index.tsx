@@ -15,6 +15,8 @@ import { GlobalStyle } from 'styles/global-styles';
 import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 
+import { SignUpPage } from './containers/SignUpPage/Loadable';
+
 export function App() {
   return (
     <>
@@ -24,6 +26,8 @@ export function App() {
 
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route exact path="/sign-in" component={SignInPage} />
+        <Route exact path="/sign-up" component={SignUpPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
