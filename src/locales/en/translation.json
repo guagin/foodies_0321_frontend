@@ -1,3 +1,9 @@
 {
-  "title": "welcome"
+  "title": "welcome",
+  "user": {
+    "name": "name",
+    "namePlaceholder": "what peopel call u",
+    "email": "email address",
+    "emailPlaceholder": "address of ur email"
+  }
 }

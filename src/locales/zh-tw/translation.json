@@ -1,0 +1,8 @@
+{
+  "title": "歡迎",
+  "user": {
+    "name": "使用者名稱",
+    "email": "電子郵件地址",
+    "namePlaceholder": "你叫什麼?"
+  }
+}

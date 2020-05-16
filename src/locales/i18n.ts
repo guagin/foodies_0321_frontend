@@ -4,11 +4,15 @@ import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './en/translation.json';
+import zhTw from './zh-tw/translation.json';
 import { ConvertedToFunctionsType } from './types';
 
 const translationsJson = {
   en: {
     translation: en,
+  },
+  zh: {
+    translation: zhTw,
   },
 };
 
@@ -56,5 +60,5 @@ export const i18n = i18next
         escapeValue: false, // not needed for react as it escapes by default
       },
     },
-    () => convertToFunctions(en, translations),
+    () => convertToFunctions(zhTw, translations),
   );
