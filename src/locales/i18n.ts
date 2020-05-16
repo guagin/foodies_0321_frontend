@@ -11,7 +11,7 @@ const translationsJson = {
   en: {
     translation: en,
   },
-  zh: {
+  'zh-TW': {
     translation: zhTw,
   },
 };
@@ -50,7 +50,7 @@ export const i18n = i18next
   .init(
     {
       resources: translationsJson,
-
+      lng: 'zh-TW',
       fallbackLng: 'en',
       debug:
         process.env.NODE_ENV !== 'production' &&

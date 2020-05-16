@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, FormEvent } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   makeStyles,
@@ -8,11 +8,13 @@ import {
   Typography,
   Grid,
   TextField,
-  FormControlLabel,
   Button,
 } from '@material-ui/core';
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import { useTranslation } from 'react-i18next';
+import Me from 'app/components/Me';
+import { connect } from 'react-redux';
+import { signUp } from '../../../store/me/actions';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -34,9 +36,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function SignUpPage() {
+function SignUpPage({ signUp }) {
   const classes = useStyles();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+
+  const [name, setName] = useState('');
+  const handleNameChange = value => {
+    setName(value);
+  };
+
+  const [email, setEmail] = useState('');
+  const handleEmailChange = value => {
+    setEmail(value);
+  };
+
+  const [password, setPassword] = useState('');
+  const handlePasswordChange = value => {
+    setPassword(value);
+  };
+
+  const handleSubmmit = (event: FormEvent) => {
+    event.preventDefault();
+    signUp({ name, email, password });
+  };
+
   return (
     <>
       <Helmet>
@@ -46,13 +69,14 @@ export function SignUpPage() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
+          <Me></Me>
           <Avatar className={classes.avatar}>
             <LockOutlineIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             SignUp
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onSubmit={handleSubmmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12}>
                 <TextField
@@ -65,6 +89,10 @@ export function SignUpPage() {
                   label={t('user.name')}
                   autoFocus
                   placeholder={t('user.namePlaceholder')}
+                  value={name}
+                  onChange={e => {
+                    handleNameChange(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -77,6 +105,9 @@ export function SignUpPage() {
                   id="email"
                   label={t('user.email')}
                   placeholder={t('user.emailPlaceholder')}
+                  onChange={e => {
+                    handleEmailChange(e.target.value);
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,6 +121,9 @@ export function SignUpPage() {
                   id="password"
                   label={t('user.password')}
                   placeholder={t('user.passwordPlaceholder')}
+                  onChange={e => {
+                    handlePasswordChange(e.target.value);
+                  }}
                 />
               </Grid>
             </Grid>
@@ -108,3 +142,5 @@ export function SignUpPage() {
     </>
   );
 }
+
+export default connect(null, { signUp })(SignUpPage);
