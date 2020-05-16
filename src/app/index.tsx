@@ -16,6 +16,7 @@ import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 
 import { SignUpPage } from './containers/SignUpPage/Loadable';
+import { SignInPage } from './containers/SignInPage/Loadable';
 
 export function App() {
   return (
