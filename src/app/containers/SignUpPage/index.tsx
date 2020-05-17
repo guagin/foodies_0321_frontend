@@ -12,9 +12,10 @@ import {
 } from '@material-ui/core';
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import { useTranslation } from 'react-i18next';
-import Me from 'app/components/Me';
-import { connect } from 'react-redux';
-import { signUp } from '../../../store/me/actions';
+import { Me } from 'app/components/Me';
+
+import { createAction } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,7 +37,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function SignUpPage({ signUp }) {
+export function SignUpPage() {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -57,7 +59,20 @@ function SignUpPage({ signUp }) {
 
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
-    signUp({ name, email, password });
+
+    const signUp = createAction<{
+      name: string;
+      email: string;
+      password: string;
+    }>('SIGN_UP');
+
+    dispatch(
+      signUp({
+        name,
+        email,
+        password,
+      }),
+    );
   };
 
   return (
@@ -143,4 +158,4 @@ function SignUpPage({ signUp }) {
   );
 }
 
-export default connect(null, { signUp })(SignUpPage);
+// export default connect(null, { signUp })(SignUpPage);
