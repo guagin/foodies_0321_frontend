@@ -1,6 +1,6 @@
 import React from 'react';
 import { MeState } from 'store/me/reducer';
-import { connect } from 'react-redux';
+import { connect, MapStateToProps } from 'react-redux';
 
 function Me(me: MeState) {
   return (
@@ -13,7 +13,11 @@ function Me(me: MeState) {
   );
 }
 
-const mapStateToProp: (state: { me: MeState }) => MeState = state => {
+const mapStateToProp: MapStateToProps<
+  MeState,
+  MeState,
+  { me: MeState }
+> = state => {
   console.log(state.me);
   return state.me;
 };

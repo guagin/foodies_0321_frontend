@@ -15,7 +15,7 @@ const initialState: MeState = {
   token: '',
 };
 
-interface MeAction extends Action<MeActionType> {
+export interface MeAction extends Action<MeActionType> {
   payload: any;
 }
 
