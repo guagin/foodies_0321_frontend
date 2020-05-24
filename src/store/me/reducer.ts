@@ -1,11 +1,21 @@
-import { MeActionType } from 'store/me/actionTypes';
-import { Action, createReducer, PayloadAction } from '@reduxjs/toolkit';
+import { createReducer, Reducer } from '@reduxjs/toolkit';
+import {
+  RequestSignUp,
+  ReceiveSignUpResponse,
+  ReceiveSignUpSucceedResponseCreator,
+  ResponseStatus,
+  ReceiveSignUpFailedResponse,
+  ReceiveSignUpFailedResponseCreator,
+  ReceiveSignUpSucceedResponse,
+} from './action';
 
 export type MeState = {
   name: string;
   id: string;
   email: string;
   token: string;
+  isRequest: boolean;
+  status?: ResponseStatus;
 };
 
 const initialState: MeState = {
@@ -13,27 +23,50 @@ const initialState: MeState = {
   id: '',
   email: '',
   token: '',
+  isRequest: false,
 };
 
-export interface MeAction extends Action<MeActionType> {
-  payload: any;
-}
+const signupResponseReducer: Reducer<
+  MeState,
+  ReceiveSignUpSucceedResponse | ReceiveSignUpFailedResponse
+> = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ReceiveSignUpSucceedResponse':
+      return {
+        ...state,
+        email: action.email,
+        name: action.name,
+        status: {
+          ...action.status,
+        },
+      };
+    case 'ReceiveSignUpFailedResponse':
+      return {
+        ...state,
+        status: {
+          ...action.status,
+        },
+      };
+  }
+};
 
 export const meReducer = createReducer(initialState, {
-  SIGN_UP: (
-    state,
-    action: PayloadAction<{
-      name: string;
-      email: string;
-      password: string;
-    }>,
-  ) => {
-    const { name, email, password } = action.payload;
+  RequestSignUp: (state, action: RequestSignUp) => {
     return {
       ...state,
-      name,
-      email,
-      password,
+      isRequest: true,
     };
+  },
+  ReceiveSignUpResponse: (state, action: ReceiveSignUpResponse) => {
+    if (action.status.code === 'SUCCESS') {
+      return signupResponseReducer(
+        state,
+        ReceiveSignUpSucceedResponseCreator(action),
+      );
+    }
+    return signupResponseReducer(
+      state,
+      ReceiveSignUpFailedResponseCreator(action),
+    );
   },
 });

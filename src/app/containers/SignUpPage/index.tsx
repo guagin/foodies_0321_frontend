@@ -9,13 +9,15 @@ import {
   Grid,
   TextField,
   Button,
+  CircularProgress,
 } from '@material-ui/core';
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import { useTranslation } from 'react-i18next';
 import { Me } from 'app/components/Me';
 
-import { createAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
+import { SignUpActionCreator } from 'store/me/action';
+import { useTypedSelector } from 'store/reducers';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -39,6 +41,7 @@ const useStyles = makeStyles(theme => ({
 
 export function SignUpPage() {
   const dispatch = useDispatch();
+  const me2 = useTypedSelector(state => state.me);
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -60,19 +63,20 @@ export function SignUpPage() {
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
 
-    const signUp = createAction<{
-      name: string;
-      email: string;
-      password: string;
-    }>('SIGN_UP');
-
     dispatch(
-      signUp({
+      SignUpActionCreator({
         name,
         email,
         password,
       }),
     );
+  };
+
+  const progressCirlcle = () => {
+    if (me2.isRequest) {
+      return <CircularProgress />;
+    }
+    return <></>;
   };
 
   return (
@@ -152,6 +156,7 @@ export function SignUpPage() {
               {t('submit')}
             </Button>
           </form>
+          {progressCirlcle()}
         </div>
       </Container>
     </>

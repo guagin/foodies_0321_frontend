@@ -7,8 +7,9 @@ import { connectRouter, RouterState } from 'connected-react-router';
 
 import { history } from 'utils/history';
 import { InjectedReducersType } from 'utils/types/injector-typings';
-import { meReducer, MeState, MeAction } from './me/reducer';
+import { meReducer, MeState } from './me/reducer';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { MeActions } from './me/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -17,7 +18,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
   const rootReducer = combineReducers({
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,
-    me: meReducer as Reducer<MeState, MeAction>,
+    me: meReducer as Reducer<MeState, MeActions>,
   });
 
   return rootReducer;
