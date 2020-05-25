@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { Action, ActionCreator, ThunkAction, Dispatch } from '@reduxjs/toolkit';
 import fetch from 'node-fetch';
 export interface RequestSignUp extends Action<'RequestSignUp'> {
@@ -7,27 +8,24 @@ export interface RequestSignUp extends Action<'RequestSignUp'> {
 }
 
 export interface ResponseStatus {
-  code: 'SUCCESS' | 'FAILURE';
+  code: 'SUCCESS' | 'ERROR';
   msg: string;
 }
 
 export interface ReceiveSignUpResponse extends Action<'ReceiveSignUpResponse'> {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }
 
 export interface ReceiveSignUpSucceedResponse
   extends Action<'ReceiveSignUpSucceedResponse'> {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }
 
 export interface ReceiveSignUpFailedResponse
   extends Action<'ReceiveSignUpFailedResponse'> {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }
 
@@ -55,25 +53,35 @@ export const SignUpActionCreator: ActionCreator<ThunkAction<
 >> = (input: { name: string; password: string; email: string }) => {
   return async (dispatch: Dispatch) => {
     dispatch(RequestSignUpActionCreator(input));
-    return fetch(`http://localhost:3000/authentication/user/register`, {
-      method: 'POST',
-      body: JSON.stringify(input),
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(
-        response => response.body,
-        error => console.log(`An error occurred.`, error),
-      )
-      .then(json => {
-        console.log('receive:', json);
-        return dispatch(ReceiveSignUpResponseCreator(json));
-      });
+    try {
+      const response = await fetch(
+        `http://localhost:3000/authentication/user/register`,
+        {
+          method: 'POST',
+          body: JSON.stringify(input),
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
+      const data = await response.json();
+      console.log('receive: ', data);
+      dispatch(push('/'));
+      return dispatch(ReceiveSignUpResponseCreator(data));
+    } catch (error) {
+      console.log(`An error occurred.`, error);
+      return dispatch(
+        ReceiveSignUpResponseCreator({
+          status: {
+            code: 'ERROR',
+            msg: error.message,
+          },
+        }),
+      );
+    }
   };
 };
 
 export const ReceiveSignUpResponseCreator: ActionCreator<ReceiveSignUpResponse> = (input: {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }) => {
   return {
@@ -83,8 +91,7 @@ export const ReceiveSignUpResponseCreator: ActionCreator<ReceiveSignUpResponse> 
 };
 
 export const ReceiveSignUpSucceedResponseCreator: ActionCreator<ReceiveSignUpSucceedResponse> = (input: {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }) => {
   return {
@@ -94,8 +101,7 @@ export const ReceiveSignUpSucceedResponseCreator: ActionCreator<ReceiveSignUpSuc
 };
 
 export const ReceiveSignUpFailedResponseCreator: ActionCreator<ReceiveSignUpFailedResponse> = (input: {
-  name: string;
-  email: string;
+  id: string;
   status: ResponseStatus;
 }) => {
   return {

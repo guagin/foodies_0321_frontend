@@ -30,12 +30,13 @@ const signupResponseReducer: Reducer<
   MeState,
   ReceiveSignUpSucceedResponse | ReceiveSignUpFailedResponse
 > = (state = initialState, action) => {
+  console.log('signupResponseReducer:', action);
+
   switch (action.type) {
     case 'ReceiveSignUpSucceedResponse':
       return {
         ...state,
-        email: action.email,
-        name: action.name,
+        isRequest: false,
         status: {
           ...action.status,
         },
@@ -43,6 +44,7 @@ const signupResponseReducer: Reducer<
     case 'ReceiveSignUpFailedResponse':
       return {
         ...state,
+        isRequest: false,
         status: {
           ...action.status,
         },
@@ -61,12 +63,20 @@ export const meReducer = createReducer(initialState, {
     if (action.status.code === 'SUCCESS') {
       return signupResponseReducer(
         state,
-        ReceiveSignUpSucceedResponseCreator(action),
+        ReceiveSignUpSucceedResponseCreator({
+          id: action.id,
+          status: action.status,
+        }),
       );
     }
+
+    console.log('ReceiveSignUpResponse:', action);
     return signupResponseReducer(
       state,
-      ReceiveSignUpFailedResponseCreator(action),
+      ReceiveSignUpFailedResponseCreator({
+        id: action.id,
+        status: action.status,
+      }),
     );
   },
 });
