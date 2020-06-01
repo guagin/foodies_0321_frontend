@@ -1,7 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { SignUp, SignUpSuccess, SignUpFailure } from './action';
 
-
 export interface ResponseStatus {
   code: 'SUCCESS' | 'ERROR';
   msg: string;

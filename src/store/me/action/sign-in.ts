@@ -13,7 +13,6 @@ export interface ReceiveSignInResponse extends Action<'ReceiveSignInResponse'> {
 }
 
 export interface SignInFailed extends Action<'SignInFailed'> {
-  id: string;
   status: ResponseStatus;
 }
 
@@ -26,14 +25,8 @@ export const RequestSignInActionCreator: ActionCreator<RequestSignIn> = (input: 
   name: string;
   password: string;
 }) => {
-  
   return {
     ...input,
     type: 'RequestSignIn',
   };
 };
-
-export const SignInFailed: ActionCreator<SignInFailed> = (input: {
-  name: string;
-  password: string;
-})

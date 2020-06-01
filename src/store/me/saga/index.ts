@@ -7,8 +7,9 @@ export function* signUpFlow() {
 }
 
 function* signUpSaga(action: SignUp) {
-  yield call(signUp, { ...action });
   try {
+    const { id, status } = yield call(signUp, { ...action });
+    console.log(`id: ${id}. status: ${status}`);
     yield put({ type: 'SignUpSuccess', id: '123456' });
   } catch (e) {
     yield put({ type: 'SignUpFailure', msg: e.msg });

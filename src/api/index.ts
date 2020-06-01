@@ -1,19 +1,34 @@
-import delay from 'delay';
+import fetch from 'node-fetch';
+
+interface Status {
+  code: 'SUCCESS' | 'ERROR';
+  msg: string;
+}
 
 export const signUp: (input: {
   name: string;
   password: string;
   email: string;
-}) => Promise<{ id: string } | { msg: string }> = async ({
+}) => Promise<{ id: string; status: Status }> = async ({
   name,
   password,
   email,
 }) => {
-  await delay(3000);
-  console.log(`${name}, ${password}, ${email}`);
+  const response = await fetch(
+    'http://localhost:3000/authentication/user/register',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        name,
+        password,
+        email,
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    },
+  );
 
-  if (Math.random() > 0) {
-    return { id: '123456' };
-  }
-  return { msg: 'fuck!!' };
+  const json = await response.json();
+  return json;
 };
