@@ -13,7 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import { History } from 'history';
 
 import { createReducer } from './reducers';
-import { rootSaga } from './me/saga';
+import { rootSaga } from './root-saga';
 
 export function configureAppStore(history?: History) {
   const reduxSagaMonitorOptions = {};
