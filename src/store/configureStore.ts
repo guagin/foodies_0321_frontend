@@ -13,6 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import { History } from 'history';
 
 import { createReducer } from './reducers';
+import { rootSaga } from './me/saga';
 
 export function configureAppStore(history?: History) {
   const reduxSagaMonitorOptions = {};
@@ -40,6 +41,8 @@ export function configureAppStore(history?: History) {
     devTools: process.env.NODE_ENV !== 'production',
     enhancers,
   });
+
+  runSaga(rootSaga);
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */

@@ -23,6 +23,7 @@
     "@types/webpack-env": "1.15.1",
     "connected-react-router": "6.8.0",
     "cross-env": "7.0.2",
+    "delay": "4.3.0",
     "eslint-config-prettier": "6.10.1",
     "eslint-plugin-prettier": "3.1.2",
     "fontfaceobserver": "2.1.0",
@@ -125,6 +126,7 @@
     }
   },
   "devDependencies": {
+    "@types/delay": "3.1.0",
     "@types/node-fetch": "2.5.7"
   }
 }

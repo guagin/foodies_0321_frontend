@@ -1,9 +1,9 @@
 import React, { useState, FormEvent } from 'react';
 import { Typography, Grid, TextField, Button } from '@material-ui/core';
-import { SignUpActionCreator } from 'store/me/action';
 
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { SignUpCreator } from 'store/me/action';
 
 export function SignUpForm(input: {
   classes: { [index: string]: any };
@@ -33,7 +33,7 @@ export function SignUpForm(input: {
     event.preventDefault();
 
     dispatch(
-      SignUpActionCreator({
+      SignUpCreator({
         name,
         email,
         password,
