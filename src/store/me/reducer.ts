@@ -12,6 +12,7 @@ export type MeState = {
   email: string;
   token: string;
   isRequest: boolean;
+  message: string;
 };
 
 const initialState: MeState = {
@@ -20,6 +21,7 @@ const initialState: MeState = {
   email: '',
   token: '',
   isRequest: false,
+  message: '',
 };
 
 export const meReducer = createReducer(initialState, {
@@ -36,9 +38,11 @@ export const meReducer = createReducer(initialState, {
     };
   },
   SignUpFailure: (state, action: SignUpFailure) => {
+    const { message } = action;
     return {
       ...state,
       isRequest: false,
+      message,
     };
   },
 });

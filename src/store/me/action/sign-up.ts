@@ -11,7 +11,7 @@ export interface SignUpSuccess extends Action<'SignUpSuccess'> {
 }
 
 export interface SignUpFailure extends Action<'SignUpFailure'> {
-  msg: string;
+  message: string;
 }
 
 export type SignUpResponseActions = SignUp | SignUpSuccess | SignUpFailure;
@@ -33,7 +33,7 @@ export const SignUpSuccessCreator: ActionCreator<SignUpSuccess> = (input: {
 });
 
 export const SignUpFailureCreator: ActionCreator<SignUpFailure> = (input: {
-  msg: string;
+  message: string;
 }) => ({
   type: 'SignUpFailure',
   ...input,

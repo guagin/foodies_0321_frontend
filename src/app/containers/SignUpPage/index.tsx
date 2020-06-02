@@ -7,8 +7,6 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-import { Me } from 'app/components/Me';
-
 import { useTypedSelector } from 'store/reducers';
 import { SignUpForm } from './sign-up-form';
 
@@ -43,6 +41,17 @@ export function SignUpPage() {
     return <></>;
   };
 
+  const signUpMessage = () => {
+    if (me.message) {
+      return (
+        <div>
+          <p>{me.message}</p>
+        </div>
+      );
+    }
+    return <></>;
+  };
+
   return (
     <>
       <Helmet>
@@ -52,9 +61,9 @@ export function SignUpPage() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <Me></Me>
           <SignUpForm classes={classes} disabled={me.isRequest}></SignUpForm>
           {progressCirlcle()}
+          {signUpMessage()}
         </div>
       </Container>
     </>

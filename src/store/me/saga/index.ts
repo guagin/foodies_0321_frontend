@@ -1,7 +1,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { SignUp } from '../action';
+import { SignUp, SignUpSuccessCreator, SignUpFailureCreator } from '../action';
 import { signUp } from 'api';
 import { ResponseStatus } from '../reducer';
+import { push } from 'connected-react-router';
 
 export function* signUpFlow() {
   yield takeEvery('SignUp', signUpSaga);
@@ -18,9 +19,27 @@ function* signUpSaga(action: SignUp) {
     } = yield call(signUp, {
       ...action,
     });
-    console.log(`id: ${id}. status: ${JSON.stringify(status)}`);
-    yield put({ type: 'SignUpSuccess', id: '123456' });
+    if (status.code === 'SUCCESS') {
+      yield put(
+        SignUpSuccessCreator({
+          id,
+        }),
+      );
+
+      // redirect to home page.
+      yield put(push('/'));
+    } else {
+      yield put(
+        SignUpFailureCreator({
+          message: status.msg,
+        }),
+      );
+    }
   } catch (e) {
-    yield put({ type: 'SignUpFailure', msg: e.msg });
+    yield put(
+      SignUpFailureCreator({
+        message: e.message,
+      }),
+    );
   }
 }
