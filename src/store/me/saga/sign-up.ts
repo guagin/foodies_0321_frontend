@@ -1,11 +1,11 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { SignUp, SignUpSuccessCreator, SignUpFailureCreator } from '../action';
-import { signUp } from 'api';
-import { ResponseStatus } from '../reducer';
+import { signUp, Status } from 'api';
+
 import { push } from 'connected-react-router';
 
 export function* signUpFlow() {
-  yield takeEvery('SignUp', signUpSaga);
+  yield takeLatest('SignUp', signUpSaga);
 }
 
 function* signUpSaga(action: SignUp) {
@@ -15,7 +15,7 @@ function* signUpSaga(action: SignUp) {
       status,
     }: {
       id: string;
-      status: ResponseStatus;
+      status: Status;
     } = yield call(signUp, {
       ...action,
     });

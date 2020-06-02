@@ -1,32 +1,42 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
-import { ResponseStatus } from '../reducer';
 
-export interface RequestSignIn extends Action<'RequestSignIn'> {
+export interface SignIn extends Action<'SignIn'> {
   name: string;
   password: string;
 }
 
-export interface ReceiveSignInResponse extends Action<'ReceiveSignInResponse'> {
+export interface SignInFailure extends Action<'SignInFailure'> {
+  message: string;
+}
+
+export interface SignInSuccess extends Action<'SignInSuccess'> {
   token: string;
-  name: string;
-  email: string;
 }
 
-export interface SignInFailed extends Action<'SignInFailed'> {
-  status: ResponseStatus;
-}
-
-export interface SignInSucceed extends Action<'SignInSucceed'> {
-  id: string;
-  status: ResponseStatus;
-}
-
-export const RequestSignInActionCreator: ActionCreator<RequestSignIn> = (input: {
+export const SignInCreator: ActionCreator<SignIn> = (input: {
   name: string;
   password: string;
 }) => {
   return {
     ...input,
-    type: 'RequestSignIn',
+    type: 'SignIn',
+  };
+};
+
+export const SignInFailureCreator: ActionCreator<SignInFailure> = (input: {
+  message: string;
+}) => {
+  return {
+    ...input,
+    type: 'SignInFailure',
+  };
+};
+
+export const SignInSuccessCreator: ActionCreator<SignInSuccess> = (input: {
+  token: string;
+}) => {
+  return {
+    ...input,
+    type: 'SignInSuccess',
   };
 };
