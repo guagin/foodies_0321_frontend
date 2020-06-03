@@ -57,3 +57,22 @@ export const signIn: (input: {
   const json = await response.json();
   return json;
 };
+
+export const fetchMe: (input: {
+  token: string;
+}) => Promise<{
+  name?: string;
+  email?: string;
+  status: Status;
+}> = async ({ token }) => {
+  const response = await fetch(
+    'http://localhost:3000/authentication/user/ofToken',
+    {
+      headers: {
+        token,
+      },
+    },
+  );
+  const json = await response.json();
+  return json;
+};

@@ -7,6 +7,7 @@ import {
   SignInFailure,
   SignInSuccess,
 } from './action';
+import { FetchMe, FetchMeSuccess, FetchMeFailure } from './action/fetch-me';
 
 export type MeState = {
   name: string;
@@ -61,6 +62,27 @@ export const meReducer = createReducer(initialState, {
     };
   },
   SignInFailure: (state, action: SignInFailure) => {
+    return {
+      ...state,
+      isRequest: false,
+      message: action.message,
+    };
+  },
+  FetchMe: (state, action: FetchMe) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+  FetchMeSuccess: (state, action: FetchMeSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      name: action.name,
+      email: action.email,
+    };
+  },
+  FetchMeFailure: (state, action: FetchMeFailure) => {
     return {
       ...state,
       isRequest: false,
