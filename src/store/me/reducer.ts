@@ -1,5 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SignUp, SignUpSuccess, SignUpFailure } from './action';
+import {
+  SignUp,
+  SignUpSuccess,
+  SignUpFailure,
+  SignIn,
+  SignInFailure,
+  SignInSuccess,
+} from './action';
 
 export type MeState = {
   name: string;
@@ -38,6 +45,26 @@ export const meReducer = createReducer(initialState, {
       ...state,
       isRequest: false,
       message,
+    };
+  },
+  SignIn: (state, action: SignIn) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+  SignInSuccess: (state, action: SignInSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      token: action.token,
+    };
+  },
+  SignInFailure: (state, action: SignInFailure) => {
+    return {
+      ...state,
+      isRequest: false,
+      message: action.message,
     };
   },
 });

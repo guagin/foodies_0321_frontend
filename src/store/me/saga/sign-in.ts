@@ -1,6 +1,7 @@
 import { SignIn, SignInSuccessCreator, SignInFailureCreator } from '../action';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { signIn, Status } from 'api';
+import { push } from 'connected-react-router';
 
 export function* signInFlow() {
   yield takeLatest('SignIn', signInSage);
@@ -22,6 +23,8 @@ function* signInSage(action: SignIn) {
           token,
         }),
       );
+
+      yield put(push('/'));
     } else {
       yield put(SignInFailureCreator({ message: status.msg }));
     }
