@@ -3,6 +3,7 @@ import { Action, ActionCreator } from '@reduxjs/toolkit';
 export interface SignIn extends Action<'SignIn'> {
   name: string;
   password: string;
+  from: { pathname: string };
 }
 
 export interface SignInFailure extends Action<'SignInFailure'> {
@@ -16,6 +17,7 @@ export interface SignInSuccess extends Action<'SignInSuccess'> {
 export const SignInCreator: ActionCreator<SignIn> = (input: {
   name: string;
   password: string;
+  from: { pathname: string };
 }) => {
   return {
     ...input,

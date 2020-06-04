@@ -10,7 +10,7 @@ export function Me() {
 
   useEffect(() => {
     dispatch(FetchMeCreator({ token: me.token }));
-  }, []);
+  }, [dispatch, me.token]);
 
   const progressCirlcle = () => {
     if (me.isRequest) {

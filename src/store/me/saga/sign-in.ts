@@ -24,7 +24,7 @@ function* signInSage(action: SignIn) {
         }),
       );
 
-      yield put(push('/'));
+      yield put(push(action.from.pathname));
     } else {
       yield put(SignInFailureCreator({ message: status.msg }));
     }

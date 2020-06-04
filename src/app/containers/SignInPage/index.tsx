@@ -8,6 +8,7 @@ import {
 } from '@material-ui/core';
 import { SignInForm } from './sign-in-form';
 import { useTypedSelector } from 'store/reducers';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -32,6 +33,8 @@ const useStyles = makeStyles(theme => ({
 export function SignInPage() {
   const me = useTypedSelector(state => state.me);
   const classes = useStyles();
+  const location = useLocation();
+  const { from } = { from: { pathname: '/' }, ...location.state };
 
   const progressCirlcle = () => {
     if (me.isRequest) {
@@ -60,7 +63,7 @@ export function SignInPage() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <SignInForm classes={classes} disabled={me.isRequest} />
+          <SignInForm classes={classes} disabled={me.isRequest} from={from} />
           {progressCirlcle()}
           {signInMessage()}
         </div>

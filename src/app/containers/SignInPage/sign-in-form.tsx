@@ -8,8 +8,9 @@ import { SignInCreator } from 'store/me/action';
 export function SignInForm(input: {
   classes: { [index: string]: any };
   disabled: boolean;
+  from: { pathname: string };
 }) {
-  const { classes, disabled } = input;
+  const { classes, disabled, from } = input;
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ export function SignInForm(input: {
       SignInCreator({
         name,
         password,
+        from,
       }),
     );
   };

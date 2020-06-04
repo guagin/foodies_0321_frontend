@@ -1,11 +1,3 @@
-/**
- *
- * App
- *
- * This component is the skeleton around the actual pages, and should only
- * contain code that should be seen on all pages. (e.g. navigation bar)
- */
-
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route } from 'react-router-dom';
@@ -17,6 +9,8 @@ import { NotFoundPage } from './components/NotFoundPage/Loadable';
 
 import { SignUpPage } from './containers/SignUpPage/Loadable';
 import { SignInPage } from './containers/SignInPage/Loadable';
+import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
+import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 
 export function App() {
   return (
@@ -26,9 +20,9 @@ export function App() {
       </Helmet>
 
       <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/sign-in" component={SignInPage} />
-        <Route exact path="/sign-up" component={SignUpPage} />
+        <AuthenticatedRoute exact path="/" component={HomePage} />
+        <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
+        <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />
         <Route component={NotFoundPage} />
       </Switch>
       <GlobalStyle />
