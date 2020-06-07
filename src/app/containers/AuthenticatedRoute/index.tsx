@@ -1,8 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import { useTypedSelector } from 'store/reducers';
-import { useDispatch } from 'react-redux';
-import { push } from 'connected-react-router';
+
 interface Props {
   exact?: boolean;
   path: string;
@@ -14,10 +13,17 @@ export const AuthenticatedRoute = ({
   ...rest
 }: Props) => {
   const me = useTypedSelector(state => state.me);
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   if (!me.token) {
-    dispatch(push('/sign-in'));
+    return (
+      <Redirect
+        to={{
+          pathname: '/sign-in',
+          state: { from: location },
+        }}
+      />
+    );
   }
 
   return (

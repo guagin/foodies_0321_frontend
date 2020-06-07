@@ -34,6 +34,7 @@ export function SignInPage() {
   const me = useTypedSelector(state => state.me);
   const classes = useStyles();
   const location = useLocation();
+
   const { from } = { from: { pathname: '/' }, ...location.state };
 
   const progressCirlcle = () => {
