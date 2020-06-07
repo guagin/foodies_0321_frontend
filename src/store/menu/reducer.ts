@@ -31,7 +31,7 @@ const initState: MenuState = {
 };
 
 export const menuReducer = createReducer(initState, {
-  FetchMeal: (state, action: FetchMeals) => {
+  FetchMeals: (state, action: FetchMeals) => {
     return {
       ...state,
       isRequest: true,
