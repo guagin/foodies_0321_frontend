@@ -11,7 +11,7 @@ import { meReducer, MeState } from './me/reducer';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { MeActions } from './me/action';
 import { menuReducer, MenuState } from './menu/reducer';
-import { MealActions } from './menu/action/fetch-meal';
+import { MealActions } from './menu/action/fetch-meals';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers

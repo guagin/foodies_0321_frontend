@@ -1,4 +1,5 @@
 import fetch from 'node-fetch';
+import { Meal } from 'store/menu/reducer';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -75,4 +76,39 @@ export const fetchMe: (input: {
   );
   const json = await response.json();
   return json;
+};
+
+export const fetchMeals: (input: {
+  token: string;
+  page: number;
+  count: number;
+}) => Promise<{
+  data?: {
+    meal: Meal[];
+    hasNext: boolean;
+    hasPrevious: boolean;
+    totalPages: number;
+    pages: number;
+  };
+  status: Status;
+}> = async ({ token, page = 1, count }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/meal/ofPage?page=${page}&count=${count}`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.mesage,
+      },
+    };
+  }
 };

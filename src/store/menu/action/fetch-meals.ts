@@ -2,12 +2,12 @@ import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Meal } from '../reducer';
 
 export interface FetchMeals extends Action<'FetchMeals'> {
-  after: string;
+  page: number;
   count: number;
-  before: string;
+  token: string;
 }
 
-export interface FetchMealSuccess extends Action<'FetchMealSuccess'> {
+export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
   meals: Meal[];
   hasPrevious: boolean;
   hasNext: boolean;
@@ -15,28 +15,28 @@ export interface FetchMealSuccess extends Action<'FetchMealSuccess'> {
   totalPage: number;
 }
 
-export interface FetchMealFailure extends Action<'FetchMealFailure'> {
+export interface FetchMealsFailure extends Action<'FetchMealsFailure'> {
   message: string;
 }
 
-export type MealActions = FetchMeals | FetchMealSuccess | FetchMealFailure;
+export type MealActions = FetchMeals | FetchMealsSuccess | FetchMealsFailure;
 
-export const fetchMealCreator: ActionCreator<FetchMeals> = ({
-  after,
+export const fetchMealsCreator: ActionCreator<FetchMeals> = ({
+  page,
   count,
-  before,
+  token,
 }: {
-  after: string;
+  page: number;
   count: number;
-  before: string;
+  token: string;
 }) => ({
-  after,
+  page,
   count,
-  before,
+  token,
   type: 'FetchMeals',
 });
 
-export const fetchMealSuccessCreator: ActionCreator<FetchMealSuccess> = ({
+export const fetchMealsSuccessCreator: ActionCreator<FetchMealsSuccess> = ({
   meals,
   hasPrevious,
   hasNext,
@@ -49,7 +49,7 @@ export const fetchMealSuccessCreator: ActionCreator<FetchMealSuccess> = ({
   page: number;
   totalPage: number;
 }) => ({
-  type: 'FetchMealSuccess',
+  type: 'FetchMealsSuccess',
   meals,
   hasPrevious,
   hasNext,
@@ -57,11 +57,11 @@ export const fetchMealSuccessCreator: ActionCreator<FetchMealSuccess> = ({
   totalPage,
 });
 
-export const fetchMealFailure: ActionCreator<FetchMealFailure> = ({
+export const fetchMealsFailureCreator: ActionCreator<FetchMealsFailure> = ({
   message,
 }: {
   message: string;
 }) => ({
-  type: 'FetchMealFailure',
+  type: 'FetchMealsFailure',
   message,
 });

@@ -1,8 +1,8 @@
 import {
   FetchMeals,
-  FetchMealSuccess,
-  FetchMealFailure,
-} from './action/fetch-meal';
+  FetchMealsSuccess,
+  FetchMealsFailure,
+} from './action/fetch-meals';
 import { createReducer } from '@reduxjs/toolkit';
 
 export interface Meal {
@@ -37,9 +37,9 @@ export const menuReducer = createReducer(initState, {
       isRequest: true,
     };
   },
-  FetchMealSuccess: (
+  FetchMealsSuccess: (
     state,
-    { meals, hasNext, hasPrevious }: FetchMealSuccess,
+    { meals, hasNext, hasPrevious }: FetchMealsSuccess,
   ) => {
     return {
       ...state,
@@ -49,7 +49,7 @@ export const menuReducer = createReducer(initState, {
       isRequest: false,
     };
   },
-  FetchMealFailure: (state, { message }: FetchMealFailure) => {
+  FetchMealsFailure: (state, { message }: FetchMealsFailure) => {
     return {
       ...state,
       isRequest: false,
