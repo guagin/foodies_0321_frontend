@@ -5,6 +5,7 @@ import {
   createMealSuccessCreator,
 } from '../action/creat-meal';
 import { Status, createMeal } from 'api';
+import { push } from 'connected-react-router';
 
 export function* createMealFlow() {
   yield takeLatest('CreateMeal', createMealSaga);
@@ -24,7 +25,7 @@ export function* createMealSaga({
       status,
     }: {
       data?: {
-        id: string;
+        ids: string[];
       };
       status: Status;
     } = yield createMeal({
@@ -37,7 +38,8 @@ export function* createMealSaga({
     });
 
     if (status.code === 'SUCCESS') {
-      put(createMealSuccessCreator({ ...data }));
+      put(createMealSuccessCreator({ id: data?.ids[0] }));
+      put(push('/meal-management'));
     } else {
       put(createMealFailureCreator({ message: status.msg }));
     }

@@ -123,7 +123,7 @@ export const createMeal: (input: {
   provider: string;
 }) => Promise<{
   data?: {
-    id: string;
+    ids: string[];
   };
   status: Status;
 }> = async ({ token, name, price, description, pictures, provider }) => {
