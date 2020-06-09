@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from 'store/reducers';
 import {
   CircularProgress,
@@ -11,6 +11,7 @@ import {
   TableBody,
   TableCell,
   TablePagination,
+  LinearProgress,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { fetchMealsCreator } from 'store/menu/action/fetch-meals';
@@ -28,40 +29,33 @@ export const MealList = () => {
   const me = useTypedSelector(state => state.me);
   const dispatch = useDispatch();
 
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [page, setPage] = useState(0);
+
   useEffect(() => {
     dispatch(
       fetchMealsCreator({
-        page: 1,
-        count: 10,
+        page: page + 1,
+        count: rowsPerPage,
         token: me.token,
       }),
     );
-  }, [dispatch, me.token]);
+  }, [dispatch, me.token, page, rowsPerPage]);
 
-  const { page, totalCount } = menu;
-
-  const progressCirlcle = () => {
-    if (menu.isRequest) {
-      return <CircularProgress />;
-    }
-    return <></>;
-  };
+  const { totalCount } = menu;
 
   const handleChangePage = (event, newPage) => {
-    dispatch(
-      fetchMealsCreator({
-        page: newPage + 1,
-        count: 10,
-        token: me.token,
-      }),
-    );
+    setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = () => {};
+  const handleChangeRowsPerPage = event => {
+    setRowsPerPage(event.target.value);
+    setPage(0);
+  };
 
   return (
     <>
-      {progressCirlcle()}
+      <LinearProgress hidden={!menu.isRequest} />
       <TableContainer component={Paper}>
         <Table className={classes.table}>
           <TableHead>
@@ -90,10 +84,10 @@ export const MealList = () => {
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
-        page={page - 1}
+        page={page}
         component="div"
         count={totalCount}
-        rowsPerPage={10}
+        rowsPerPage={rowsPerPage}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
