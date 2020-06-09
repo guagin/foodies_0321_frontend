@@ -132,6 +132,7 @@ export const createMeal: (input: {
       method: 'POST',
       headers: {
         token,
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         meals: [
