@@ -22,7 +22,8 @@ function* fetchMealsSaga({ page, count, token }: FetchMeals) {
         hasNext: boolean;
         hasPrevious: boolean;
         totalPages: number;
-        pages: number;
+        page: number;
+        totalCount: number;
       };
       status: Status;
     } = yield fetchMeals({

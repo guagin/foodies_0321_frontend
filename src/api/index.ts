@@ -89,6 +89,7 @@ export const fetchMeals: (input: {
     hasPrevious: boolean;
     totalPages: number;
     pages: number;
+    totalCount: number;
   };
   status: Status;
 }> = async ({ token, page = 1, count }) => {

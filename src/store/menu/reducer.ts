@@ -20,6 +20,8 @@ export type MenuState = {
   hasPrevious: boolean;
   hasNext: boolean;
   message: string;
+  page: number;
+  totalCount: number;
 };
 
 const initState: MenuState = {
@@ -28,6 +30,8 @@ const initState: MenuState = {
   hasPrevious: false,
   hasNext: false,
   message: '',
+  page: 1,
+  totalCount: 0,
 };
 
 export const menuReducer = createReducer(initState, {
@@ -39,7 +43,7 @@ export const menuReducer = createReducer(initState, {
   },
   FetchMealsSuccess: (
     state,
-    { meals, hasNext, hasPrevious }: FetchMealsSuccess,
+    { meals, hasNext, hasPrevious, page, totalCount }: FetchMealsSuccess,
   ) => {
     return {
       ...state,
@@ -47,6 +51,8 @@ export const menuReducer = createReducer(initState, {
       hasNext,
       hasPrevious,
       isRequest: false,
+      page,
+      totalCount,
     };
   },
   FetchMealsFailure: (state, { message }: FetchMealsFailure) => {

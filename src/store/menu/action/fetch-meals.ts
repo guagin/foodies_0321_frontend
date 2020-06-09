@@ -13,6 +13,7 @@ export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
   hasNext: boolean;
   page: number;
   totalPage: number;
+  totalCount: number;
 }
 
 export interface FetchMealsFailure extends Action<'FetchMealsFailure'> {
@@ -42,12 +43,14 @@ export const fetchMealsSuccessCreator: ActionCreator<FetchMealsSuccess> = ({
   hasNext,
   page,
   totalPage,
+  totalCount,
 }: {
   meals: Meal[];
   hasPrevious: boolean;
   hasNext: boolean;
   page: number;
   totalPage: number;
+  totalCount: number;
 }) => ({
   type: 'FetchMealsSuccess',
   meals,
@@ -55,6 +58,7 @@ export const fetchMealsSuccessCreator: ActionCreator<FetchMealsSuccess> = ({
   hasNext,
   page,
   totalPage,
+  totalCount,
 });
 
 export const fetchMealsFailureCreator: ActionCreator<FetchMealsFailure> = ({

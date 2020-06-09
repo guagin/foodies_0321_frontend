@@ -10,6 +10,7 @@ import {
   TableHead,
   TableBody,
   TableCell,
+  TablePagination,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { fetchMealsCreator } from 'store/menu/action/fetch-meals';
@@ -37,12 +38,26 @@ export const MealList = () => {
     );
   }, [dispatch, me.token]);
 
+  const { page, totalCount } = menu;
+
   const progressCirlcle = () => {
     if (menu.isRequest) {
       return <CircularProgress />;
     }
     return <></>;
   };
+
+  const handleChangePage = (event, newPage) => {
+    dispatch(
+      fetchMealsCreator({
+        page: newPage + 1,
+        count: 10,
+        token: me.token,
+      }),
+    );
+  };
+
+  const handleChangeRowsPerPage = () => {};
 
   return (
     <>
@@ -61,7 +76,7 @@ export const MealList = () => {
           </TableHead>
           <TableBody>
             {menu.meals.map(meal => (
-              <TableRow key={meal.id}>
+              <TableRow key={meal.id} hover>
                 <TableCell>{meal.id}</TableCell>
                 <TableCell>{meal.name}</TableCell>
                 <TableCell>{meal.description}</TableCell>
@@ -73,6 +88,15 @@ export const MealList = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        page={page - 1}
+        component="div"
+        count={totalCount}
+        rowsPerPage={10}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </>
   );
 };

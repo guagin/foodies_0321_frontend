@@ -59,7 +59,7 @@ export function SignInPage() {
     <>
       <Helmet>
         <title>SignIn Page</title>
-        <meta name="description" content="foodies sign in page." />
+        <meta name="sign in page" content="foodies sign in page." />
       </Helmet>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
