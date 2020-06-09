@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 
-export interface CreateMeal extends Action<'CrteateMeal'> {
+export interface CreateMeal extends Action<'CreateMeal'> {
   name: string;
   provider: string;
   price: number;
@@ -17,7 +17,7 @@ export interface CreateMealFailure extends Action<'CreateMealFailure'> {
   message: string;
 }
 
-export type CreateMealAction =
+export type CreateMealActions =
   | CreateMeal
   | CreateMealSuccess
   | CreateMealFailure;
@@ -37,7 +37,7 @@ export const createMealCreator: ActionCreator<CreateMeal> = ({
   pictures: string[];
   token: string;
 }) => ({
-  type: 'CrteateMeal',
+  type: 'CreateMeal',
   name,
   provider,
   price,

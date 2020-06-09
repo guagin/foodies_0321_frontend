@@ -129,6 +129,7 @@ export const createMeal: (input: {
 }> = async ({ token, name, price, description, pictures, provider }) => {
   try {
     const response = await fetch(`http://localhost:3000/order/meal/create`, {
+      method: 'POST',
       headers: {
         token,
       },
@@ -150,7 +151,7 @@ export const createMeal: (input: {
     return {
       status: {
         code: 'ERROR',
-        msg: e.mesage,
+        msg: e.message,
       },
     };
   }

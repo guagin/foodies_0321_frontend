@@ -1,8 +1,10 @@
 import React from 'react';
 import { MealList } from 'app/components/MealList';
-import { makeStyles, CssBaseline, Grid } from '@material-ui/core';
+import { makeStyles, CssBaseline, Grid, Fab } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
-
+import AddIcon from '@material-ui/icons/Add';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -12,11 +14,19 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
 export const MealManagement = () => {
   const classes = useStyles();
-  // load meals.
+  const dispatch = useDispatch();
+  const handleClickAddIcon = () => {
+    dispatch(push('/create-meal'));
+  };
   // filter form.
   return (
     <>
@@ -34,6 +44,14 @@ export const MealManagement = () => {
             <MealList></MealList>
           </Grid>
         </Grid>
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={handleClickAddIcon}
+        >
+          <AddIcon />
+        </Fab>
       </div>
     </>
   );

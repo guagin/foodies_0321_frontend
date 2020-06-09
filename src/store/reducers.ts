@@ -12,6 +12,7 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { MeActions } from './me/action';
 import { menuReducer, MenuState } from './menu/reducer';
 import { FetchMealActions } from './menu/action/fetch-meals';
+import { CreateMealActions } from './menu/action/creat-meal';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -21,7 +22,10 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,
     me: meReducer as Reducer<MeState, MeActions>,
-    menu: menuReducer as Reducer<MenuState, FetchMealActions>,
+    menu: menuReducer as Reducer<
+      MenuState,
+      FetchMealActions | CreateMealActions
+    >,
   });
 
   return rootReducer;

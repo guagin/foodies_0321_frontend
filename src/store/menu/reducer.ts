@@ -4,6 +4,11 @@ import {
   FetchMealsFailure,
 } from './action/fetch-meals';
 import { createReducer } from '@reduxjs/toolkit';
+import {
+  CreateMeal,
+  CreateMealSuccess,
+  CreateMealFailure,
+} from './action/creat-meal';
 
 export interface Meal {
   id: string;
@@ -56,6 +61,25 @@ export const menuReducer = createReducer(initState, {
     };
   },
   FetchMealsFailure: (state, { message }: FetchMealsFailure) => {
+    return {
+      ...state,
+      isRequest: false,
+      message,
+    };
+  },
+  CreateMeal: (state, action: CreateMeal) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+  CreateMealSuccess: (state, action: CreateMealSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+    };
+  },
+  CreateMealFailure: (state, { message }: CreateMealFailure) => {
     return {
       ...state,
       isRequest: false,

@@ -12,6 +12,7 @@ import { SignInPage } from './containers/SignInPage/Loadable';
 import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealManagement } from './containers/MealManagement';
+import { CreateMeal } from './containers/MealManagement/create-meal';
 
 export function App() {
   return (
@@ -27,6 +28,7 @@ export function App() {
           path="/meal-management"
           component={MealManagement}
         />
+        <AuthenticatedRoute exact path="/create-meal" component={CreateMeal} />
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />
         <Route component={NotFoundPage} />

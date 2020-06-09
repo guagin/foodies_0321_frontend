@@ -38,10 +38,10 @@ export function* createMealSaga({
     });
 
     if (status.code === 'SUCCESS') {
-      put(createMealSuccessCreator({ id: data?.ids[0] }));
-      put(push('/meal-management'));
+      yield put(createMealSuccessCreator({ id: data?.ids[0] }));
+      yield put(push('/meal-management'));
     } else {
-      put(createMealFailureCreator({ message: status.msg }));
+      yield put(createMealFailureCreator({ message: status.msg }));
     }
   } catch (e) {
     yield put(createMealFailureCreator({ message: e.message }));

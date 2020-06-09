@@ -32,8 +32,6 @@ function* fetchMealsSaga({ page, count, token }: FetchMeals) {
       count,
     });
 
-    console.log(status);
-
     if (status.code === 'SUCCESS') {
       yield put(fetchMealsSuccessCreator({ ...data }));
     } else {
