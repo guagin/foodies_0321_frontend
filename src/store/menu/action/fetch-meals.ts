@@ -20,7 +20,10 @@ export interface FetchMealsFailure extends Action<'FetchMealsFailure'> {
   message: string;
 }
 
-export type MealActions = FetchMeals | FetchMealsSuccess | FetchMealsFailure;
+export type FetchMealActions =
+  | FetchMeals
+  | FetchMealsSuccess
+  | FetchMealsFailure;
 
 export const fetchMealsCreator: ActionCreator<FetchMeals> = ({
   page,

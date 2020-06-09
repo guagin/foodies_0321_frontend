@@ -113,3 +113,45 @@ export const fetchMeals: (input: {
     };
   }
 };
+
+export const createMeal: (input: {
+  token: string;
+  name: string;
+  price: number;
+  description: string;
+  pictures: string[];
+  provider: string;
+}) => Promise<{
+  data?: {
+    id: string;
+  };
+  status: Status;
+}> = async ({ token, name, price, description, pictures, provider }) => {
+  try {
+    const response = await fetch(`http://localhost:3000/order/meal/create`, {
+      headers: {
+        token,
+      },
+      body: JSON.stringify({
+        meals: [
+          {
+            name,
+            price,
+            description,
+            pictures,
+            provider,
+          },
+        ],
+      }),
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.mesage,
+      },
+    };
+  }
+};

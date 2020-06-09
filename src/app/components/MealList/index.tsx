@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTypedSelector } from 'store/reducers';
 import {
-  CircularProgress,
   TableContainer,
   Paper,
   makeStyles,
