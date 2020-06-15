@@ -10,17 +10,19 @@ export function* signInFlow() {
 function* signInSage(action: SignIn) {
   try {
     const {
-      token,
+      data,
       status,
     }: {
-      token: string;
+      data: {
+        token: string;
+      };
       status: Status;
     } = yield call(signIn, { ...action });
 
     if (status.code === 'SUCCESS') {
       yield put(
         SignInSuccessCreator({
-          token,
+          token: data.token,
         }),
       );
 

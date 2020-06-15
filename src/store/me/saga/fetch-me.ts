@@ -13,20 +13,21 @@ export function* fetchMeFlow() {
 function* fetchMeSaga(action: FetchMe) {
   try {
     const {
-      name,
-      email,
+      data,
       status,
     }: {
-      name: string;
-      email: string;
+      data: {
+        name: string;
+        email: string;
+      };
       status: Status;
     } = yield call(fetchMe, { token: action.token });
-    console.log(`fetchMeSaga: ${name} ${email} ${status}`);
+    console.log(`fetchMeSaga: ${data}`);
     if (status.code === 'SUCCESS') {
       yield put(
         FetchMeSuccessCreator({
-          name,
-          email,
+          name: data.name,
+          email: data.email,
         }),
       );
     } else {

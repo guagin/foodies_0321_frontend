@@ -10,11 +10,12 @@ export const signUp: (input: {
   name: string;
   password: string;
   email: string;
-}) => Promise<{ id?: string; status: Status }> = async ({
-  name,
-  password,
-  email,
-}) => {
+}) => Promise<{
+  data?: {
+    id: string;
+  };
+  status: Status;
+}> = async ({ name, password, email }) => {
   const response = await fetch(
     'http://localhost:3000/authentication/user/register',
     {
@@ -38,7 +39,9 @@ export const signIn: (input: {
   name: string;
   password: string;
 }) => Promise<{
-  token?: string;
+  data?: {
+    token: string;
+  };
   status: Status;
 }> = async ({ name, password }) => {
   const response = await fetch(
@@ -62,8 +65,10 @@ export const signIn: (input: {
 export const fetchMe: (input: {
   token: string;
 }) => Promise<{
-  name?: string;
-  email?: string;
+  data?: {
+    name: string;
+    email: string;
+  };
   status: Status;
 }> = async ({ token }) => {
   const response = await fetch(
@@ -103,6 +108,7 @@ export const fetchMeals: (input: {
       },
     );
     const json = await response.json();
+    console.log(json);
     return json;
   } catch (e) {
     return {

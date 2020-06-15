@@ -11,10 +11,12 @@ export function* signUpFlow() {
 function* signUpSaga(action: SignUp) {
   try {
     const {
-      id,
+      data,
       status,
     }: {
-      id: string;
+      data: {
+        id: string;
+      };
       status: Status;
     } = yield call(signUp, {
       ...action,
@@ -22,7 +24,7 @@ function* signUpSaga(action: SignUp) {
     if (status.code === 'SUCCESS') {
       yield put(
         SignUpSuccessCreator({
-          id,
+          id: data.id,
         }),
       );
 
