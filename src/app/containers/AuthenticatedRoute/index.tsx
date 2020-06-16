@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, Redirect, useLocation } from 'react-router-dom';
 import { useTypedSelector } from 'store/reducers';
+import { AppDrawer } from 'app/components/Drawer';
+import { makeStyles } from '@material-ui/core';
 
 interface Props {
   exact?: boolean;
@@ -29,9 +31,9 @@ export const AuthenticatedRoute = ({
   return (
     <Route
       render={() => (
-        <>
+        <AppDrawer>
           <Component {...rest} />
-        </>
+        </AppDrawer>
       )}
     />
   );
