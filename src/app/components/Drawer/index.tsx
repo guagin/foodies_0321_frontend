@@ -22,6 +22,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import LocalDining from '@material-ui/icons/LocalDining';
+
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -60,7 +62,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       alignItems: 'center',
       padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end',
     },
@@ -141,6 +142,18 @@ export const AppDrawer = ({ children }) => {
         </div>
         <Divider />
         <List>
+          <ListItem
+            button
+            key={'meal'}
+            onClick={() => {
+              console.log('rediect to meal manage page.');
+            }}
+          >
+            <ListItemIcon>
+              <LocalDining />
+            </ListItemIcon>
+            <ListItemText primary={'meal'} />
+          </ListItem>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
