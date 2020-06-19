@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import { P } from './P';
 import { Helmet } from 'react-helmet-async';
+import { AppDrawer } from '../Drawer';
 
 export function NotFoundPage() {
   return (
@@ -11,14 +12,16 @@ export function NotFoundPage() {
         <meta name="description" content="Page not found" />
       </Helmet>
       <Wrapper>
-        <Title>
-          4
-          <span role="img" aria-label="Crying Face">
-            😢
-          </span>
-          4
-        </Title>
-        <P>Page not found.</P>
+        <AppDrawer>
+          <Title>
+            4
+            <span role="img" aria-label="Crying Face">
+              😢
+            </span>
+            4
+          </Title>
+          <P>Page not found.</P>
+        </AppDrawer>
       </Wrapper>
     </>
   );

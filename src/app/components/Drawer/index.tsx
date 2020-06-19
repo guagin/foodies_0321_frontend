@@ -23,6 +23,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import LocalDining from '@material-ui/icons/LocalDining';
+import LocalShipping from '@material-ui/icons/LocalShipping';
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -85,6 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const AppDrawer = ({ children }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
 
@@ -96,6 +100,14 @@ export const AppDrawer = ({ children }) => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleMealItemClick = () => {
+    dispatch(push('/meal-management'));
+  };
+
+  const handleProviderClick = () => {
+    dispatch(push('/provider-management'));
   };
 
   return (
@@ -146,13 +158,25 @@ export const AppDrawer = ({ children }) => {
             button
             key={'meal'}
             onClick={() => {
-              console.log('rediect to meal manage page.');
+              handleMealItemClick();
             }}
           >
             <ListItemIcon>
               <LocalDining />
             </ListItemIcon>
             <ListItemText primary={'meal'} />
+          </ListItem>
+          <ListItem
+            button
+            key={'provider'}
+            onClick={() => {
+              handleProviderClick();
+            }}
+          >
+            <ListItemIcon>
+              <LocalShipping />
+            </ListItemIcon>
+            <ListItemText primary={'provider'} />
           </ListItem>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
