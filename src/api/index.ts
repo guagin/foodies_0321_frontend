@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { Meal } from 'store/menu/reducer';
+import { Provider } from 'store/provider/reduce';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -155,6 +156,45 @@ export const createMeal: (input: {
     const json = await response.json();
     return json;
   } catch (e) {
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.message,
+      },
+    };
+  }
+};
+
+export const fetchProvider: (input: {
+  token: string;
+  page: number;
+  count: number;
+}) => Promise<{
+  data?: {
+    provider: Provider[];
+    hasNext: boolean;
+    hasPrevious: boolean;
+    totalPages: number;
+    pages: number;
+    totalCount: number;
+  };
+  status: Status;
+}> = async ({ token, page = 1, count }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/provider/ofPage?page=${page}&count=${count}`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (e) {
+    console.error(e);
     return {
       status: {
         code: 'ERROR',

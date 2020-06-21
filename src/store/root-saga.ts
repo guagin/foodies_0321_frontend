@@ -5,6 +5,7 @@ import { signInFlow } from './me/saga/sign-in';
 import { fetchMeFlow } from './me/saga/fetch-me';
 import { fetchMealsFlow } from './menu/saga/fetch-meals';
 import { createMealFlow } from './menu/saga/create-meal';
+import { fetchProviderFlow } from './provider/saga/fetch-provider';
 
 export const rootSaga = function* root() {
   yield all([
@@ -13,5 +14,6 @@ export const rootSaga = function* root() {
     fork(fetchMeFlow),
     fork(fetchMealsFlow),
     fork(createMealFlow),
+    fork(fetchProviderFlow),
   ]);
 };

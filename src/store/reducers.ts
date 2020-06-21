@@ -13,6 +13,8 @@ import { MeActions } from './me/action';
 import { menuReducer, MenuState } from './menu/reducer';
 import { FetchMealActions } from './menu/action/fetch-meals';
 import { CreateMealActions } from './menu/action/creat-meal';
+import { providerReducer, ProviderState } from './provider/reduce';
+import { FetchProviderAction } from './provider/action/fetch-provider';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -26,6 +28,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
       MenuState,
       FetchMealActions | CreateMealActions
     >,
+    provider: providerReducer as Reducer<ProviderState, FetchProviderAction>,
   });
 
   return rootReducer;
