@@ -203,3 +203,44 @@ export const fetchProvider: (input: {
     };
   }
 };
+
+export const createProvider: (input: {
+  token: string;
+  name: string;
+  description: string;
+  phone: string;
+}) => Promise<{
+  data?: {
+    id: string;
+  };
+  status: Status;
+}> = async ({ token, name, description, phone }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/provider/create`,
+      {
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          description,
+          phone,
+        }),
+      },
+    );
+
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.message,
+      },
+    };
+  }
+};
