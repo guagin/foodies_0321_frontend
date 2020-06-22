@@ -6,9 +6,9 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useTypedSelector } from 'store/reducers';
+// import { useTypedSelector } from 'store/reducers';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -22,9 +22,9 @@ const useStyles = makeStyles(theme => ({
 
 export const CreateProviderForm = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { t } = useTranslation();
-  const me = useTypedSelector(state => state.me);
+  // const me = useTypedSelector(state => state.me);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
