@@ -10,7 +10,6 @@ export interface Provider {
   name: string;
   description: string;
   phone: number;
-  provider: string;
   createdBy: string;
 }
 

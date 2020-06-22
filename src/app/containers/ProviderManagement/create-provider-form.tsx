@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import {
   makeStyles,
   Typography,
@@ -6,7 +6,6 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { createMealCreator } from 'store/menu/action/creat-meal';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
@@ -21,54 +20,36 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export function CreateMealForm() {
+export const CreateProviderForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const me = useTypedSelector(state => state.me);
 
   const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  //   const [pictureCount, setPictureCount] = useState(0);
-  //   const [pictures, setPictures] = useState([]);
-  const [provider, setProvider] = useState('');
+  const [phone, setPhone] = useState('');
 
   const handleNameChange = value => {
     setName(value);
-  };
-
-  const handlePriceChange = value => {
-    setPrice(value);
   };
 
   const handleDescriptionChange = value => {
     setDescription(value);
   };
 
-  const handleProviderChange = value => {
-    setProvider(value);
+  const handlePhoneChange = value => {
+    setPhone(value);
   };
 
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
-
-    dispatch(
-      createMealCreator({
-        token: me.token,
-        name,
-        price,
-        description,
-        pictures: [],
-        provider,
-      }),
-    );
+    //   dispatch()
   };
-
   return (
     <>
       <Typography component="h1" variant="h5">
-        Create meal form
+        Create provider form
       </Typography>
       <form className={classes.form} onSubmit={handleSubmmit}>
         <Grid container spacing={2}>
@@ -80,28 +61,12 @@ export function CreateMealForm() {
               required
               fullWidth
               id="name"
-              label={t('meal.name')}
+              label={t('provider.name')}
               autoFocus
-              placeholder={t('meal.namePlaceholder')}
+              placeholder={t('provider.namePlaceholder')}
               value={name}
               onChange={e => {
                 handleNameChange(e.target.value);
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              name="price"
-              variant="outlined"
-              required
-              fullWidth
-              id="price"
-              label={t('meal.price')}
-              autoFocus
-              placeholder={t('meal.pricePlaceholder')}
-              value={price}
-              onChange={e => {
-                handlePriceChange(e.target.value);
               }}
               //   disabled={disabled}
             />
@@ -113,9 +78,9 @@ export function CreateMealForm() {
               required
               fullWidth
               id="description"
-              label={t('meal.description')}
+              label={t('provider.description')}
               autoFocus
-              placeholder={t('meal.descriptionPlaceholder')}
+              placeholder={t('provider.descriptionPlaceholder')}
               value={description}
               onChange={e => {
                 handleDescriptionChange(e.target.value);
@@ -125,17 +90,17 @@ export function CreateMealForm() {
           </Grid>
           <Grid item xs={12} sm={12}>
             <TextField
-              name="provider"
+              name="phone"
               variant="outlined"
               required
               fullWidth
-              id="provider"
-              label={t('meal.provider')}
+              id="phone"
+              label={t('provider.phone')}
               autoFocus
-              placeholder={t('meal.providerPlaceholder')}
-              value={provider}
+              placeholder={t('provider.phonePlaceholder')}
+              value={phone}
               onChange={e => {
-                handleProviderChange(e.target.value);
+                handlePhoneChange(e.target.value);
               }}
               //   disabled={disabled}
             />
@@ -155,4 +120,4 @@ export function CreateMealForm() {
       </form>
     </>
   );
-}
+};

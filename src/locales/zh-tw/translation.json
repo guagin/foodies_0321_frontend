@@ -8,5 +8,10 @@
     "password": "密碼",
     "passwordPlaceholder": "想要的密碼"
   },
-  "submit": "送出"
+  "submit": "送出",
+  "provider": {
+    "name": "供應店家名稱",
+    "description": "敘述",
+    "phone": "聯絡電話"
+  }
 }

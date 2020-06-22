@@ -2,7 +2,10 @@ import React from 'react';
 import { ProviderList } from 'app/components/ProviderList';
 import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
-import { CssBaseline, makeStyles } from '@material-ui/core';
+import { CssBaseline, makeStyles, Grid, Fab } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -23,6 +26,10 @@ const useStyles = makeStyles(theme => ({
 export const ProviderManagement = () => {
   const provider = useTypedSelector(state => state.provider);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const handleClickAddIcon = () => {
+    dispatch(push('/create-provider'));
+  };
 
   if (provider.message) {
     return (
@@ -54,7 +61,20 @@ export const ProviderManagement = () => {
       <CssBaseline />
 
       <div className={classes.paper}>
-        <ProviderList></ProviderList>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <ProviderList></ProviderList>
+          </Grid>
+        </Grid>
+
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={handleClickAddIcon}
+        >
+          <AddIcon />
+        </Fab>
       </div>
     </>
   );
