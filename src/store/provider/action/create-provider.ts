@@ -50,7 +50,7 @@ export const createProviderSuccessCreator: ActionCreator<CreateProviderSuccess> 
 export const createProviderFailureCreator: ActionCreator<CreateProviderFailure> = ({
   message,
 }: {
-  message;
+  message: string;
 }) => ({
   type: 'CreateProviderFailure',
   message,

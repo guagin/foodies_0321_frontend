@@ -219,6 +219,7 @@ export const createProvider: (input: {
     const response = await fetch(
       `http://localhost:3000/order/provider/create`,
       {
+        method: 'POST',
         headers: {
           token,
           'content-type': 'application/json',

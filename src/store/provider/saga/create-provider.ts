@@ -5,6 +5,7 @@ import {
   createProviderFailureCreator,
 } from '../action/create-provider';
 import { createProvider, Status } from 'api';
+import { push } from 'connected-react-router';
 
 export function* createProviderFlow() {
   yield takeLatest('CreateProvider', createProviderSaga);
@@ -34,6 +35,7 @@ export function* createProviderSaga({
 
     if (status.code === 'SUCCESS') {
       yield put(createProviderSuccessCreator({ id: data?.id }));
+      yield put(push('/provider-management'));
     } else {
       yield put(createProviderFailureCreator({ message: status.msg }));
     }

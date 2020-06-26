@@ -2,6 +2,9 @@ import React from 'react';
 import { makeStyles, Grid } from '@material-ui/core';
 import { CreateProviderForm } from './create-provider-form';
 import { Helmet } from 'react-helmet-async';
+import { useTypedSelector } from 'store/reducers';
+import { Message } from 'app/components/Message';
+import { ProgressCircle } from 'app/components/ProgressCircle';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -16,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 
 export const CreateProvider = () => {
   const classes = useStyles();
-
+  const provider = useTypedSelector(state => state.provider);
   return (
     <>
       <Helmet>
@@ -32,6 +35,8 @@ export const CreateProvider = () => {
             <CreateProviderForm></CreateProviderForm>
           </Grid>
         </Grid>
+        <ProgressCircle isRequest={provider.isRequest}></ProgressCircle>
+        <Message message={provider.message}></Message>
       </div>
     </>
   );
