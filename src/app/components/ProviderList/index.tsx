@@ -68,7 +68,7 @@ export const ProviderList = () => {
     if (userOfIds.isRequest) {
       return <CircularProgress />;
     }
-    const user = userOfIds.users.find(user => user._id === userId);
+    const user = userOfIds.users.find(user => user.id === userId);
     return user ? user.name : `not found this user's namn: ${userId}`;
   };
 

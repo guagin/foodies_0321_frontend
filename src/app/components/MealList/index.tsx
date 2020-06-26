@@ -11,9 +11,11 @@ import {
   TableCell,
   TablePagination,
   LinearProgress,
+  CircularProgress,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { fetchMealsCreator } from 'store/menu/action/fetch-meals';
+import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 
 const useStyles = makeStyles({
   table: {
@@ -26,6 +28,7 @@ export const MealList = () => {
 
   const menu = useTypedSelector(state => state.menu);
   const me = useTypedSelector(state => state.me);
+  const userOfIds = useTypedSelector(state => state.userOfIds);
   const dispatch = useDispatch();
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -41,6 +44,15 @@ export const MealList = () => {
     );
   }, [dispatch, me.token, page, rowsPerPage]);
 
+  useEffect(() => {
+    dispatch(
+      fetchUserOfIdsCreator({
+        token: me.token,
+        ids: menu.meals.map(data => data.createdBy),
+      }),
+    );
+  }, [dispatch, me.token, menu.meals]);
+
   const { totalCount } = menu;
 
   const handleChangePage = (event, newPage) => {
@@ -50,6 +62,14 @@ export const MealList = () => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
     setPage(0);
+  };
+
+  const showUserName = (userId: string) => {
+    if (userOfIds.isRequest) {
+      return <CircularProgress />;
+    }
+    const user = userOfIds.users.find(user => user.id === userId);
+    return user ? user.name : `not found this user's namn: ${userId}`;
   };
 
   return (
@@ -75,7 +95,7 @@ export const MealList = () => {
                 <TableCell>{meal.description}</TableCell>
                 <TableCell>{meal.price}</TableCell>
                 <TableCell>{meal.provider}</TableCell>
-                <TableCell>{meal.createdBy}</TableCell>
+                <TableCell>{showUserName(meal.createdBy)}</TableCell>
               </TableRow>
             ))}
           </TableBody>
