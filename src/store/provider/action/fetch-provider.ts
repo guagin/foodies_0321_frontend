@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from 'redux';
-import { Provider } from '../reduce';
+import { Provider } from '../reducer';
 
 export interface FetchProvider extends Action<'FetchProvider'> {
   page: number;

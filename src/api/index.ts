@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
 import { Meal } from 'store/menu/reducer';
-import { Provider } from 'store/provider/reduce';
+import { Provider } from 'store/provider/reducer';
+import { User } from 'store/users-of-ids/reducer';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -233,7 +234,44 @@ export const createProvider: (input: {
     );
 
     const json = await response.json();
-    console.log(json);
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.message,
+      },
+    };
+  }
+};
+
+export const fetchUserOfIds: (input: {
+  token: string;
+  ids: string[];
+}) => Promise<{
+  data: {
+    users: User[];
+  };
+  status: Status;
+}> = async ({ token, ids }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/authentication/user/ofIds`,
+      {
+        method: 'POST',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          ids,
+        }),
+      },
+    );
+    const json = await response.json();
+
     return json;
   } catch (e) {
     console.error(e);

@@ -59,7 +59,7 @@ export const providerReducer = createReducer(initState, {
     return {
       ...state,
       isRequest: false,
-      providers,
+      providers: [...providers],
       hasPrevious,
       hasNext,
       page,

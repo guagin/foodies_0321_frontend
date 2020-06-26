@@ -6,7 +6,7 @@ import {
   fetchProviderFailureCreator,
 } from '../action/fetch-provider';
 import { Status, fetchProvider } from 'api';
-import { Provider } from '../reduce';
+import { Provider } from '../reducer';
 
 export function* fetchProviderFlow() {
   yield takeLatest('FetchProvider', fetchProviderSaga);
@@ -29,13 +29,13 @@ function* fetchProviderSaga({ page, count, token }: FetchProvider) {
       status: Status;
     } = yield fetchProvider({ token, page, count });
 
-    if (status.code === 'SUCCESS') {
-      yield put(fetchProviderSuccessCreator({ ...data }));
-    } else {
+    if (status.code !== 'SUCCESS') {
       yield put(fetchProviderFailureCreator({ message: status.msg }));
+      return;
     }
+
+    yield put(fetchProviderSuccessCreator({ ...data }));
   } catch (e) {
-    console.error(e);
     yield put(fetchProviderFailureCreator({ message: e.message }));
   }
 }
