@@ -110,6 +110,10 @@ export const AppDrawer = ({ children }) => {
     dispatch(push('/provider-management'));
   };
 
+  const handleOrderClick = () => {
+    dispatch(push('/order-management'));
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -178,14 +182,19 @@ export const AppDrawer = ({ children }) => {
             </ListItemIcon>
             <ListItemText primary={'provider'} />
           </ListItem>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+
+          <ListItem
+            button
+            key={'order'}
+            onClick={() => {
+              handleOrderClick();
+            }}
+          >
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={'order'} />
+          </ListItem>
         </List>
         <Divider />
         <List>

@@ -8,6 +8,7 @@ import { createMealFlow } from './menu/saga/create-meal';
 import { fetchProviderFlow } from './provider/saga/fetch-provider';
 import { createProviderFlow } from './provider/saga/create-provider';
 import { FetchUserOfIdsFlow } from './users-of-ids/saga/fetch-user-of-ids';
+import { fetchOrderOfPageFlow } from './order/saga/fetch-order-of-page';
 
 export const rootSaga = function* root() {
   yield all([
@@ -19,5 +20,6 @@ export const rootSaga = function* root() {
     fork(fetchProviderFlow),
     fork(createProviderFlow),
     fork(FetchUserOfIdsFlow),
+    fork(fetchOrderOfPageFlow),
   ]);
 };

@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import { Meal } from 'store/menu/reducer';
 import { Provider } from 'store/provider/reducer';
 import { User } from 'store/users-of-ids/reducer';
+import { Order } from 'store/order/reducer';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -268,6 +269,45 @@ export const fetchUserOfIds: (input: {
         body: JSON.stringify({
           ids,
         }),
+      },
+    );
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.message,
+      },
+    };
+  }
+};
+
+export const fetchOrderOfPage: (input: {
+  token: string;
+  page: number;
+  count: number;
+}) => Promise<{
+  data?: {
+    orders: Order[];
+    hasPrevious: boolean;
+    hasNext: boolean;
+    page: number;
+    totalPage: number;
+    totalCount: number;
+  };
+  status: Status;
+}> = async ({ token, page, count }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/order/ofPage?page=${page}&count=${count}`,
+      {
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
       },
     );
     const json = await response.json();

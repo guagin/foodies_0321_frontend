@@ -5,6 +5,7 @@ import { push } from 'connected-react-router';
 
 export function* signInFlow() {
   yield takeLatest('SignIn', signInSage);
+  //TODO: sign out
 }
 
 function* signInSage(action: SignIn) {
