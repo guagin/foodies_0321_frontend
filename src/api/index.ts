@@ -323,3 +323,13 @@ export const fetchOrderOfPage: (input: {
     };
   }
 };
+
+export const fetchTakeOutOfPage: (input: {
+  token: string;
+  page: number;
+  count: number;
+}) => Promise<{
+  data?: {
+    takeOuts: takeOut[];
+  };
+}>;
