@@ -3,6 +3,7 @@ import { Meal } from 'store/menu/reducer';
 import { Provider } from 'store/provider/reducer';
 import { User } from 'store/users-of-ids/reducer';
 import { Order } from 'store/order/reducer';
+import { TakeOut } from 'store/take-out-of-page/reducer';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -330,6 +331,36 @@ export const fetchTakeOutOfPage: (input: {
   count: number;
 }) => Promise<{
   data?: {
-    takeOuts: takeOut[];
+    takeOuts: TakeOut[];
+    hasPrevious: boolean;
+    hasNext: boolean;
+    page: number;
+    totalPage: number;
+    totalCount: number;
   };
-}>;
+  status: Status;
+}> = async ({ token, page, count }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/takeOut/ofPage?page=${page}&count=${count}`,
+      {
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+      },
+    );
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
