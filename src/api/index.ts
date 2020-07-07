@@ -346,13 +346,56 @@ export const fetchTakeOutOfPage: (input: {
       {
         headers: {
           token,
-          'content-type': 'application/json',
         },
       },
     );
 
     const json = await response.json();
 
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const createTakeOut: (input: {
+  token: string;
+  title: string;
+  description: string;
+  startedAt: Date;
+  endAt: Date;
+  enabled: boolean;
+}) => Promise<{
+  data?: {
+    id: string;
+    title: string;
+    description: string;
+    startedAt: Date;
+    endAt: Date;
+    enabled: boolean;
+  };
+  status: Status;
+}> = async ({ token, title, description, startedAt, endAt, enabled }) => {
+  try {
+    const response = await fetch(`http://localhost:3000/order/takeOut/create`, {
+      headers: {
+        token,
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        startedAt,
+        endAt,
+        enabled,
+      }),
+    });
+    const json = await response.json();
     return json;
   } catch (e) {
     console.error(e);

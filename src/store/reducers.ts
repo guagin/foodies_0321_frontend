@@ -24,6 +24,11 @@ import {
   TakeOutOfPageState,
 } from './take-out-of-page/reducer';
 import { FetchTakeOutOfPageActions } from './take-out-of-page/action';
+import {
+  CreateTakeOutState,
+  createTakeOutReducer,
+} from './craete-take-out/reducer';
+import { CreateTakeOutActions } from './craete-take-out/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -49,6 +54,10 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     takeOutOfPage: takeOutOfPageReducer as Reducer<
       TakeOutOfPageState,
       FetchTakeOutOfPageActions
+    >,
+    createTakeOut: createTakeOutReducer as Reducer<
+      CreateTakeOutState,
+      CreateTakeOutActions
     >,
   });
 
