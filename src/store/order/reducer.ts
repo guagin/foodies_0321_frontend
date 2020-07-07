@@ -41,7 +41,7 @@ const initialState: OrderOfPageState = {
   message: '',
 };
 
-export const orderOdPageReducer = createReducer(initialState, {
+export const orderOfPageReducer = createReducer(initialState, {
   FetchOrderOfPage: (state, action: FetchOrderOfPage) => {
     return {
       ...state,

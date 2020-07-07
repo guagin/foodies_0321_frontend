@@ -18,7 +18,12 @@ import { FetchProviderAction } from './provider/action/fetch-provider';
 import { UsersOfIdsState, userOfIdsReducer } from './users-of-ids/reducer';
 import { FetchUsersOfIdAction } from './users-of-ids/action/fetch-users-of-id';
 import { FetchOrderOfPageAction } from './order/action/fetch-order-of-page';
-import { orderOdPageReducer, OrderOfPageState } from './order/reducer';
+import { orderOfPageReducer, OrderOfPageState } from './order/reducer';
+import {
+  takeOutOfPageReducer,
+  TakeOutOfPageState,
+} from './take-out-of-page/reducer';
+import { FetchTakeOutOfPageActions } from './take-out-of-page/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -37,9 +42,13 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
       UsersOfIdsState,
       FetchUsersOfIdAction
     >,
-    orderOfPage: orderOdPageReducer as Reducer<
+    orderOfPage: orderOfPageReducer as Reducer<
       OrderOfPageState,
       FetchOrderOfPageAction
+    >,
+    takeOutOfPage: takeOutOfPageReducer as Reducer<
+      TakeOutOfPageState,
+      FetchTakeOutOfPageActions
     >,
   });
 

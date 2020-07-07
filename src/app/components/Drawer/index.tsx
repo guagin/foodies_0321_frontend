@@ -24,6 +24,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import LocalDining from '@material-ui/icons/LocalDining';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
 
@@ -114,6 +115,10 @@ export const AppDrawer = ({ children }) => {
     dispatch(push('/order-management'));
   };
 
+  const handleTakeOutClick = () => {
+    dispatch(push('/take-out-management'));
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -194,6 +199,18 @@ export const AppDrawer = ({ children }) => {
               <InboxIcon />
             </ListItemIcon>
             <ListItemText primary={'order'} />
+          </ListItem>
+          <ListItem
+            button
+            key={'takeOut'}
+            onClick={() => {
+              handleTakeOutClick();
+            }}
+          >
+            <ListItemIcon>
+              <Motorcycle />
+            </ListItemIcon>
+            <ListItemText primary={'take out'} />
           </ListItem>
         </List>
         <Divider />

@@ -16,6 +16,7 @@ import { CreateMeal } from './containers/MealManagement/create-meal';
 import { ProviderManagement } from './containers/ProviderManagement';
 import { CreateProvider } from './containers/ProviderManagement/create-provider';
 import { OrderManagement } from './containers/OrderManagement';
+import { TakeOutManagemnet } from './containers/TakeOutManagement';
 
 export function App() {
   return (
@@ -46,6 +47,11 @@ export function App() {
           exact
           path="/order-management"
           component={OrderManagement}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/take-out-management"
+          component={TakeOutManagemnet}
         />
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />

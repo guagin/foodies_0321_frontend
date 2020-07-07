@@ -68,11 +68,14 @@ export const takeOutOfPageReducer = createReducer(initState, {
     };
   },
 
-  FetchTakeOutOfPageFailure: (state, action: FetchTakeOutOfPageFailure) => {
+  FetchTakeOutOfPageFailure: (
+    state,
+    { message }: FetchTakeOutOfPageFailure,
+  ) => {
     return {
       ...state,
       isRequest: false,
-      message: '',
+      message,
     };
   },
 });
