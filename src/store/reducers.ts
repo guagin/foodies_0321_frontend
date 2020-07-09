@@ -29,6 +29,11 @@ import {
   createTakeOutReducer,
 } from './craete-take-out/reducer';
 import { CreateTakeOutActions } from './craete-take-out/action';
+import {
+  fetchProviderByPartialNameReducer,
+  FetchProviderByPartialNameState,
+} from './fetch-provider-of-partial-name/reducer';
+import { FetchProviderByPartialNameActions } from './fetch-provider-of-partial-name/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -58,6 +63,10 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     createTakeOut: createTakeOutReducer as Reducer<
       CreateTakeOutState,
       CreateTakeOutActions
+    >,
+    fetchProviderByPartialName: fetchProviderByPartialNameReducer as Reducer<
+      FetchProviderByPartialNameState,
+      FetchProviderByPartialNameActions
     >,
   });
 

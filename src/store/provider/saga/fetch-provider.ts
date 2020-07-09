@@ -6,7 +6,7 @@ import {
   fetchProviderFailureCreator,
 } from '../action/fetch-provider';
 import { Status, fetchProvider } from 'api';
-import { Provider } from '../reducer';
+import { Provider } from 'store/model/provider';
 
 export function* fetchProviderFlow() {
   yield takeLatest('FetchProvider', fetchProviderSaga);

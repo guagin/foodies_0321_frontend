@@ -9,14 +9,7 @@ import {
   CreateProviderSuccess,
   CreateProviderFailure,
 } from './action/create-provider';
-
-export interface Provider {
-  id: string;
-  name: string;
-  description: string;
-  phone: number;
-  createdBy: string;
-}
+import { Provider } from 'store/model/provider';
 
 export type ProviderState = {
   isRequest: boolean;

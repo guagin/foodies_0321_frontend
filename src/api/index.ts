@@ -1,9 +1,10 @@
 import fetch from 'node-fetch';
 import { Meal } from 'store/menu/reducer';
-import { Provider } from 'store/provider/reducer';
+
 import { User } from 'store/users-of-ids/reducer';
 import { Order } from 'store/order/reducer';
 import { TakeOut } from 'store/take-out-of-page/reducer';
+import { Provider } from 'store/model/provider';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -384,6 +385,7 @@ export const createTakeOut: (input: {
 }> = async ({ token, title, description, startedAt, endAt, enabled }) => {
   try {
     const response = await fetch(`http://localhost:3000/order/takeOut/create`, {
+      method: 'POST',
       headers: {
         token,
       },
@@ -395,6 +397,42 @@ export const createTakeOut: (input: {
         enabled,
       }),
     });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const fetchProviderByPartialName: (input: {
+  token: string;
+  name: string;
+}) => Promise<{
+  data?: {
+    id: string;
+    title: string;
+    description: string;
+    startedAt: Date;
+    endAt: Date;
+    enabled: boolean;
+  };
+  status: Status;
+}> = async ({ token, name }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/provider/ofPartialName?partialName=${name}&count=3`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
     const json = await response.json();
     return json;
   } catch (e) {

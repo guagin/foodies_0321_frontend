@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   makeStyles,
   LinearProgress,
@@ -12,10 +12,9 @@ import {
   TablePagination,
   CircularProgress,
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+
 import { useTypedSelector } from 'store/reducers';
-import { fetchProviderCreator } from 'store/provider/action/fetch-provider';
-import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
+import { Provider } from 'store/model/provider';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -23,46 +22,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ProviderList = () => {
+export const ProviderList = ({
+  providers,
+  isRequest,
+  page,
+  rowsPerPage,
+  totalCount,
+  handleChangePage,
+  handleChangeRowsPerPage,
+}: {
+  providers: Provider[];
+  isRequest: boolean;
+  page: number;
+  rowsPerPage: number;
+  totalCount: number;
+  handleChangePage: (page) => void;
+  handleChangeRowsPerPage: (rowsPerPage) => void;
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const me = useTypedSelector(state => state.me);
-  const provider = useTypedSelector(state => state.provider);
   const userOfIds = useTypedSelector(state => state.userOfIds);
-
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
-
-  useEffect(() => {
-    dispatch(
-      fetchProviderCreator({
-        page: page + 1,
-        count: rowsPerPage,
-        token: me.token,
-      }),
-    );
-  }, [dispatch, me.token, page, rowsPerPage]);
-
-  useEffect(() => {
-    dispatch(
-      fetchUserOfIdsCreator({
-        token: me.token,
-        ids: provider.providers.map(data => data.createdBy),
-      }),
-    );
-  }, [dispatch, me.token, provider.providers]);
-
-  const { totalCount } = provider;
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(event.target.value);
-    setPage(0);
-  };
 
   const showUserName = (userId: string) => {
     if (userOfIds.isRequest) {
@@ -74,7 +52,7 @@ export const ProviderList = () => {
 
   return (
     <>
-      <LinearProgress hidden={!provider.isRequest} />
+      <LinearProgress hidden={!isRequest} />
       <TableContainer component={Paper}>
         <Table className={classes.table}>
           <TableHead>
@@ -87,7 +65,7 @@ export const ProviderList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {provider.providers.map(data => (
+            {providers.map(data => (
               <TableRow key={data.id} hover>
                 <TableCell>{data.id}</TableCell>
                 <TableCell>{data.name}</TableCell>
@@ -105,8 +83,12 @@ export const ProviderList = () => {
         component="div"
         count={totalCount}
         rowsPerPage={rowsPerPage}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onChangePage={(event, page) => {
+          handleChangePage(page);
+        }}
+        onChangeRowsPerPage={event => {
+          handleChangeRowsPerPage(event.target.value);
+        }}
       />
     </>
   );

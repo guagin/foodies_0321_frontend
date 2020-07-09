@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles, CssBaseline, Grid, Fab } from '@material-ui/core';
-import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
 import { TakeOutList } from 'app/components/TakeOutList';
 import { push } from 'connected-react-router';
