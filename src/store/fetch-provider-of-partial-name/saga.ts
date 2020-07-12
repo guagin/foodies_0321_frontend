@@ -1,4 +1,4 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put, call, delay } from 'redux-saga/effects';
 import {
   FetchProviderByPartialName,
   CreateFetchProviderByPartialNameFailure,
@@ -18,6 +18,7 @@ function* fetchProviderByPartialNameSaga({
   name,
   token,
 }: FetchProviderByPartialName) {
+  yield delay(1500);
   try {
     const {
       data,

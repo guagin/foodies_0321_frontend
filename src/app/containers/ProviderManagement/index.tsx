@@ -110,7 +110,6 @@ export const ProviderManagement = () => {
             />
           </Grid>
         </Grid>
-
         <Fab
           color="primary"
           aria-label="add"

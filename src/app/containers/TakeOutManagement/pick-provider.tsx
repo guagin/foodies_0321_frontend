@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { makeStyles, CssBaseline, TextField } from '@material-ui/core';
+import { makeStyles, CssBaseline, TextField, Grid } from '@material-ui/core';
 import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { CreateFetchProviderByPartialName } from 'store/fetch-provider-of-partial-name/action';
+import { ProviderCards } from './provider-cards';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -27,7 +28,7 @@ export const PickProvider = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const fetchProviderByPartialName = useTypedSelector(
+  const { providers, isRequest } = useTypedSelector(
     state => state.fetchProviderByPartialName,
   );
 
@@ -43,6 +44,11 @@ export const PickProvider = () => {
   const handleSubmmit = event => {
     event.preventDefault();
   };
+
+  const handleChoose = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <>
       <Helmet>
@@ -51,23 +57,34 @@ export const PickProvider = () => {
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
-        <form className={classes.form} onSubmit={handleSubmmit}>
-          <TextField
-            autoComplete="name"
-            name="name"
-            variant="outlined"
-            required
-            fullWidth
-            id="name"
-            label={t('user.name')}
-            autoFocus
-            placeholder={t('user.namePlaceholder')}
-            value={name}
-            onChange={e => {
-              handleNameChange(e.target.value);
-            }}
-          />
-        </form>
+        <Grid container spacing={2} justify="center">
+          <Grid item xs={4} sm={4}>
+            <form className={classes.form} onSubmit={handleSubmmit}>
+              <TextField
+                autoComplete="name"
+                name="name"
+                variant="outlined"
+                required
+                fullWidth
+                id="name"
+                label={t('user.name')}
+                autoFocus
+                placeholder={t('user.namePlaceholder')}
+                value={name}
+                onChange={e => {
+                  handleNameChange(e.target.value);
+                }}
+              />
+            </form>
+          </Grid>
+        </Grid>
+      </div>
+      <div className={classes.paper}>
+        <ProviderCards
+          providers={providers}
+          isRequest={isRequest}
+          onClickChoose={handleChoose}
+        />
       </div>
     </>
   );
