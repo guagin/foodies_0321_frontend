@@ -5,16 +5,6 @@ export interface PickProviderForTakeOut
   providerId: string;
 }
 
-export interface PickDateForTakeOut extends Action<'PickDateForTakeOut'> {
-  startedAt: Date;
-  endAt: Date;
-}
-
-export interface insertTakeOutInfo extends Action<'InsertTakeOutInfo'> {
-  description: string;
-  enabled: boolean;
-}
-
 export interface CreateTakeOut extends Action<'CreateTakeOut'> {
   token: string;
   title: string;
@@ -50,30 +40,6 @@ export const createPickProviderForTakeOut: ActionCreator<PickProviderForTakeOut>
 }) => ({
   type: 'PickProviderForTakeOut',
   providerId,
-});
-
-export const createPickDateForTakeOut: ActionCreator<PickDateForTakeOut> = ({
-  startedAt,
-  endAt,
-}: {
-  startedAt: Date;
-  endAt: Date;
-}) => ({
-  type: 'PickDateForTakeOut',
-  startedAt,
-  endAt,
-});
-
-export const createInsertTakeOutInfo: ActionCreator<insertTakeOutInfo> = ({
-  description,
-  enabled,
-}: {
-  description: string;
-  enabled: boolean;
-}) => ({
-  type: 'InsertTakeOutInfo',
-  description,
-  enabled,
 });
 
 export const createCreateTakeOut: ActionCreator<CreateTakeOut> = ({

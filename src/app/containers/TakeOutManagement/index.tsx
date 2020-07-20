@@ -28,7 +28,7 @@ export function TakeOutManagemnet() {
   const classes = useStyle();
 
   const handleClickAddIcon = () => {
-    dispatch(push('/create-take-out'));
+    dispatch(push('/take-out/create/pick-provider'));
   };
 
   return (

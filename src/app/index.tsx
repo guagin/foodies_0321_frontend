@@ -18,6 +18,7 @@ import { CreateProvider } from './containers/ProviderManagement/create-provider'
 import { OrderManagement } from './containers/OrderManagement';
 import { TakeOutManagemnet } from './containers/TakeOutManagement';
 import { PickProvider } from './containers/TakeOutManagement/pick-provider';
+import { DetailInfo } from './containers/TakeOutManagement/detail-info';
 
 export function App() {
   return (
@@ -56,8 +57,13 @@ export function App() {
         />
         <AuthenticatedRoute
           exact
-          path="/create-take-out"
+          path="/take-out/create/pick-provider"
           component={PickProvider}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/take-out/create/detail-info"
+          component={DetailInfo}
         />
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />

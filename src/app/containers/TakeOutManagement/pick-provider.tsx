@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { CreateFetchProviderByPartialName } from 'store/fetch-provider-of-partial-name/action';
 import { ProviderCards } from './provider-cards';
+import { createPickProviderForTakeOut } from 'store/craete-take-out/action';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -46,7 +48,8 @@ export const PickProvider = () => {
   };
 
   const handleChoose = (id: string) => {
-    console.log(id);
+    dispatch(createPickProviderForTakeOut({ providerId: id }));
+    dispatch(push('/take-out/create/detail-info'));
   };
 
   return (
@@ -67,9 +70,9 @@ export const PickProvider = () => {
                 required
                 fullWidth
                 id="name"
-                label={t('user.name')}
+                label={t('provider.name')}
                 autoFocus
-                placeholder={t('user.namePlaceholder')}
+                placeholder={t('provider.namePlaceholder')}
                 value={name}
                 onChange={e => {
                   handleNameChange(e.target.value);

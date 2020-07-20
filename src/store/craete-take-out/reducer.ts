@@ -3,11 +3,13 @@ import {
   CreateTakeOut,
   CreateTakeOutSuccess,
   CreateTakeOutFailure,
+  PickProviderForTakeOut,
 } from './action';
 
 export type CreateTakeOutState = {
   isRequest: boolean;
   message: string;
+  pickedProviderId: string;
   createdTakeOut?: {
     title: string;
     description: string;
@@ -20,9 +22,18 @@ export type CreateTakeOutState = {
 const initState: CreateTakeOutState = {
   isRequest: false,
   message: '',
+  pickedProviderId: '',
 };
 
 export const createTakeOutReducer = createReducer(initState, {
+  PickProviderForTakeOut: (state, { providerId }: PickProviderForTakeOut) => {
+    return {
+      ...state,
+      isRequest: false,
+      message: '',
+      pickedProviderId: providerId,
+    };
+  },
   CreateTakeOut: (state, action: CreateTakeOut) => {
     return {
       ...state,

@@ -388,6 +388,7 @@ export const createTakeOut: (input: {
       method: 'POST',
       headers: {
         token,
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
         title,
