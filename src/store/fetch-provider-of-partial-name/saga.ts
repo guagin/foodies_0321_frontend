@@ -26,11 +26,6 @@ function* fetchProviderByPartialNameSaga({
     }: {
       data?: {
         providers: Provider[];
-        hasNext: boolean;
-        hasPrevious: boolean;
-        totalPages: number;
-        page: number;
-        totalCount: number;
       };
       status: Status;
     } = yield call(fetchProviderByPartialName, { name, token });

@@ -19,6 +19,7 @@ import { OrderManagement } from './containers/OrderManagement';
 import { TakeOutManagemnet } from './containers/TakeOutManagement';
 import { PickProvider } from './containers/TakeOutManagement/pick-provider';
 import { DetailInfo } from './containers/TakeOutManagement/detail-info';
+import { CreateOrder } from './containers/CreateOrder';
 
 export function App() {
   return (
@@ -49,6 +50,11 @@ export function App() {
           exact
           path="/order-management"
           component={OrderManagement}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/order/create/pick-takeout"
+          component={CreateOrder}
         />
         <AuthenticatedRoute
           exact

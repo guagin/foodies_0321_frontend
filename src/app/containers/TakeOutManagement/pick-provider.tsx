@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles, CssBaseline, TextField, Grid } from '@material-ui/core';
 import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
@@ -40,7 +40,6 @@ export const PickProvider = () => {
 
   const handleNameChange = (name: string) => {
     setName(name);
-    dispatch(CreateFetchProviderByPartialName({ token, name }));
   };
 
   const handleSubmmit = event => {
@@ -52,11 +51,18 @@ export const PickProvider = () => {
     dispatch(push('/take-out/create/detail-info'));
   };
 
+  useEffect(() => {
+    dispatch(CreateFetchProviderByPartialName({ token, name }));
+  }, [dispatch, name, token]);
+
   return (
     <>
       <Helmet>
         <title>SignUp Page</title>
-        <meta name="description" content="foodies sign up page." />
+        <meta
+          name="description"
+          content="foodies create take out , pick provider page."
+        />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
@@ -74,8 +80,8 @@ export const PickProvider = () => {
                 autoFocus
                 placeholder={t('provider.namePlaceholder')}
                 value={name}
-                onChange={e => {
-                  handleNameChange(e.target.value);
+                onChange={event => {
+                  handleNameChange(event.target.value);
                 }}
               />
             </form>

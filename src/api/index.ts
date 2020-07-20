@@ -411,18 +411,54 @@ export const fetchProviderByPartialName: (input: {
   name: string;
 }) => Promise<{
   data?: {
-    id: string;
-    title: string;
-    description: string;
-    startedAt: Date;
-    endAt: Date;
-    enabled: boolean;
+    providers: Provider[];
+    hasNext: boolean;
+    hasPrevious: boolean;
+    totalPages: number;
+    page: number;
+    totalCount: number;
   };
   status: Status;
 }> = async ({ token, name }) => {
   try {
     const response = await fetch(
       `http://localhost:3000/order/provider/ofPartialName?partialName=${name}&count=3`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const fetchTakeOutByPartialTitle: (input: {
+  token: string;
+  title: string;
+}) => Promise<{
+  data?: {
+    providers: TakeOut[];
+    hasNext: boolean;
+    hasPrevious: boolean;
+    totalPages: number;
+    page: number;
+    totalCount: number;
+  };
+  status: Status;
+}> = async ({ token, title }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/takeOut/ofPartialTitle?title=${title}&count=3`,
       {
         headers: {
           token,

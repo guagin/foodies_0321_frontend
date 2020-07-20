@@ -1,5 +1,4 @@
 import { Provider } from 'store/model/provider';
-import { ProviderState } from 'store/provider/reducer';
 import { createReducer } from '@reduxjs/toolkit';
 import {
   FetchProviderByPartialName,
@@ -10,21 +9,13 @@ import {
 export type FetchProviderByPartialNameState = {
   isRequest: boolean;
   providers: Provider[];
-  hasPrevious: boolean;
-  hasNext: boolean;
   message: string;
-  page: number;
-  totalCount: number;
 };
 
-const initState: ProviderState = {
+const initState: FetchProviderByPartialNameState = {
   isRequest: false,
   providers: [],
-  hasPrevious: false,
-  hasNext: false,
   message: '',
-  page: 1,
-  totalCount: 0,
 };
 
 export const fetchProviderByPartialNameReducer = createReducer(initState, {
@@ -37,25 +28,13 @@ export const fetchProviderByPartialNameReducer = createReducer(initState, {
   },
   FetchProviderByPartialNameSuccess: (
     state,
-    {
-      providers,
-      hasPrevious,
-      hasNext,
-      page,
-      totalPage,
-      totalCount,
-    }: FetchProviderByPartialNameSuccess,
+    { providers }: FetchProviderByPartialNameSuccess,
   ) => {
     return {
       ...state,
       isRequest: false,
       message: '',
       providers,
-      hasPrevious,
-      hasNext,
-      page,
-      totalPage,
-      totalCount,
     };
   },
 

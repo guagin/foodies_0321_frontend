@@ -34,6 +34,11 @@ import {
   FetchProviderByPartialNameState,
 } from './fetch-provider-of-partial-name/reducer';
 import { FetchProviderByPartialNameActions } from './fetch-provider-of-partial-name/action';
+import {
+  fetchTakeOutByPartialTitleReducer,
+  FetchTakeOutByPartialTitleState,
+} from './fetch-take-out-by-partial-title/reducer';
+import { FetchtakeOutByPartialTitleActions } from './fetch-take-out-by-partial-title/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -67,6 +72,10 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     fetchProviderByPartialName: fetchProviderByPartialNameReducer as Reducer<
       FetchProviderByPartialNameState,
       FetchProviderByPartialNameActions
+    >,
+    fetchTakeOutByPartialTitle: fetchTakeOutByPartialTitleReducer as Reducer<
+      FetchTakeOutByPartialTitleState,
+      FetchtakeOutByPartialTitleActions
     >,
   });
 

@@ -3,6 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { CssBaseline, Grid, Fab, makeStyles } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { OrderList } from 'app/components/OrderList';
+import { push } from 'connected-react-router';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,6 +24,12 @@ const useStyles = makeStyles(theme => ({
 
 export const OrderManagement = () => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  const handleClickAddIcon = () => {
+    dispatch(push('/order/create/pick-takeout'));
+  };
 
   return (
     <>
@@ -44,7 +52,7 @@ export const OrderManagement = () => {
           color="primary"
           aria-label="add"
           className={classes.fab}
-          //   onClick={handleClickAddIcon}
+          onClick={handleClickAddIcon}
         >
           <AddIcon />
         </Fab>

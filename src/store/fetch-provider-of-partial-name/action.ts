@@ -10,11 +10,6 @@ export interface FetchProviderByPartialName
 export interface FetchProviderByPartialNameSuccess
   extends Action<'FetchProviderByPartialNameSuccess'> {
   providers: Provider[];
-  hasPrevious: boolean;
-  hasNext: boolean;
-  page: number;
-  totalPage: number;
-  totalCount: number;
 }
 
 export interface FetchProviderByPartialNameFailure
@@ -41,26 +36,11 @@ export const CreateFetchProviderByPartialName: ActionCreator<FetchProviderByPart
 
 export const CreateFetchProviderByPartialNameSuccess: ActionCreator<FetchProviderByPartialNameSuccess> = ({
   providers,
-  hasPrevious,
-  hasNext,
-  page,
-  totalPage,
-  totalCount,
 }: {
   providers: Provider[];
-  hasPrevious: boolean;
-  hasNext: boolean;
-  page: number;
-  totalPage: number;
-  totalCount: number;
 }) => ({
   type: 'FetchProviderByPartialNameSuccess',
   providers,
-  hasPrevious,
-  hasNext,
-  page,
-  totalPage,
-  totalCount,
 });
 
 export const CreateFetchProviderByPartialNameFailure: ActionCreator<FetchProviderByPartialNameFailure> = ({

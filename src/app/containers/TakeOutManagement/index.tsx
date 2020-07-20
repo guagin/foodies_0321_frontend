@@ -35,7 +35,7 @@ export function TakeOutManagemnet() {
     <>
       <Helmet>
         <title>SignUp Page</title>
-        <meta name="description" content="foodies sign up page." />
+        <meta name="description" content="foodies take-out management page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>

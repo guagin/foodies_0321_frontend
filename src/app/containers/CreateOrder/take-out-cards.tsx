@@ -1,16 +1,16 @@
-import { chunk } from 'lodash';
 import React from 'react';
+import { TakeOut } from 'store/take-out-of-page/reducer';
+import { chunk } from 'lodash';
 import {
+  CircularProgress,
   makeStyles,
-  Card,
-  CardContent,
+  Grid,
   Typography,
+  CardContent,
   CardActions,
   Button,
-  Grid,
-  CircularProgress,
+  Card,
 } from '@material-ui/core';
-import { Provider } from 'store/model/provider';
 
 const useStyles = makeStyles({
   root: {
@@ -24,47 +24,49 @@ const useStyles = makeStyles({
   },
 });
 
-export const ProviderCards = ({
-  providers,
+export function TakeOutCards({
+  takeOuts,
   isRequest,
   onClickChoose,
 }: {
-  providers: Provider[];
+  takeOuts: TakeOut[];
   isRequest: boolean;
   onClickChoose: (id: string) => void;
-}) => {
-  const providerRows = chunk(providers, 3);
+}) {
+  const takeOutRows = chunk(takeOuts, 3);
 
   if (isRequest) {
     return <CircularProgress />;
   }
+
   return (
     <>
-      {providerRows.map(row => (
+      {takeOutRows.map(row => (
         <>
-          <ProviderCardRows
+          <TakeOutCardRows
             key={row.keys.toString()}
-            providers={row}
+            takeOuts={row}
             onClickChoose={onClickChoose}
           />
         </>
       ))}
     </>
   );
-};
+}
 
-const ProviderCardRows = ({
-  providers,
+function TakeOutCardRows({
+  takeOuts,
   onClickChoose,
 }: {
-  providers: Provider[];
+  takeOuts: TakeOut[];
   onClickChoose: (id: string) => void;
-}) => {
+}) {
   const classes = useStyles();
+
   return (
     <>
       <Grid container spacing={2}>
-        {providers.map(provider => (
+        {takeOuts.map(takeOut => (
           <Grid item xs={4} sm={4}>
             <Card className={classes.root} variant="outlined">
               <CardContent>
@@ -75,20 +77,26 @@ const ProviderCardRows = ({
                   variant="h5"
                   component="h2"
                 >
-                  {provider.name}
+                  {takeOut.title}
                 </Typography>
                 <Typography className={classes.pos} color="textSecondary">
-                  {provider.description}
+                  {takeOut.description}
                 </Typography>
-                <Typography variant="body2" component="p">
-                  {provider.description}
+                <Typography className={classes.pos} color="textSecondary">
+                  {takeOut.startedAt}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {takeOut.endAt}
+                </Typography>
+                <Typography className={classes.pos} color="textSecondary">
+                  {takeOut.createdBy}
                 </Typography>
               </CardContent>
               <CardActions>
                 <Button
                   size="small"
                   onClick={() => {
-                    onClickChoose(provider.id);
+                    onClickChoose(takeOut.id);
                   }}
                 >
                   choose
@@ -100,4 +108,4 @@ const ProviderCardRows = ({
       </Grid>
     </>
   );
-};
+}
