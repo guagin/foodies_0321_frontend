@@ -375,11 +375,6 @@ export const createTakeOut: (input: {
 }) => Promise<{
   data?: {
     id: string;
-    title: string;
-    description: string;
-    startedAt: Date;
-    endAt: Date;
-    enabled: boolean;
   };
   status: Status;
 }> = async ({ token, title, description, startedAt, endAt, enabled }) => {

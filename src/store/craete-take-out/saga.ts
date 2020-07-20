@@ -19,11 +19,6 @@ function* CreateTakeOutSage(action: CreateTakeOut) {
     }: {
       data?: {
         id: string;
-        title: string;
-        description: string;
-        startedAt: Date;
-        endAt: Date;
-        enabled: boolean;
       };
       status: Status;
     } = yield call(createTakeOut, { ...action });
