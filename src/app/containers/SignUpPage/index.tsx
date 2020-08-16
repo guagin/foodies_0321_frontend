@@ -8,8 +8,6 @@ import {
 } from '@material-ui/core';
 
 import { SignUpForm } from './sign-up-form';
-import { signUpReducer } from 'store/sign-up/reducer';
-import { signUpFlow } from 'store/sign-up/saga';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { useInjectReducer } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
@@ -20,8 +18,10 @@ import {
   makeSelectPassword,
   makeSelectId,
   makeSelectMessage,
-} from 'store/sign-up/selector';
+} from './selector';
 import { useSelector } from 'react-redux';
+import { signUpReducer } from './reducer';
+import { signUpFlow } from './saga';
 
 const useStyles = makeStyles(theme => ({
   paper: {
