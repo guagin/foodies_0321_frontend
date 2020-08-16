@@ -10,7 +10,7 @@ export type SignUpState = {
   id: string;
 };
 
-const initState: SignUpState = {
+export const initState: SignUpState = {
   name: '',
   password: '',
   email: '',

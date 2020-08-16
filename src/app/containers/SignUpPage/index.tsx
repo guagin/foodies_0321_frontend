@@ -7,8 +7,21 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 
-import { useTypedSelector } from 'store/reducers';
 import { SignUpForm } from './sign-up-form';
+import { signUpReducer } from 'store/sign-up/reducer';
+import { signUpFlow } from 'store/sign-up/saga';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { useInjectReducer } from 'redux-injectors';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectName,
+  makeSelectEmail,
+  makeSelectPassword,
+  makeSelectId,
+  makeSelectMessage,
+} from 'store/sign-up/selector';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -30,22 +43,35 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  name: makeSelectName(),
+  password: makeSelectPassword(),
+  email: makeSelectEmail(),
+  id: makeSelectId(),
+  message: makeSelectMessage(),
+});
+
 export function SignUpPage() {
-  const me = useTypedSelector(state => state.me);
+  useInjectReducer({ key: 'signUp', reducer: signUpReducer });
+  useInjectSaga({ key: 'signUp', saga: signUpFlow });
+
+  const { isRequest, message } = useSelector(stateSelector);
+
   const classes = useStyles();
 
   const progressCirlcle = () => {
-    if (me.isRequest) {
+    if (isRequest) {
       return <CircularProgress />;
     }
     return <></>;
   };
 
   const signUpMessage = () => {
-    if (me.message) {
+    if (message) {
       return (
         <div>
-          <p>{me.message}</p>
+          <p>{message}</p>
         </div>
       );
     }
@@ -61,7 +87,7 @@ export function SignUpPage() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <SignUpForm classes={classes} disabled={me.isRequest}></SignUpForm>
+          <SignUpForm classes={classes} disabled={isRequest}></SignUpForm>
           {progressCirlcle()}
           {signUpMessage()}
         </div>
@@ -69,5 +95,3 @@ export function SignUpPage() {
     </>
   );
 }
-
-// export default connect(null, { signUp })(SignUpPage);

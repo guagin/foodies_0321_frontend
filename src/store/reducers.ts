@@ -39,11 +39,18 @@ import {
   FetchTakeOutByPartialTitleState,
 } from './fetch-take-out-by-partial-title/reducer';
 import { FetchtakeOutByPartialTitleActions } from './fetch-take-out-by-partial-title/action';
+import { SignUpState } from './sign-up/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
  */
-export function createReducer(injectedReducers: InjectedReducersType = {}) {
+export function createReducer(
+  injectedReducers:
+    | InjectedReducersType
+    | {
+        signUp: Reducer<SignUpState, AnyAction>;
+      } = {},
+) {
   const rootReducer = combineReducers({
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,

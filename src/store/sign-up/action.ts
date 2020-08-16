@@ -26,7 +26,7 @@ export const SignUpSuccessCreator: ActionCreator<SignUpSuccess> = input => ({
   ...input,
 });
 
-export const SingUpFailedCreator: ActionCreator<SignUpFailed> = input => ({
+export const SignUpFailedCreator: ActionCreator<SignUpFailed> = input => ({
   type: 'SignUpFailed',
   ...input,
 });
