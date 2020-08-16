@@ -15,7 +15,7 @@ export const initState: SignUpState = {
   password: '',
   email: '',
   id: '',
-  isRequest: true,
+  isRequest: false,
 };
 
 export const signUpReducer = createReducer(initState, {
