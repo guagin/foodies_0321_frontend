@@ -3,7 +3,7 @@ import { Typography, Grid, TextField, Button } from '@material-ui/core';
 
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { SignUpCreator } from 'store/me/action';
+import { SignUpCreator } from './action';
 
 export function SignUpForm(input: {
   classes: { [index: string]: any };

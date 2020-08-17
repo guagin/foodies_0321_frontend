@@ -9,6 +9,7 @@ export function* signUpFlow() {
 }
 
 function* signUpSaga(action: SignUp) {
+  console.log('signUp saga called.');
   try {
     const {
       data,

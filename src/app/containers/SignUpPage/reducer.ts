@@ -1,6 +1,5 @@
-import { SignUp, SignUpSuccess } from 'store/me/action';
 import { createReducer } from '@reduxjs/toolkit';
-import { SignUpFailed } from './action';
+import { SignUpFailed, SignUp, SignUpSuccess } from './action';
 
 export type SignUpState = {
   isRequest: boolean;

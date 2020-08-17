@@ -17,7 +17,7 @@ export interface SignUpFailed extends Action<'SignUpFailed'> {
 export type SignUpActions = SignUp | SignUpSuccess | SignUpFailed;
 
 export const SignUpCreator: ActionCreator<SignUp> = input => ({
-  type: 'Signup',
+  type: 'SignUp',
   ...input,
 });
 
