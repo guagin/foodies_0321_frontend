@@ -3,7 +3,7 @@ import { Typography, Grid, TextField, Button } from '@material-ui/core';
 
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { SignInCreator } from 'store/me/action';
+import { SignInCreator } from './action';
 
 export function SignInForm(input: {
   classes: { [index: string]: any };

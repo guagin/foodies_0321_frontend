@@ -1,14 +1,14 @@
-import { SignIn, SignInSuccessCreator, SignInFailureCreator } from '../action';
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { signIn, Status } from 'api';
+import { SignIn, SignInFailedCreator, SignInSuccessCreator } from './action';
 import { push } from 'connected-react-router';
+import { FetchMeCreator } from 'store/me/action';
 
 export function* signInFlow() {
-  yield takeLatest('SignIn', signInSage);
-  //TODO: sign out
+  yield takeLatest('SignIn', signInSaga);
 }
 
-function* signInSage(action: SignIn) {
+function* signInSaga(action: SignIn) {
   try {
     const {
       data,
@@ -27,11 +27,13 @@ function* signInSage(action: SignIn) {
         }),
       );
 
+      yield put(FetchMeCreator({ token: data.token }));
       yield put(push(action.from.pathname));
-    } else {
-      yield put(SignInFailureCreator({ message: status.msg }));
+      return;
     }
+
+    yield put(SignInFailedCreator({ message: status.msg }));
   } catch (e) {
-    yield put(SignInFailureCreator({ message: e.message }));
+    yield put(SignInFailedCreator({ message: e.message }));
   }
 }

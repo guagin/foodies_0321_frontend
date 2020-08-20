@@ -9,7 +9,6 @@ import { history } from 'utils/history';
 import { InjectedReducersType } from 'utils/types/injector-typings';
 import { meReducer, MeState } from './me/reducer';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { MeActions } from './me/action';
 import { menuReducer, MenuState } from './menu/reducer';
 import { FetchMealActions } from './menu/action/fetch-meals';
 import { CreateMealActions } from './menu/action/creat-meal';
@@ -39,6 +38,7 @@ import {
   FetchTakeOutByPartialTitleState,
 } from './fetch-take-out-by-partial-title/reducer';
 import { FetchtakeOutByPartialTitleActions } from './fetch-take-out-by-partial-title/action';
+import { FetchMeAction } from './me/action';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -47,7 +47,7 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
   const rootReducer = combineReducers({
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,
-    me: meReducer as Reducer<MeState, MeActions>,
+    me: meReducer as Reducer<MeState, FetchMeAction>,
     menu: menuReducer as Reducer<
       MenuState,
       FetchMealActions | CreateMealActions

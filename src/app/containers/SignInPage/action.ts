@@ -6,13 +6,15 @@ export interface SignIn extends Action<'SignIn'> {
   from: { pathname: string };
 }
 
-export interface SignInFailure extends Action<'SignInFailure'> {
+export interface SignInFailed extends Action<'SignInFailed'> {
   message: string;
 }
 
 export interface SignInSuccess extends Action<'SignInSuccess'> {
   token: string;
 }
+
+export type SignInAction = SignIn | SignInFailed | SignInSuccess;
 
 export const SignInCreator: ActionCreator<SignIn> = (input: {
   name: string;
@@ -25,12 +27,12 @@ export const SignInCreator: ActionCreator<SignIn> = (input: {
   };
 };
 
-export const SignInFailureCreator: ActionCreator<SignInFailure> = (input: {
+export const SignInFailedCreator: ActionCreator<SignInFailed> = (input: {
   message: string;
 }) => {
   return {
     ...input,
-    type: 'SignInFailure',
+    type: 'SignInFailed',
   };
 };
 

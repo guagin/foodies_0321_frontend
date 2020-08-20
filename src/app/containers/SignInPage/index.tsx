@@ -7,8 +7,20 @@ import {
   makeStyles,
 } from '@material-ui/core';
 import { SignInForm } from './sign-in-form';
-import { useTypedSelector } from 'store/reducers';
 import { useLocation } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectName,
+  makeSelectEmail,
+  makeSelectToken,
+  makeSelectMessage,
+} from './selector';
+import { useSelector } from 'react-redux';
+import { useInjectReducer } from 'redux-injectors';
+import { signInReducer } from './reducer';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { signInFlow } from './saga';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -30,25 +42,40 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  name: makeSelectName(),
+  email: makeSelectEmail(),
+  token: makeSelectToken(),
+  message: makeSelectMessage(),
+});
+
 export function SignInPage() {
-  const me = useTypedSelector(state => state.me);
+  useInjectReducer({
+    key: 'signIn',
+    reducer: signInReducer,
+  });
+  useInjectSaga({ key: 'signIn', saga: signInFlow });
+
   const classes = useStyles();
   const location = useLocation();
+
+  const { isRequest, message } = useSelector(stateSelector);
 
   const { from } = { from: { pathname: '/' }, ...location.state };
 
   const progressCirlcle = () => {
-    if (me.isRequest) {
+    if (isRequest) {
       return <CircularProgress />;
     }
     return <></>;
   };
 
   const signInMessage = () => {
-    if (me.message) {
+    if (message) {
       return (
         <div>
-          <p>{me.message}</p>
+          <p>{message}</p>
         </div>
       );
     }
@@ -64,7 +91,7 @@ export function SignInPage() {
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <div className={classes.paper}>
-          <SignInForm classes={classes} disabled={me.isRequest} from={from} />
+          <SignInForm classes={classes} disabled={isRequest} from={from} />
           {progressCirlcle()}
           {signInMessage()}
         </div>

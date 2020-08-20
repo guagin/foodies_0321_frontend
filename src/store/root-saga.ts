@@ -1,6 +1,5 @@
 import { all, fork } from 'redux-saga/effects';
 
-import { signInFlow } from './me/saga/sign-in';
 import { fetchMeFlow } from './me/saga/fetch-me';
 import { fetchMealsFlow } from './menu/saga/fetch-meals';
 import { createMealFlow } from './menu/saga/create-meal';
@@ -15,7 +14,6 @@ import { fetchTakeOutByPartialTitleFlow } from './fetch-take-out-by-partial-titl
 
 export const rootSaga = function* root() {
   yield all([
-    fork(signInFlow),
     fork(fetchMeFlow),
     fork(fetchMealsFlow),
     fork(createMealFlow),

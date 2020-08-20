@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SignIn, SignInFailure, SignInSuccess } from './action';
 import { FetchMe, FetchMeSuccess, FetchMeFailure } from './action/fetch-me';
 
 export type MeState = {
@@ -21,29 +20,10 @@ const initialState: MeState = {
 };
 
 export const meReducer = createReducer(initialState, {
-  SignIn: (state, action: SignIn) => {
+  FetchMe: (state, { token }: FetchMe) => {
     return {
       ...state,
-      isRequest: true,
-    };
-  },
-  SignInSuccess: (state, action: SignInSuccess) => {
-    return {
-      ...state,
-      isRequest: false,
-      token: action.token,
-    };
-  },
-  SignInFailure: (state, action: SignInFailure) => {
-    return {
-      ...state,
-      isRequest: false,
-      message: action.message,
-    };
-  },
-  FetchMe: (state, action: FetchMe) => {
-    return {
-      ...state,
+      token,
       isRequest: true,
     };
   },

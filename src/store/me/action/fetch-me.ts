@@ -13,6 +13,8 @@ export interface FetchMeFailure extends Action<'FetchMeFailure'> {
   message: string;
 }
 
+export type FetchMeAction = FetchMe | FetchMeFailure | FetchMeSuccess;
+
 export const FetchMeCreator: ActionCreator<FetchMe> = (input: {
   token: string;
 }) => {
