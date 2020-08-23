@@ -4,11 +4,6 @@ import {
   FetchProviderSuccess,
   FetchProviderFailure,
 } from './action/fetch-provider';
-import {
-  CreateProvider,
-  CreateProviderSuccess,
-  CreateProviderFailure,
-} from './action/create-provider';
 import { Provider } from 'store/model/provider';
 
 export type ProviderState = {
@@ -61,28 +56,6 @@ export const providerReducer = createReducer(initState, {
     };
   },
   FetchProviderFailure: (state, { message }: FetchProviderFailure) => {
-    return {
-      ...state,
-      isRequest: false,
-      message,
-    };
-  },
-  CreateProvider: (state, action: CreateProvider) => {
-    return {
-      ...state,
-      isRequest: true,
-    };
-  },
-
-  CreateProviderSuccess: (state, action: CreateProviderSuccess) => {
-    return {
-      ...state,
-      isRequest: false,
-      message: '',
-    };
-  },
-
-  CreateProviderFailure: (state, { message }: CreateProviderFailure) => {
     return {
       ...state,
       isRequest: false,

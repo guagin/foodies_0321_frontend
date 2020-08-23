@@ -6,12 +6,10 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-// import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { createProviderCreator } from 'store/provider/action/create-provider';
 import { useDispatch } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
-// import { useTypedSelector } from 'store/reducers';
+import { createProvider } from './action';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -48,7 +46,7 @@ export const CreateProviderForm = () => {
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
     dispatch(
-      createProviderCreator({
+      createProvider({
         token: me.token,
         name,
         description,
