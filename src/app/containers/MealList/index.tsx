@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const MealManagement = () => {
+export const MealListPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const handleClickAddIcon = () => {
