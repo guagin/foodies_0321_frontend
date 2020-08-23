@@ -104,7 +104,7 @@ export const AppDrawer = ({ children }) => {
   };
 
   const handleMealItemClick = () => {
-    dispatch(push('/meal-management'));
+    dispatch(push('/meal-list'));
   };
 
   const handleProviderClick = () => {
