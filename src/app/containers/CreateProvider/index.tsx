@@ -9,7 +9,6 @@ import { CreateProviderForm } from './create-provider-form';
 import { ProgressCircle } from 'app/components/ProgressCircle';
 import { Message } from 'app/components/Message';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
-import { create } from 'lodash';
 import { createProviderReducer } from './reducer';
 import { createProviderFlow } from './saga';
 

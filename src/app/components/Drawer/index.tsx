@@ -108,7 +108,7 @@ export const AppDrawer = ({ children }) => {
   };
 
   const handleProviderClick = () => {
-    dispatch(push('/provider-management'));
+    dispatch(push('/provider-list'));
   };
 
   const handleOrderClick = () => {

@@ -13,7 +13,7 @@ import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealListPage } from './containers/MealList';
 import { CreateMeal } from './containers/CreateMeal';
-import { ProviderManagement } from './containers/ProviderManagement';
+import { ProviderListPage } from './containers/ProviderList';
 import { OrderManagement } from './containers/OrderManagement';
 import { TakeOutManagemnet } from './containers/TakeOutManagement';
 import { PickProvider } from './containers/TakeOutManagement/pick-provider';
@@ -34,8 +34,8 @@ export function App() {
         <AuthenticatedRoute exact path="/create-meal" component={CreateMeal} />
         <AuthenticatedRoute
           exact
-          path="/provider-management"
-          component={ProviderManagement}
+          path="/provider-list"
+          component={ProviderListPage}
         />
         <AuthenticatedRoute
           exact

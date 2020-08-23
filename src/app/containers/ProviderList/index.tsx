@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const ProviderManagement = () => {
+export const ProviderListPage = () => {
   const provider = useTypedSelector(state => state.provider);
   const classes = useStyles();
   const dispatch = useDispatch();
