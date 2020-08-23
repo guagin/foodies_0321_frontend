@@ -14,12 +14,12 @@ import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealListPage } from './containers/MealList';
 import { CreateMeal } from './containers/CreateMeal';
 import { ProviderManagement } from './containers/ProviderManagement';
-import { CreateProvider } from './containers/ProviderManagement/create-provider';
 import { OrderManagement } from './containers/OrderManagement';
 import { TakeOutManagemnet } from './containers/TakeOutManagement';
 import { PickProvider } from './containers/TakeOutManagement/pick-provider';
 import { DetailInfo } from './containers/TakeOutManagement/detail-info';
 import { CreateOrder } from './containers/CreateOrder';
+import { CreateProviderPage } from './containers/CreateProvider/Loasdable';
 
 export function App() {
   return (
@@ -40,7 +40,7 @@ export function App() {
         <AuthenticatedRoute
           exact
           path="/create-provider"
-          component={CreateProvider}
+          component={CreateProviderPage}
         />
         <AuthenticatedRoute
           exact
