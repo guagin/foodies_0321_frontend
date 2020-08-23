@@ -36,7 +36,7 @@ export function* createMealSaga({
     if (status.code === 'SUCCESS') {
       yield put(createMealSuccess({ ...data }));
 
-      yield put(push('/meal-management'));
+      yield put(push('/meal-list'));
       return;
     }
 
