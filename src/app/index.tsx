@@ -11,7 +11,7 @@ import { SignUpPage } from './containers/SignUpPage/Loadable';
 import { SignInPage } from './containers/SignInPage/Loadable';
 import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
-import { MealManagement } from './containers/MealManagement';
+import { MealListPage } from './containers/MealList';
 import { CreateMeal } from './containers/CreateMeal';
 import { ProviderManagement } from './containers/ProviderManagement';
 import { CreateProvider } from './containers/ProviderManagement/create-provider';
@@ -30,11 +30,7 @@ export function App() {
 
       <Switch>
         <AuthenticatedRoute exact path="/" component={HomePage} />
-        <AuthenticatedRoute
-          exact
-          path="/meal-management"
-          component={MealManagement}
-        />
+        <AuthenticatedRoute exact path="/meal-list" component={MealListPage} />
         <AuthenticatedRoute exact path="/create-meal" component={CreateMeal} />
         <AuthenticatedRoute
           exact

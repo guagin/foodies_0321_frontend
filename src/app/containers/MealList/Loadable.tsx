@@ -2,5 +2,5 @@ import { lazyLoad } from 'utils/loadable';
 
 export const SignInPage = lazyLoad(
   () => import('./index'),
-  module => module.MealManagement,
+  module => module.MealListPage,
 );
