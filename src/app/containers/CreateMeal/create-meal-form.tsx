@@ -6,10 +6,15 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-import { createMealCreator } from 'store/menu/action/creat-meal';
+
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
+import { createMeal } from './action';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { createMealReducer } from './reducer';
+import { createMealFlow } from './saga';
+import { useInjectReducer } from 'redux-injectors';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -22,8 +27,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export function CreateMealForm() {
+  useInjectReducer({ key: 'createMeal', reducer: createMealReducer });
+  useInjectSaga({ key: 'createMeal', saga: createMealFlow });
+
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const { t } = useTranslation();
   const me = useTypedSelector(state => state.me);
 
@@ -54,7 +63,7 @@ export function CreateMealForm() {
     event.preventDefault();
 
     dispatch(
-      createMealCreator({
+      createMeal({
         token: me.token,
         name,
         price,

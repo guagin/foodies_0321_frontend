@@ -12,7 +12,7 @@ import { SignInPage } from './containers/SignInPage/Loadable';
 import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealManagement } from './containers/MealManagement';
-import { CreateMeal } from './containers/MealManagement/create-meal';
+import { CreateMeal } from './containers/CreateMeal';
 import { ProviderManagement } from './containers/ProviderManagement';
 import { CreateProvider } from './containers/ProviderManagement/create-provider';
 import { OrderManagement } from './containers/OrderManagement';

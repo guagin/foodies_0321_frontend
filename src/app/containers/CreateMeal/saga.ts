@@ -1,9 +1,5 @@
 import { takeLatest, put } from 'redux-saga/effects';
-import {
-  CreateMeal,
-  createMealFailureCreator,
-  createMealSuccessCreator,
-} from '../action/creat-meal';
+import { CreateMeal, createMealSuccess, createMealFailed } from './action';
 import { Status, createMeal } from 'api';
 import { push } from 'connected-react-router';
 
@@ -38,12 +34,14 @@ export function* createMealSaga({
     });
 
     if (status.code === 'SUCCESS') {
-      yield put(createMealSuccessCreator({ id: data?.ids[0] }));
+      yield put(createMealSuccess({ ...data }));
+
       yield put(push('/meal-management'));
-    } else {
-      yield put(createMealFailureCreator({ message: status.msg }));
+      return;
     }
+
+    yield put(createMealFailed({ ...data }));
   } catch (e) {
-    yield put(createMealFailureCreator({ message: e.message }));
+    yield put(createMealFailed({ message: e.messge }));
   }
 }

@@ -13,23 +13,16 @@ export interface CreateMealSuccess extends Action<'CreateMealSuccess'> {
   id: string;
 }
 
-export interface CreateMealFailure extends Action<'CreateMealFailure'> {
+export interface CreateMealFailed extends Action<'CreateMealFailed'> {
   message: string;
 }
 
-export type CreateMealActions =
+export type CreateMealAtions =
   | CreateMeal
   | CreateMealSuccess
-  | CreateMealFailure;
+  | CreateMealFailed;
 
-export const createMealCreator: ActionCreator<CreateMeal> = ({
-  name,
-  provider,
-  price,
-  description,
-  pictures,
-  token,
-}: {
+export const createMeal: ActionCreator<CreateMeal> = (input: {
   name: string;
   provider: string;
   price: number;
@@ -37,29 +30,20 @@ export const createMealCreator: ActionCreator<CreateMeal> = ({
   pictures: string[];
   token: string;
 }) => ({
+  ...input,
   type: 'CreateMeal',
-  name,
-  provider,
-  price,
-  description,
-  pictures,
-  token,
 });
 
-export const createMealSuccessCreator: ActionCreator<CreateMealSuccess> = ({
-  id,
-}: {
+export const createMealSuccess: ActionCreator<CreateMealSuccess> = (input: {
   id: string;
 }) => ({
+  ...input,
   type: 'CreateMealSuccess',
-  id,
 });
 
-export const createMealFailureCreator: ActionCreator<CreateMealFailure> = ({
-  message,
-}: {
+export const createMealFailed: ActionCreator<CreateMealFailed> = (input: {
   message: string;
 }) => ({
-  type: 'CreateMealFailure',
-  message,
+  ...input,
+  type: 'CreateMealFailed',
 });
