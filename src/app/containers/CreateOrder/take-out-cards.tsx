@@ -1,5 +1,4 @@
 import React from 'react';
-import { TakeOut } from 'store/take-out-of-page/reducer';
 import { chunk } from 'lodash';
 import {
   CircularProgress,
@@ -11,6 +10,7 @@ import {
   Button,
   Card,
 } from '@material-ui/core';
+import { TakeOut } from '../TakeOutList/take-out';
 
 const useStyles = makeStyles({
   root: {

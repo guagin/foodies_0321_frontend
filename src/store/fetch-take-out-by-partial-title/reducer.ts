@@ -1,9 +1,9 @@
-import { TakeOut } from 'store/take-out-of-page/reducer';
 import { createReducer } from '@reduxjs/toolkit';
 import {
   FetchTakeOutByPartialTitleSuccess,
   FetchTakeOutByPartialTitleFailure,
 } from './action';
+import { TakeOut } from 'app/containers/TakeOutList/take-out';
 
 export type FetchTakeOutByPartialTitleState = {
   isRequest: boolean;

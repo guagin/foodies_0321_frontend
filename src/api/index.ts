@@ -3,8 +3,8 @@ import { Meal } from 'store/menu/reducer';
 
 import { User } from 'store/users-of-ids/reducer';
 import { Order } from 'store/order/reducer';
-import { TakeOut } from 'store/take-out-of-page/reducer';
 import { Provider } from 'store/model/provider';
+import { TakeOut } from 'app/containers/TakeOutList/take-out';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -326,7 +326,7 @@ export const fetchOrderOfPage: (input: {
   }
 };
 
-export const fetchTakeOutOfPage: (input: {
+export const fetchTakeOutList: (input: {
   token: string;
   page: number;
   count: number;

@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
-import { TakeOut } from 'store/take-out-of-page/reducer';
+import { TakeOut } from 'app/containers/TakeOutList/take-out';
 
 export interface FetchTakeOutByPartialTitle
   extends Action<'FetchTakeOutByPartialTitle'> {

@@ -15,11 +15,11 @@ import { MealListPage } from './containers/MealList';
 import { CreateMeal } from './containers/CreateMeal';
 import { ProviderListPage } from './containers/ProviderList';
 import { OrderManagement } from './containers/OrderManagement';
-import { TakeOutManagemnet } from './containers/TakeOutManagement';
-import { PickProvider } from './containers/TakeOutManagement/pick-provider';
-import { DetailInfo } from './containers/TakeOutManagement/detail-info';
 import { CreateOrder } from './containers/CreateOrder';
 import { CreateProviderPage } from './containers/CreateProvider/Loasdable';
+import { TakeOutManagemnet } from './containers/CreateTakeOut';
+import { DetailInfo } from './containers/CreateTakeOut/detail-info';
+import { PickProvider } from './containers/CreateTakeOut/pick-provider';
 
 export function App() {
   return (

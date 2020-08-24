@@ -4,8 +4,8 @@ import {
   createFetchtakeOutByPartialTitleFailure,
   createFetchTakeOutByPartialTitleSuccess,
 } from './action';
-import { TakeOut } from 'store/take-out-of-page/reducer';
 import { Status, fetchTakeOutByPartialTitle } from 'api';
+import { TakeOut } from 'app/containers/TakeOutList/take-out';
 
 export function* fetchTakeOutByPartialTitleFlow() {
   yield takeLatest(

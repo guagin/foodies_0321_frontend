@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, CssBaseline, Grid, Fab } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
-import { TakeOutList } from 'app/components/TakeOutList';
+import { TakeOutList } from 'app/containers/TakeOutList';
 import { push } from 'connected-react-router';
 import AddIcon from '@material-ui/icons/Add';
 import { useDispatch } from 'react-redux';

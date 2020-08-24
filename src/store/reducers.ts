@@ -18,11 +18,7 @@ import { UsersOfIdsState, userOfIdsReducer } from './users-of-ids/reducer';
 import { FetchUsersOfIdAction } from './users-of-ids/action/fetch-users-of-id';
 import { FetchOrderOfPageAction } from './order/action/fetch-order-of-page';
 import { orderOfPageReducer, OrderOfPageState } from './order/reducer';
-import {
-  takeOutOfPageReducer,
-  TakeOutOfPageState,
-} from './take-out-of-page/reducer';
-import { FetchTakeOutOfPageActions } from './take-out-of-page/action';
+
 import {
   CreateTakeOutState,
   createTakeOutReducer,
@@ -57,10 +53,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     orderOfPage: orderOfPageReducer as Reducer<
       OrderOfPageState,
       FetchOrderOfPageAction
-    >,
-    takeOutOfPage: takeOutOfPageReducer as Reducer<
-      TakeOutOfPageState,
-      FetchTakeOutOfPageActions
     >,
     createTakeOut: createTakeOutReducer as Reducer<
       CreateTakeOutState,

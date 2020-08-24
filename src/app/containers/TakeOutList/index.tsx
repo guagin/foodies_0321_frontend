@@ -11,15 +11,29 @@ import {
   TableBody,
   TablePagination,
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
-import { createFetchTakeOutOfPage } from 'store/take-out-of-page/action';
+import {
+  makeSelectIsRequest,
+  makeSelectTakeOuts,
+  makeSelectMessage,
+  makeSelectTotalCount,
+} from './selector';
+import { createStructuredSelector } from 'reselect';
+import { fetchTakeOut } from './action';
 
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
   },
 }));
+
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  takeOuts: makeSelectTakeOuts(),
+  totalCount: makeSelectTotalCount(),
+  message: makeSelectMessage(),
+});
 
 export const TakeOutList = () => {
   const classes = useStyles();
@@ -29,8 +43,8 @@ export const TakeOutList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
 
-  const { takeOuts, isRequest, totalCount, message } = useTypedSelector(
-    state => state.takeOutOfPage,
+  const { isRequest, takeOuts, totalCount, message } = useSelector(
+    stateSelector,
   );
 
   const handleChangePage = (event, newPage) => {
@@ -44,7 +58,7 @@ export const TakeOutList = () => {
 
   useEffect(() => {
     dispatch(
-      createFetchTakeOutOfPage({
+      fetchTakeOut({
         token,
         page,
         count: rowsPerPage,
