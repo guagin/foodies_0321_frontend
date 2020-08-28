@@ -9,8 +9,6 @@ import { history } from 'utils/history';
 import { InjectedReducersType } from 'utils/types/injector-typings';
 import { meReducer, MeState } from './me/reducer';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
-import { menuReducer, MenuState } from './menu/reducer';
-import { FetchMealActions } from './menu/action/fetch-meals';
 
 import { providerReducer, ProviderState } from './provider/reducer';
 import { FetchProviderAction } from './provider/action/fetch-provider';
@@ -44,7 +42,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,
     me: meReducer as Reducer<MeState, FetchMeAction>,
-    menu: menuReducer as Reducer<MenuState, FetchMealActions>,
     provider: providerReducer as Reducer<ProviderState, FetchProviderAction>,
     userOfIds: userOfIdsReducer as Reducer<
       UsersOfIdsState,

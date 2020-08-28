@@ -21,6 +21,10 @@ import {
 } from './selector';
 import { createStructuredSelector } from 'reselect';
 import { fetchTakeOut } from './action';
+import { fetchTakeOutReducer } from './reducer';
+import { FetchTakeOutFlow } from './saga';
+import { useInjectReducer } from 'redux-injectors';
+import { useInjectSaga } from 'utils/redux-injectors';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -36,6 +40,16 @@ const stateSelector = createStructuredSelector({
 });
 
 export const TakeOutList = () => {
+  useInjectReducer({
+    key: 'fetchTakeOut',
+    reducer: fetchTakeOutReducer,
+  });
+
+  useInjectSaga({
+    key: 'fetchTakeOut',
+    saga: FetchTakeOutFlow,
+  });
+
   const classes = useStyles();
   const dispatch = useDispatch();
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useTypedSelector } from 'store/reducers';
 import {
   TableContainer,
   Paper,
@@ -14,8 +13,11 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
-import { fetchMealsCreator } from 'store/menu/action/fetch-meals';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
+import { MeState } from 'store/me/reducer';
+import { UsersOfIdsState } from 'store/users-of-ids/reducer';
+import { fetchMeals } from 'app/containers/MealList/action';
+import { Meal } from 'app/containers/MealList/meal';
 
 const useStyles = makeStyles({
   table: {
@@ -23,12 +25,23 @@ const useStyles = makeStyles({
   },
 });
 
-export const MealList = () => {
+export const MealList = ({
+  isRequest,
+  message,
+  meals,
+  totalCount,
+  me,
+  userOfIds,
+}: {
+  isRequest: boolean;
+  message: string;
+  meals: Meal[];
+  totalCount: number;
+  me: MeState;
+  userOfIds: UsersOfIdsState;
+}) => {
   const classes = useStyles();
 
-  const menu = useTypedSelector(state => state.menu);
-  const me = useTypedSelector(state => state.me);
-  const userOfIds = useTypedSelector(state => state.userOfIds);
   const dispatch = useDispatch();
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -36,7 +49,7 @@ export const MealList = () => {
 
   useEffect(() => {
     dispatch(
-      fetchMealsCreator({
+      fetchMeals({
         page: page + 1,
         count: rowsPerPage,
         token: me.token,
@@ -48,12 +61,10 @@ export const MealList = () => {
     dispatch(
       fetchUserOfIdsCreator({
         token: me.token,
-        ids: menu.meals.map(data => data.createdBy),
+        ids: meals.map(data => data.createdBy),
       }),
     );
-  }, [dispatch, me.token, menu.meals]);
-
-  const { totalCount } = menu;
+  }, [dispatch, me.token, meals]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -74,7 +85,7 @@ export const MealList = () => {
 
   return (
     <>
-      <LinearProgress hidden={!menu.isRequest} />
+      <LinearProgress hidden={!isRequest} />
       <TableContainer component={Paper}>
         <Table className={classes.table}>
           <TableHead>
@@ -88,7 +99,7 @@ export const MealList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {menu.meals.map(meal => (
+            {meals.map(meal => (
               <TableRow key={meal.id} hover>
                 <TableCell>{meal.id}</TableCell>
                 <TableCell>{meal.name}</TableCell>

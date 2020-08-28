@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
-import { Meal } from 'store/menu/reducer';
 
 import { User } from 'store/users-of-ids/reducer';
 import { Order } from 'store/order/reducer';
 import { Provider } from 'store/model/provider';
 import { TakeOut } from 'app/containers/TakeOutList/take-out';
+import { Meal } from 'app/containers/MealList/meal';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -94,7 +94,7 @@ export const fetchMeals: (input: {
   count: number;
 }) => Promise<{
   data?: {
-    meal: Meal[];
+    meals: Meal[];
     hasNext: boolean;
     hasPrevious: boolean;
     totalPages: number;

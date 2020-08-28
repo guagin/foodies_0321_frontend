@@ -1,11 +1,7 @@
-import {
-  FetchMeals,
-  fetchMealsSuccessCreator,
-  fetchMealsFailureCreator,
-} from '../action/fetch-meals';
-import { Meal } from '../reducer';
+import { takeLatest, put, call } from 'redux-saga/effects';
+import { fetchMealsFailed, FetchMeals, fetchMealsSuccess } from './action';
+import { Meal } from './meal';
 import { Status, fetchMeals } from 'api';
-import { put, takeLatest } from 'redux-saga/effects';
 
 export function* fetchMealsFlow() {
   yield takeLatest('FetchMeals', fetchMealsSaga);
@@ -18,26 +14,26 @@ function* fetchMealsSaga({ page, count, token }: FetchMeals) {
       status,
     }: {
       data?: {
-        meal: Meal[];
+        meals: Meal[];
         hasNext: boolean;
         hasPrevious: boolean;
-        totalPages: number;
+        totalPage: number;
         page: number;
         totalCount: number;
       };
       status: Status;
-    } = yield fetchMeals({
+    } = yield call(fetchMeals, {
       token,
       page,
       count,
     });
 
     if (status.code === 'SUCCESS') {
-      yield put(fetchMealsSuccessCreator({ ...data }));
+      yield put(fetchMealsSuccess({ ...data }));
     } else {
-      yield put(fetchMealsFailureCreator({ message: status.msg }));
+      yield put(fetchMealsFailed({ message: status.msg }));
     }
   } catch (e) {
-    yield put(fetchMealsFailureCreator({ message: e.message }));
+    yield put(fetchMealsFailed({ message: e.message }));
   }
 }

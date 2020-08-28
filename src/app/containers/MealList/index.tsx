@@ -3,8 +3,21 @@ import { MealList } from 'app/components/MealList';
 import { makeStyles, CssBaseline, Grid, Fab } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
 import AddIcon from '@material-ui/icons/Add';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { fetchMealsReducer } from './reducer';
+
+import { useInjectReducer } from 'redux-injectors';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectMessage,
+  makeSelectMeals,
+} from './selector';
+import { useTypedSelector } from 'store/reducers';
+import { fetchMealsFlow } from './saga';
+import { makeSelectTotalCount } from '../TakeOutList/selector';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -22,13 +35,36 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  message: makeSelectMessage(),
+  meals: makeSelectMeals(),
+  totalCount: makeSelectTotalCount(),
+});
+
 export const MealListPage = () => {
+  useInjectReducer({
+    key: 'fetchMeals',
+    reducer: fetchMealsReducer,
+  });
+
+  useInjectSaga({
+    key: 'fetchMeals',
+    saga: fetchMealsFlow,
+  });
+
+  const me = useTypedSelector(state => state.me);
+  const userOfIds = useTypedSelector(state => state.userOfIds);
+
+  const { isRequest, message, meals, totalCount } = useSelector(stateSelector);
+
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const handleClickAddIcon = () => {
     dispatch(push('/create-meal'));
   };
-  // filter form.
+
   return (
     <>
       <Helmet>
@@ -42,7 +78,14 @@ export const MealListPage = () => {
       <div className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
-            <MealList></MealList>
+            <MealList
+              isRequest={isRequest}
+              message={message}
+              meals={meals}
+              totalCount={totalCount}
+              me={me}
+              userOfIds={userOfIds}
+            />
           </Grid>
         </Grid>
         <Fab
