@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const OrderManagement = () => {
+export const OrderListPage = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();

@@ -14,12 +14,12 @@ import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealListPage } from './containers/MealList';
 import { CreateMeal } from './containers/CreateMeal';
 import { ProviderListPage } from './containers/ProviderList';
-import { OrderManagement } from './containers/OrderManagement';
 import { CreateOrder } from './containers/CreateOrder';
 import { CreateProviderPage } from './containers/CreateProvider/Loasdable';
 import { TakeOutManagemnet } from './containers/CreateTakeOut';
 import { DetailInfo } from './containers/CreateTakeOut/detail-info';
 import { PickProvider } from './containers/CreateTakeOut/pick-provider';
+import { OrderListPage } from './containers/OrderList';
 
 export function App() {
   return (
@@ -44,8 +44,8 @@ export function App() {
         />
         <AuthenticatedRoute
           exact
-          path="/order-management"
-          component={OrderManagement}
+          path="/order-list"
+          component={OrderListPage}
         />
         <AuthenticatedRoute
           exact

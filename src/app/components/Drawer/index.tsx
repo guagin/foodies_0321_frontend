@@ -112,7 +112,7 @@ export const AppDrawer = ({ children }) => {
   };
 
   const handleOrderClick = () => {
-    dispatch(push('/order-management'));
+    dispatch(push('/order-list'));
   };
 
   const handleTakeOutClick = () => {
