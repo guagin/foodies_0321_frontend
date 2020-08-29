@@ -2,7 +2,7 @@ import { initFetchTakeOutState } from './reducer';
 import { createSelector } from 'reselect';
 
 const selectFetchTakeOutPageDomain = state =>
-  state.fetchTakeOutState || initFetchTakeOutState;
+  state.fetchTakeOut || initFetchTakeOutState;
 
 export const makeSelectIsRequest = () =>
   createSelector(selectFetchTakeOutPageDomain, subState => subState.isRequest);
