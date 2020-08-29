@@ -1,11 +1,11 @@
 import { takeLatest, delay, call, put } from 'redux-saga/effects';
 import {
   FetchTakeOutByPartialTitle,
-  createFetchtakeOutByPartialTitleFailure,
-  createFetchTakeOutByPartialTitleSuccess,
+  fetchTakeOutByPartialTitleFailed,
+  fetchTakeOutByPartialTitleSuccess,
 } from './action';
-import { Status, fetchTakeOutByPartialTitle } from 'api';
-import { TakeOut } from 'app/containers/TakeOutList/take-out';
+import { TakeOut } from '../TakeOutList/take-out';
+import { fetchTakeOutByPartialTitle, Status } from 'api';
 
 export function* fetchTakeOutByPartialTitleFlow() {
   yield takeLatest(
@@ -19,6 +19,7 @@ function* fetchTakeOutByPartialTitleSaga({
   token,
 }: FetchTakeOutByPartialTitle) {
   yield delay(1500);
+
   try {
     const {
       data,
@@ -31,14 +32,12 @@ function* fetchTakeOutByPartialTitleSaga({
     } = yield call(fetchTakeOutByPartialTitle, { title, token });
 
     if (status.code === 'ERROR') {
-      yield put(
-        createFetchtakeOutByPartialTitleFailure({ message: status.msg }),
-      );
+      yield put(fetchTakeOutByPartialTitleFailed({ message: status.msg }));
       return;
     }
 
-    yield put(createFetchTakeOutByPartialTitleSuccess({ ...data }));
+    yield put(fetchTakeOutByPartialTitleSuccess({ ...data }));
   } catch (e) {
-    yield put(createFetchtakeOutByPartialTitleFailure({ message: e.message }));
+    yield put(fetchTakeOutByPartialTitleFailed({ message: e.message }));
   }
 }

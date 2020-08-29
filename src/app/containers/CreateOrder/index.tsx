@@ -2,10 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles, CssBaseline, Grid, TextField } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { createFetchTakeOutByPartialTitle } from 'store/fetch-take-out-by-partial-title/action';
 import { useTypedSelector } from 'store/reducers';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TakeOutCards } from './take-out-cards';
+import { fetchTakeOutByPartialTitle } from './action';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectTakeOuts,
+  makeSelectMessage,
+} from './selector';
+import { useInjectReducer } from 'redux-injectors';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { fetchTakeOutByPartialTitleFlow } from './saga';
+import { fetchTakeOutByPartialTitleReducer } from './reducer';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -22,14 +32,30 @@ const useStyle = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  message: makeSelectMessage(),
+  takeOuts: makeSelectTakeOuts(),
+});
+
 export function CreateOrder() {
+  useInjectReducer({
+    key: 'fetchTakeOutByPartialTitle',
+    reducer: fetchTakeOutByPartialTitleReducer,
+  });
+
+  useInjectSaga({
+    key: 'fetchTakeOutByPartialTitle',
+    saga: fetchTakeOutByPartialTitleFlow,
+  });
+
   const classes = useStyle();
 
   const { t } = useTranslation();
   const { token } = useTypedSelector(state => state.me);
-  const { takeOuts, isRequest } = useTypedSelector(
-    state => state.fetchTakeOutByPartialTitle,
-  );
+
+  const { isRequest, message, takeOuts } = useSelector(stateSelector);
+
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState('');
@@ -47,7 +73,7 @@ export function CreateOrder() {
   };
 
   useEffect(() => {
-    dispatch(createFetchTakeOutByPartialTitle({ token, title }));
+    dispatch(fetchTakeOutByPartialTitle({ token, title }));
   }, [dispatch, title, token]);
 
   return (
@@ -58,6 +84,7 @@ export function CreateOrder() {
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
+        {message}
         <Grid container spacing={2} justify="center">
           <Grid item xs={4} sm={4}>
             <form className={classes.form} onSubmit={handleSubmmit}>

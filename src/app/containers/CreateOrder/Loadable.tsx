@@ -1,6 +1,6 @@
 import { lazyLoad } from 'utils/loadable';
 
-export const OrderListPage = lazyLoad(
+export const CreateOrder = lazyLoad(
   () => import('./index'),
-  module => module.OrderListPage,
+  module => module.CreateOrder,
 );

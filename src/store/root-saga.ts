@@ -6,7 +6,6 @@ import { FetchUserOfIdsFlow } from './users-of-ids/saga/fetch-user-of-ids';
 import { fetchOrderOfPageFlow } from './order/saga/fetch-order-of-page';
 import { createTakeOutFlow } from './craete-take-out/saga';
 import { fetchProviderByPartialNameFlow } from './fetch-provider-of-partial-name/saga';
-import { fetchTakeOutByPartialTitleFlow } from './fetch-take-out-by-partial-title/saga';
 
 export const rootSaga = function* root() {
   yield all([
@@ -16,6 +15,5 @@ export const rootSaga = function* root() {
     fork(fetchOrderOfPageFlow),
     fork(createTakeOutFlow),
     fork(fetchProviderByPartialNameFlow),
-    fork(fetchTakeOutByPartialTitleFlow),
   ]);
 };
