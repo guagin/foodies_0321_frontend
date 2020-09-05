@@ -42,3 +42,54 @@ export const fetchTakeOutByPartialTitleFailed: ActionCreator<FetchTakeOutByParti
   ...input,
   type: 'FetchTakeOutByPartialFailed',
 });
+
+export interface PickTakeOutId extends Action<'PickTakeOutId'> {
+  takeOutId: string;
+}
+
+export interface CreateOrder extends Action<'CreateOrder'> {
+  token: string;
+  userId: string;
+  takeOutId: string;
+}
+
+export interface CreateOrderSuccess extends Action<'CreateOrderSuccess'> {
+  id: string;
+}
+
+export interface CreateOrderFailed extends Action<'CreateOrderFailed'> {
+  message: string;
+}
+
+export type CreateOrderAction =
+  | CreateOrder
+  | CreateOrderSuccess
+  | CreateOrderFailed;
+
+export const pickTakeOutId: ActionCreator<PickTakeOutId> = (
+  input: PickTakeOutId,
+) => ({
+  ...input,
+  type: 'PickTakeOutId',
+});
+
+export const createOrder: ActionCreator<CreateOrder> = (
+  input: CreateOrder,
+) => ({
+  ...input,
+  type: 'CreateOrder',
+});
+
+export const createOrderSuccess: ActionCreator<CreateOrderSuccess> = (
+  input: CreateOrderSuccess,
+) => ({
+  ...input,
+  type: 'CreateOrderSuccess',
+});
+
+export const createOrderFailed: ActionCreator<CreateOrderFailed> = (
+  input: CreateOrderFailed,
+) => ({
+  ...input,
+  type: 'CreateOrderFailed',
+});

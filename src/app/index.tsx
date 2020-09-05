@@ -20,6 +20,7 @@ import { TakeOutManagemnet } from './containers/CreateTakeOut';
 import { DetailInfo } from './containers/CreateTakeOut/detail-info';
 import { PickProvider } from './containers/CreateTakeOut/pick-provider';
 import { OrderListPage } from './containers/OrderList/Loadable';
+import { CreateOrderDetailPage } from './containers/CreateOrder/detail-info';
 
 export function App() {
   return (
@@ -54,6 +55,11 @@ export function App() {
         />
         <AuthenticatedRoute
           exact
+          path="/order/create/detailPage"
+          component={CreateOrderDetailPage}
+        />
+        <AuthenticatedRoute
+          exact
           path="/take-out-management"
           component={TakeOutManagemnet}
         />
@@ -67,6 +73,7 @@ export function App() {
           path="/take-out/create/detail-info"
           component={DetailInfo}
         />
+
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />
         <Route component={NotFoundPage} />

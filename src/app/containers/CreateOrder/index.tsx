@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { TakeOutCards } from './take-out-cards';
-import { fetchTakeOutByPartialTitle } from './action';
+import { fetchTakeOutByPartialTitle, pickTakeOutId } from './action';
 import { createStructuredSelector } from 'reselect';
 import {
   makeSelectIsRequest,
@@ -15,7 +15,8 @@ import {
 import { useInjectReducer } from 'redux-injectors';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { fetchTakeOutByPartialTitleFlow } from './saga';
-import { fetchTakeOutByPartialTitleReducer } from './reducer';
+import { createOrderReducer } from './reducer';
+import { push } from 'connected-react-router';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -40,12 +41,12 @@ const stateSelector = createStructuredSelector({
 
 export function CreateOrder() {
   useInjectReducer({
-    key: 'fetchTakeOutByPartialTitle',
-    reducer: fetchTakeOutByPartialTitleReducer,
+    key: 'createOrder',
+    reducer: createOrderReducer,
   });
 
   useInjectSaga({
-    key: 'fetchTakeOutByPartialTitle',
+    key: 'createOrder',
     saga: fetchTakeOutByPartialTitleFlow,
   });
 
@@ -70,6 +71,8 @@ export function CreateOrder() {
 
   const handleChoose = (id: string) => {
     console.log(id);
+    dispatch(pickTakeOutId({ takeOutId: id }));
+    dispatch(push('/order/create/detailPage'));
   };
 
   useEffect(() => {
@@ -79,8 +82,8 @@ export function CreateOrder() {
   return (
     <>
       <Helmet>
-        <title>SignUp Page</title>
-        <meta name="description" content="foodies take-out management page." />
+        <title>Pick TakeOut Page</title>
+        <meta name="description" content="foodies pick TakeOut page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>

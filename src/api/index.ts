@@ -477,3 +477,37 @@ export const fetchTakeOutByPartialTitle: (input: {
     };
   }
 };
+
+export const createOrder: (input: {
+  token: string;
+  userId: string;
+  takeOutId: string;
+}) => Promise<{
+  data?: {
+    id: string;
+  };
+  status: Status;
+}> = async ({ token, userId, takeOutId }) => {
+  try {
+    const response = await fetch(`http://localhost:3000/order/create`, {
+      headers: {
+        token,
+      },
+      body: JSON.stringify({
+        userId,
+        takeOutId,
+      }),
+    });
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};

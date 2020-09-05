@@ -1,23 +1,17 @@
-import { initFetchTakeOutByPartialTitle } from './reducer';
+import { initCreateOrderState } from './reducer';
 import { createSelector } from 'reselect';
 
-const selectFetchTakeOutByPartialTitlePageDomain = state =>
-  state.fetchTakeOutByPartialTitle || initFetchTakeOutByPartialTitle;
+const selectCreateOrderPageDomain = state =>
+  state.createOrder || initCreateOrderState;
 
 export const makeSelectIsRequest = () =>
-  createSelector(
-    selectFetchTakeOutByPartialTitlePageDomain,
-    subState => subState.isRequest,
-  );
+  createSelector(selectCreateOrderPageDomain, subState => subState.isRequest);
 
 export const makeSelectMessage = () =>
-  createSelector(
-    selectFetchTakeOutByPartialTitlePageDomain,
-    subState => subState.message,
-  );
+  createSelector(selectCreateOrderPageDomain, subState => subState.message);
 
 export const makeSelectTakeOuts = () =>
-  createSelector(
-    selectFetchTakeOutByPartialTitlePageDomain,
-    subState => subState.takeOuts,
-  );
+  createSelector(selectCreateOrderPageDomain, subState => subState.takeOuts);
+
+export const makeSelectTakeOutId = () =>
+  createSelector(selectCreateOrderPageDomain, subState => subState.takeOutId);
