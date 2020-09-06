@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   makeSelectIsRequest,
   makeSelectMessage,
@@ -61,15 +61,17 @@ export const CreateOrderDetailPage = () => {
       <div className={classes.paper}>
         {message}
         <Grid container spacing={2} justify="center">
-          <form className={classes.form} onSubmit={handleSubmit}>
-            <Grid item xs={4} sm={4}>
+          <Grid item xs={4} sm={4}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 id="takeOutId"
+                required
+                fullWidth
                 value={takeOutId}
                 disabled={true}
-              ></TextField>
-            </Grid>
-          </form>
+              />
+            </form>
+          </Grid>
         </Grid>
       </div>
     </>

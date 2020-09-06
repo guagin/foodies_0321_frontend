@@ -46,7 +46,10 @@ function* fetchTakeOutByPartialTitleSaga({
 }
 
 export function* createOrderFlow() {
+  // fetch take out
+  // pick take out id
   yield takeLatest('CreateOrder', createOrderSaga);
+  // pick meal
 }
 
 function* createOrderSaga({ token, userId, takeOutId }: CreateOrder) {
