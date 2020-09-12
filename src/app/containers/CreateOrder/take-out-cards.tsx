@@ -31,7 +31,7 @@ export function TakeOutCards({
 }: {
   takeOuts: TakeOut[];
   isRequest: boolean;
-  onClickChoose: (id: string) => void;
+  onClickChoose: (takeOut: TakeOut) => void;
 }) {
   const takeOutRows = chunk(takeOuts, 3);
 
@@ -59,7 +59,7 @@ function TakeOutCardRows({
   onClickChoose,
 }: {
   takeOuts: TakeOut[];
-  onClickChoose: (id: string) => void;
+  onClickChoose: (takeOut: TakeOut) => void;
 }) {
   const classes = useStyles();
 
@@ -96,7 +96,7 @@ function TakeOutCardRows({
                 <Button
                   size="small"
                   onClick={() => {
-                    onClickChoose(takeOut.id);
+                    onClickChoose(takeOut);
                   }}
                 >
                   choose

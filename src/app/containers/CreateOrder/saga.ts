@@ -6,15 +6,22 @@ import {
   createOrderFailed,
   CreateOrder,
   createOrderSuccess,
+  PickTakeOutId,
 } from './action';
 import { TakeOut } from '../TakeOutList/take-out';
 import { fetchTakeOutByPartialTitle, Status, createOrder } from 'api';
+import { push } from 'connected-react-router';
 
 export function* fetchTakeOutByPartialTitleFlow() {
   yield takeLatest(
     'FetchTakeOutByPartialTitle',
     fetchTakeOutByPartialTitleSaga,
   );
+  yield takeLatest('PickTakeOutId', pickedTakeOutIdSaga);
+}
+
+function* pickedTakeOutIdSaga({ takeOutId }: PickTakeOutId) {
+  yield put(push('/order/create/detailPage'));
 }
 
 function* fetchTakeOutByPartialTitleSaga({

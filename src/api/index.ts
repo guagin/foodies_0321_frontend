@@ -372,12 +372,21 @@ export const createTakeOut: (input: {
   startedAt: Date;
   endAt: Date;
   enabled: boolean;
+  providerId: string;
 }) => Promise<{
   data?: {
     id: string;
   };
   status: Status;
-}> = async ({ token, title, description, startedAt, endAt, enabled }) => {
+}> = async ({
+  token,
+  title,
+  description,
+  startedAt,
+  endAt,
+  enabled,
+  providerId,
+}) => {
   try {
     const response = await fetch(`http://localhost:3000/order/takeOut/create`, {
       method: 'POST',
@@ -391,6 +400,7 @@ export const createTakeOut: (input: {
         startedAt,
         endAt,
         enabled,
+        providerId,
       }),
     });
     const json = await response.json();

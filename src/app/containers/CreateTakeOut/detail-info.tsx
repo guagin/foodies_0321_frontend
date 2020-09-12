@@ -9,9 +9,9 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { createCreateTakeOut } from 'store/craete-take-out/action';
 import { useTypedSelector } from 'store/reducers';
 import { push } from 'connected-react-router';
+import { createTakeOut } from './action';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -42,9 +42,9 @@ export const DetailInfo = () => {
   const dispatch = useDispatch();
 
   const { token } = useTypedSelector(state => state.me);
-  const { isRequest, message, pickedProviderId } = useTypedSelector(
-    state => state.createTakeOut,
-  );
+  // const { isRequest, message, pickedProviderId } = useTypedSelector(
+  //   state => state.createTakeOut,
+  // );
 
   const [title, setTitle] = React.useState('');
   const handleTitleChange = title => {
@@ -71,18 +71,19 @@ export const DetailInfo = () => {
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
     dispatch(
-      createCreateTakeOut({
+      createTakeOut({
         token,
         title,
         description,
         startedAt,
         endAt,
         enabled: true,
+        providerId: 'pickedProviderId',
       }),
     );
   };
 
-  if (!pickedProviderId) {
+  if (!'pickedProviderId') {
     dispatch(push('/take-out-management'));
   }
 
@@ -163,14 +164,14 @@ export const DetailInfo = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                disabled={isRequest}
+                // disabled={isRequest}
               >
                 {t('submit')}
               </Button>
             </Grid>
           </Grid>
         </form>
-        <div>{message}</div>
+        {/* <div>{message}</div> */}
       </div>
     </>
   );

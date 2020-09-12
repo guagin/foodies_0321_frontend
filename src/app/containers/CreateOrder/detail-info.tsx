@@ -60,9 +60,9 @@ export const CreateOrderDetailPage = () => {
       <CssBaseline />
       <div className={classes.paper}>
         {message}
-        <Grid container spacing={2} justify="center">
-          <Grid item xs={4} sm={4}>
-            <form className={classes.form} onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
+          <Grid container spacing={2} justify="center">
+            <Grid item xs={12} sm={12}>
               <TextField
                 id="takeOutId"
                 required
@@ -70,9 +70,9 @@ export const CreateOrderDetailPage = () => {
                 value={takeOutId}
                 disabled={true}
               />
-            </form>
+            </Grid>
           </Grid>
-        </Grid>
+        </form>
       </div>
     </>
   );

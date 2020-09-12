@@ -18,11 +18,6 @@ import { FetchOrderOfPageAction } from './order/action/fetch-order-of-page';
 import { orderOfPageReducer, OrderOfPageState } from './order/reducer';
 
 import {
-  CreateTakeOutState,
-  createTakeOutReducer,
-} from './craete-take-out/reducer';
-import { CreateTakeOutActions } from './craete-take-out/action';
-import {
   fetchProviderByPartialNameReducer,
   FetchProviderByPartialNameState,
 } from './fetch-provider-of-partial-name/reducer';
@@ -45,10 +40,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     orderOfPage: orderOfPageReducer as Reducer<
       OrderOfPageState,
       FetchOrderOfPageAction
-    >,
-    createTakeOut: createTakeOutReducer as Reducer<
-      CreateTakeOutState,
-      CreateTakeOutActions
     >,
     fetchProviderByPartialName: fetchProviderByPartialNameReducer as Reducer<
       FetchProviderByPartialNameState,

@@ -6,4 +6,5 @@ export interface TakeOut {
   startedAt: Date;
   endAt: Date;
   enabled: boolean;
+  providerId: string;
 }

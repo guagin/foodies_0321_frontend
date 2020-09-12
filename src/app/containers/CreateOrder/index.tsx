@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles, CssBaseline, Grid, TextField } from '@material-ui/core';
+import {
+  makeStyles,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
@@ -17,6 +23,7 @@ import { useInjectSaga } from 'utils/redux-injectors';
 import { fetchTakeOutByPartialTitleFlow } from './saga';
 import { createOrderReducer } from './reducer';
 import { push } from 'connected-react-router';
+import { TakeOut } from '../TakeOutList/take-out';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -69,10 +76,8 @@ export function CreateOrder() {
     event.preventDefault();
   };
 
-  const handleChoose = (id: string) => {
-    console.log(id);
-    dispatch(pickTakeOutId({ takeOutId: id }));
-    // dispatch(push('/order/create/detailPage'));
+  const handleChoose = ({ id, providerId }: TakeOut) => {
+    dispatch(pickTakeOutId({ takeOutId: id, providerId }));
   };
 
   useEffect(() => {
@@ -87,9 +92,12 @@ export function CreateOrder() {
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
+        <Typography component="h1" variant="h5">
+          Create Order form
+        </Typography>
         {message}
         <Grid container spacing={2} justify="center">
-          <Grid item xs={4} sm={4}>
+          <Grid item xs={12} sm={12}>
             <form className={classes.form} onSubmit={handleSubmmit}>
               <TextField
                 autoComplete="title"

@@ -1,5 +1,6 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { TakeOut } from '../TakeOutList/take-out';
+import { Meal } from '../MealList/meal';
 
 export interface FetchTakeOutByPartialTitle
   extends Action<'FetchTakeOutByPartialTitle'> {
@@ -61,10 +62,25 @@ export interface CreateOrderFailed extends Action<'CreateOrderFailed'> {
   message: string;
 }
 
+export interface FetchMeals extends Action<'FetchMeals'> {
+  providerId: string;
+}
+
+export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
+  meals: Meal[];
+}
+
+export interface FetchMealsFailed extends Action<'FetchMealsFailed'> {
+  message: string;
+}
+
 export type CreateOrderAction =
   | CreateOrder
   | CreateOrderSuccess
-  | CreateOrderFailed;
+  | CreateOrderFailed
+  | FetchMeals
+  | FetchMealsSuccess
+  | FetchMealsFailed;
 
 export const pickTakeOutId: ActionCreator<PickTakeOutId> = (
   input: PickTakeOutId,
@@ -92,4 +108,23 @@ export const createOrderFailed: ActionCreator<CreateOrderFailed> = (
 ) => ({
   ...input,
   type: 'CreateOrderFailed',
+});
+
+export const fetchMeals: ActionCreator<FetchMeals> = (input: FetchMeals) => ({
+  ...input,
+  type: 'FetchMeals',
+});
+
+export const fetchMealsSuccess: ActionCreator<FetchMealsSuccess> = (
+  input: FetchMealsSuccess,
+) => ({
+  ...input,
+  type: 'FetchMealsSuccess',
+});
+
+export const fetchMealsFailed: ActionCreator<FetchMealsFailed> = (
+  input: FetchMealsFailed,
+) => ({
+  ...input,
+  type: 'FetchMealsFailed',
 });

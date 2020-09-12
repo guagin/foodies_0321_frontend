@@ -8,13 +8,16 @@ import {
   CreateOrderFailed,
   FetchTakeOutByPartialTitle,
   PickTakeOutId,
+  FetchMeals,
 } from './action';
+import { Meal } from '../MealList/meal';
 
 export type CreateOrderState = {
   isRequest: boolean;
   takeOuts: TakeOut[];
   message: string;
   takeOutId: string;
+  meals: Meal[];
 };
 
 export const initCreateOrderState: CreateOrderState = {
@@ -22,6 +25,7 @@ export const initCreateOrderState: CreateOrderState = {
   takeOuts: [],
   message: '',
   takeOutId: '',
+  meals: [],
 };
 
 export const createOrderReducer = createReducer(initCreateOrderState, {
@@ -86,6 +90,14 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
       ...state,
       isRequest: false,
       message,
+    };
+  },
+
+  FetchMeals: (state, { providerId }: FetchMeals) => {
+    return {
+      ...state,
+      isRequest: true,
+      providerId,
     };
   },
 });
