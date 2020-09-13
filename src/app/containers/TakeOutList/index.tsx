@@ -10,6 +10,7 @@ import {
   TableHead,
   TableBody,
   TablePagination,
+  CssBaseline,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
@@ -25,10 +26,19 @@ import { fetchTakeOutReducer } from './reducer';
 import { FetchTakeOutFlow } from './saga';
 import { useInjectReducer } from 'redux-injectors';
 import { useInjectSaga } from 'utils/redux-injectors';
+import { Helmet } from 'react-helmet-async';
 
 const useStyles = makeStyles(theme => ({
   table: {
     minWidth: 650,
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 }));
 
@@ -90,45 +100,52 @@ export const TakeOutList = () => {
 
   return (
     <>
-      {showMessage()}
-      <LinearProgress hidden={!isRequest} />
-      <TableContainer component={Paper}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell> id </TableCell>
-              <TableCell> title </TableCell>
-              <TableCell> createdBy </TableCell>
-              <TableCell> description </TableCell>
-              <TableCell> startedAt </TableCell>
-              <TableCell> endedAt </TableCell>
-              <TableCell> enabled </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {takeOuts.map(data => (
-              <TableRow key={data.id} hover>
-                <TableCell>{data.id}</TableCell>
-                <TableCell>{data.title}</TableCell>
-                <TableCell>{data.createdBy}</TableCell>
-                <TableCell>{data.description}</TableCell>
-                <TableCell>{data.startedAt}</TableCell>
-                <TableCell>{data.endAt}</TableCell>
-                <TableCell>{data.enabled}</TableCell>
+      <Helmet>
+        <title>Take Out List Page</title>
+        <meta name="description" content="foodies pick TakeOut page." />
+      </Helmet>
+      <CssBaseline />
+      <div className={classes.paper}>
+        {showMessage()}
+        <LinearProgress hidden={!isRequest} />
+        <TableContainer component={Paper}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell> id </TableCell>
+                <TableCell> title </TableCell>
+                <TableCell> createdBy </TableCell>
+                <TableCell> description </TableCell>
+                <TableCell> startedAt </TableCell>
+                <TableCell> endedAt </TableCell>
+                <TableCell> enabled </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
-        page={page}
-        component="div"
-        count={totalCount}
-        rowsPerPage={rowsPerPage}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+            </TableHead>
+            <TableBody>
+              {takeOuts.map(data => (
+                <TableRow key={data.id} hover>
+                  <TableCell>{data.id}</TableCell>
+                  <TableCell>{data.title}</TableCell>
+                  <TableCell>{data.createdBy}</TableCell>
+                  <TableCell>{data.description}</TableCell>
+                  <TableCell>{data.startedAt}</TableCell>
+                  <TableCell>{data.endAt}</TableCell>
+                  <TableCell>{data.enabled}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          page={page}
+          component="div"
+          count={totalCount}
+          rowsPerPage={rowsPerPage}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </div>
     </>
   );
 };

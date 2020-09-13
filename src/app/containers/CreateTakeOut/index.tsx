@@ -11,7 +11,6 @@ import { PickProvider } from './action';
 import { createStructuredSelector } from 'reselect';
 import {
   makeSelectIsRequest,
-  makeSelectProviderId,
   makeSelectMessage,
   makeSelectProviders,
 } from './selector';

@@ -116,7 +116,7 @@ export const AppDrawer = ({ children }) => {
   };
 
   const handleTakeOutClick = () => {
-    dispatch(push('/take-out-management'));
+    dispatch(push('/take-out/list'));
   };
 
   return (

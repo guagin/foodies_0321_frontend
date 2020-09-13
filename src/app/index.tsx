@@ -20,6 +20,7 @@ import { DetailInfo } from './containers/CreateTakeOut/detail-info';
 import { OrderListPage } from './containers/OrderList/Loadable';
 import { CreateOrderDetailPage } from './containers/CreateOrder/detail-info';
 import { CreateTakeOut } from './containers/CreateTakeOut/Loadable';
+import { TakeOutList } from './containers/TakeOutList';
 
 export function App() {
   return (
@@ -56,6 +57,11 @@ export function App() {
           exact
           path="/order/create/detailPage"
           component={CreateOrderDetailPage}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/take-out/list"
+          component={TakeOutList}
         />
         <AuthenticatedRoute
           exact
