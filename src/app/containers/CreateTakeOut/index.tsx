@@ -4,10 +4,9 @@ import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { CreateFetchProviderByPartialName } from 'store/fetch-provider-of-partial-name/action';
 import { ProviderCards } from './provider-cards';
 import { push } from 'connected-react-router';
-import { PickProvider } from './action';
+import { PickProvider, FetchProvidersByPartialName } from './action';
 import { createStructuredSelector } from 'reselect';
 import {
   makeSelectIsRequest,
@@ -76,13 +75,13 @@ export const CreateOrder = () => {
   };
 
   useEffect(() => {
-    dispatch(CreateFetchProviderByPartialName({ token, name }));
+    dispatch(FetchProvidersByPartialName({ token, name }));
   }, [dispatch, name, token]);
 
   return (
     <>
       <Helmet>
-        <title>Create TakeOut Page</title>
+        <title>Create TakeOut - Pick Provider Page</title>
         <meta
           name="description"
           content="foodies create take out , pick provider page."

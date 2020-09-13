@@ -416,7 +416,7 @@ export const createTakeOut: (input: {
   }
 };
 
-export const fetchProviderByPartialName: (input: {
+export const fetchProvidersByPartialName: (input: {
   token: string;
   name: string;
 }) => Promise<{

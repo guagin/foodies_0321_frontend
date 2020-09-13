@@ -7,7 +7,7 @@ const selectCreateTakeOutPageDomain = state =>
 export const makeSelectProviderId = () =>
   createSelector(
     selectCreateTakeOutPageDomain,
-    subState => subState.providerId1,
+    subState => subState.providerId,
   );
 
 export const makeSelectIsRequest = () =>

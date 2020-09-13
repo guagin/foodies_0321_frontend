@@ -9,7 +9,7 @@ import {
   FetchProvidersByPartialNameSuccess,
   PickProvider,
 } from './action';
-import { createTakeOut, Status, fetchProviderByPartialName } from 'api';
+import { createTakeOut, Status, fetchProvidersByPartialName } from 'api';
 import { push } from 'connected-react-router';
 import { Provider } from 'store/model/provider';
 
@@ -32,7 +32,7 @@ function* fetchProvidersByPartialNameSaga(action: FetchProvidersByPartialName) {
         providers: Provider[];
       };
       status: Status;
-    } = yield call(fetchProviderByPartialName, {
+    } = yield call(fetchProvidersByPartialName, {
       ...action,
     });
 
@@ -68,7 +68,7 @@ function* createTakeOutSaga(action: CreateTakeOut) {
     }
 
     yield put(createTakeOutSuccess({ ...data }));
-    yield put(push('/take-out-management'));
+    yield put(push('/take-out/list'));
   } catch (e) {
     console.error(e);
     yield put(createTakeOutFailed({ message: e.message }));

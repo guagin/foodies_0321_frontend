@@ -8,10 +8,17 @@ import {
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
 import { push } from 'connected-react-router';
 import { createTakeOut } from './action';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectMessage,
+  makeSelectProviders,
+  makeSelectProviderId,
+} from './selector';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,15 +43,21 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  message: makeSelectMessage(),
+  providers: makeSelectProviders(),
+  providerId: makeSelectProviderId(),
+});
+
 export const DetailInfo = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  const { isRequest, message, providerId } = useSelector(stateSelector);
+
   const { token } = useTypedSelector(state => state.me);
-  // const { isRequest, message, pickedProviderId } = useTypedSelector(
-  //   state => state.createTakeOut,
-  // );
 
   const [title, setTitle] = React.useState('');
   const handleTitleChange = title => {
@@ -90,17 +103,29 @@ export const DetailInfo = () => {
   return (
     <>
       <Helmet>
-        <title>SignUp Page</title>
+        <title>Create TakeOut - fill in detail info Page</title>
         <meta name="description" content="foodies create take out page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
         <form className={classes.form} noValidate onSubmit={handleSubmmit}>
           <Grid container spacing={2} justify="center">
+            <Grid item xs={12}>
+              <TextField
+                id="description"
+                label={t('takeOut.providerId')}
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                value={providerId}
+                disabled={true}
+              />
+            </Grid>
             <Grid item xs={6} sm={6}>
               <TextField
                 id="datetime-local"
-                label={t('provider.startedAt')}
+                label={t('takeOut.startedAt')}
                 type="datetime-local"
                 defaultValue={startedAt}
                 value={startedAt}
@@ -116,7 +141,7 @@ export const DetailInfo = () => {
             <Grid item xs={6} sm={6}>
               <TextField
                 id="datetime-local"
-                label={t('provider.endAt')}
+                label={t('takeOut.endAt')}
                 type="datetime-local"
                 defaultValue={endAt}
                 value={endAt}
@@ -132,7 +157,7 @@ export const DetailInfo = () => {
             <Grid item xs={12}>
               <TextField
                 id="title"
-                label={t('provider.title')}
+                label={t('takeOut.title')}
                 className={classes.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -146,7 +171,7 @@ export const DetailInfo = () => {
             <Grid item xs={12}>
               <TextField
                 id="description"
-                label={t('provider.description')}
+                label={t('takeOut.description')}
                 className={classes.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -164,14 +189,14 @@ export const DetailInfo = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
-                // disabled={isRequest}
+                disabled={isRequest}
               >
                 {t('submit')}
               </Button>
             </Grid>
           </Grid>
         </form>
-        {/* <div>{message}</div> */}
+        <div>{message}</div>
       </div>
     </>
   );

@@ -28,7 +28,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
   FetchProvidersByPartialName: (state, action: FetchProvidersByPartialName) => {
     return {
       ...state,
-      isRequest: false,
+      isRequest: true,
       message: '',
     };
   },
@@ -41,6 +41,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
       ...state,
       isRequest: false,
       message: '',
+      providers,
     };
   },
 

@@ -11,6 +11,7 @@ import {
   TableBody,
   TablePagination,
   CssBaseline,
+  Fab,
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
@@ -27,6 +28,8 @@ import { FetchTakeOutFlow } from './saga';
 import { useInjectReducer } from 'redux-injectors';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { Helmet } from 'react-helmet-async';
+import { push } from 'connected-react-router';
+import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -39,6 +42,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
 }));
 
@@ -78,6 +86,10 @@ export const TakeOutList = () => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
     setPage(1);
+  };
+
+  const handleClickAddIcon = () => {
+    dispatch(push('/take-out/create'));
   };
 
   useEffect(() => {
@@ -145,6 +157,14 @@ export const TakeOutList = () => {
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={handleClickAddIcon}
+        >
+          <AddIcon />
+        </Fab>
       </div>
     </>
   );
