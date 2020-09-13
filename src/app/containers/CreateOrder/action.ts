@@ -18,7 +18,47 @@ export interface FetchTakeOutByPartialTitleFailed
   message: string;
 }
 
-export type FetchTakeOutByPartialTitleActions =
+export interface PickTakeOut extends Action<'PickTakeOut'> {
+  takeOutId: string;
+  providerId: string;
+}
+
+export interface CreateOrder extends Action<'CreateOrder'> {
+  token: string;
+  userId: string;
+  takeOutId: string;
+}
+
+export interface CreateOrderSuccess extends Action<'CreateOrderSuccess'> {
+  id: string;
+}
+
+export interface CreateOrderFailed extends Action<'CreateOrderFailed'> {
+  message: string;
+}
+
+export interface FetchMeals extends Action<'FetchMeals'> {
+  token: string;
+  page: number;
+  count: number;
+  providerId: string;
+}
+
+export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
+  meals: Meal[];
+}
+
+export interface FetchMealsFailed extends Action<'FetchMealsFailed'> {
+  message: string;
+}
+
+export type CreateOrderAction =
+  | CreateOrder
+  | CreateOrderSuccess
+  | CreateOrderFailed
+  | FetchMeals
+  | FetchMealsSuccess
+  | FetchMealsFailed
   | FetchTakeOutByPartialTitle
   | FetchTakeOutByPartialTitleSuccess
   | FetchTakeOutByPartialTitleFailed;
@@ -44,49 +84,11 @@ export const fetchTakeOutByPartialTitleFailed: ActionCreator<FetchTakeOutByParti
   type: 'FetchTakeOutByPartialFailed',
 });
 
-export interface PickTakeOutId extends Action<'PickTakeOutId'> {
-  takeOutId: string;
-}
-
-export interface CreateOrder extends Action<'CreateOrder'> {
-  token: string;
-  userId: string;
-  takeOutId: string;
-}
-
-export interface CreateOrderSuccess extends Action<'CreateOrderSuccess'> {
-  id: string;
-}
-
-export interface CreateOrderFailed extends Action<'CreateOrderFailed'> {
-  message: string;
-}
-
-export interface FetchMeals extends Action<'FetchMeals'> {
-  providerId: string;
-}
-
-export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
-  meals: Meal[];
-}
-
-export interface FetchMealsFailed extends Action<'FetchMealsFailed'> {
-  message: string;
-}
-
-export type CreateOrderAction =
-  | CreateOrder
-  | CreateOrderSuccess
-  | CreateOrderFailed
-  | FetchMeals
-  | FetchMealsSuccess
-  | FetchMealsFailed;
-
-export const pickTakeOutId: ActionCreator<PickTakeOutId> = (
-  input: PickTakeOutId,
+export const pickTakeOut: ActionCreator<PickTakeOut> = (
+  input: PickTakeOut,
 ) => ({
   ...input,
-  type: 'PickTakeOutId',
+  type: 'PickTakeOut',
 });
 
 export const createOrder: ActionCreator<CreateOrder> = (

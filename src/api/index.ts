@@ -125,6 +125,41 @@ export const fetchMeals: (input: {
   }
 };
 
+export const mealsOfProvider: (input: {
+  token: string;
+  page: number;
+  count: number;
+  providerId: string;
+}) => Promise<{
+  meals: Meal[];
+  hasNext: boolean;
+  hasPrevious: boolean;
+  totalPages: number;
+  page: number;
+  totalCount: number;
+}> = async ({ token, page = 1, count, providerId }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/meal/ofProvider?page=${page}&count=${count}&providerId=${providerId}`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+    const json = await response.json();
+    console.log(json);
+    return json;
+  } catch (e) {
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.mesage,
+      },
+    };
+  }
+};
+
 export const createMeal: (input: {
   token: string;
   name: string;

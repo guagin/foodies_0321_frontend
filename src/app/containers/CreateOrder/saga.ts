@@ -6,22 +6,27 @@ import {
   createOrderFailed,
   CreateOrder,
   createOrderSuccess,
-  PickTakeOutId,
+  FetchMeals,
+  fetchMealsFailed,
+  PickTakeOut,
 } from './action';
 import { TakeOut } from '../TakeOutList/take-out';
-import { fetchTakeOutByPartialTitle, Status, createOrder } from 'api';
+import {
+  fetchTakeOutByPartialTitle,
+  Status,
+  createOrder,
+  mealsOfProvider,
+} from 'api';
 import { push } from 'connected-react-router';
+import { fetchMealsSuccess } from '../MealList/action';
+import { Meal } from '../MealList/meal';
 
-export function* fetchTakeOutByPartialTitleFlow() {
+export function* pickTakeOutFlow() {
   yield takeLatest(
     'FetchTakeOutByPartialTitle',
     fetchTakeOutByPartialTitleSaga,
   );
-  yield takeLatest('PickTakeOutId', pickedTakeOutIdSaga);
-}
-
-function* pickedTakeOutIdSaga({ takeOutId }: PickTakeOutId) {
-  yield put(push('/order/create/detailPage'));
+  yield takeLatest('PickTakeOut', pickedTakeOutSaga);
 }
 
 function* fetchTakeOutByPartialTitleSaga({
@@ -52,11 +57,44 @@ function* fetchTakeOutByPartialTitleSaga({
   }
 }
 
+function* pickedTakeOutSaga({ takeOutId }: PickTakeOut) {
+  yield put(push('/order/create/detailPage'));
+}
+
 export function* createOrderFlow() {
-  // fetch take out
-  // pick take out id
+  yield takeLatest('fetchMeals', fetchMealsSaga);
   yield takeLatest('CreateOrder', createOrderSaga);
   // pick meal
+}
+
+function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {
+  yield delay(1500);
+
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {
+        meals: Meal[];
+        hasNext: boolean;
+        hasPrevious: boolean;
+        totalPages: number;
+        page: number;
+        totalCount: number;
+      };
+      status: Status;
+    } = yield call(mealsOfProvider, { token, providerId, page, count });
+
+    if (status.code === 'ERROR') {
+      yield put(fetchMealsFailed({ message: status.msg }));
+      return;
+    }
+
+    yield put(fetchMealsSuccess({ ...data }));
+  } catch (e) {
+    yield put(createOrderFailed({ messge: e.messge }));
+  }
 }
 
 function* createOrderSaga({ token, userId, takeOutId }: CreateOrder) {

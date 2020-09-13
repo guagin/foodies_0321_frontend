@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
 import { useDispatch, useSelector } from 'react-redux';
 import { TakeOutCards } from './take-out-cards';
-import { fetchTakeOutByPartialTitle, pickTakeOutId } from './action';
+import { fetchTakeOutByPartialTitle, pickTakeOut } from './action';
 import { createStructuredSelector } from 'reselect';
 import {
   makeSelectIsRequest,
@@ -14,7 +14,7 @@ import {
 } from './selector';
 import { useInjectReducer } from 'redux-injectors';
 import { useInjectSaga } from 'utils/redux-injectors';
-import { fetchTakeOutByPartialTitleFlow } from './saga';
+import { pickTakeOutFlow } from './saga';
 import { createOrderReducer } from './reducer';
 import { TakeOut } from '../TakeOutList/take-out';
 
@@ -47,7 +47,7 @@ export function CreateOrder() {
 
   useInjectSaga({
     key: 'createOrder',
-    saga: fetchTakeOutByPartialTitleFlow,
+    saga: pickTakeOutFlow,
   });
 
   const classes = useStyle();
@@ -69,9 +69,9 @@ export function CreateOrder() {
     event.preventDefault();
   };
 
-  const handleChoose = ({ id }: TakeOut) => {
-    console.log(id);
-    dispatch(pickTakeOutId({ takeOutId: id }));
+  const handleChoose = ({ id, providerId }: TakeOut) => {
+    console.log({ id, providerId });
+    dispatch(pickTakeOut({ takeOutId: id, providerId }));
     // dispatch(push('/order/create/detailPage'));
   };
 

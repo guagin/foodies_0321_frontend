@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   makeSelectIsRequest,
   makeSelectMessage,
   makeSelectTakeOutId,
+  makeSelectProviderId,
 } from './selector';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,11 +12,12 @@ import { useInjectReducer } from 'redux-injectors';
 import { createOrderReducer } from './reducer';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { createOrderFlow } from './saga';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { CssBaseline, Grid, TextField } from '@material-ui/core';
 
 import { useTranslation } from 'react-i18next';
+import { fetchMeals } from './action';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -36,6 +38,7 @@ const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   message: makeSelectMessage(),
   takeOutId: makeSelectTakeOutId(),
+  providerId: makeSelectProviderId(),
 });
 
 export const CreateOrderDetailPage = () => {
@@ -43,13 +46,21 @@ export const CreateOrderDetailPage = () => {
   useInjectReducer({ key: 'createOrder', reducer: createOrderReducer });
   useInjectSaga({ key: 'createOrder', saga: createOrderFlow });
 
+  const dispatch = useDispatch();
+
   const { t } = useTranslation();
 
-  const { isRequest, message, takeOutId } = useSelector(stateSelector);
+  const { isRequest, message, takeOutId, providerId } = useSelector(
+    stateSelector,
+  );
 
   const handleSubmit = event => {
     event.preventDefault();
   };
+
+  useEffect(() => {
+    dispatch(fetchMeals({ page: 1, count: 3, providerId }));
+  }, [dispatch, providerId]);
 
   return (
     <>
@@ -60,9 +71,10 @@ export const CreateOrderDetailPage = () => {
       <CssBaseline />
       <div className={classes.paper}>
         {message}
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <Grid container spacing={2} justify="center">
-            <Grid item xs={12} sm={12}>
+
+        <Grid container spacing={2} justify="center">
+          <Grid item xs={6} sm={6}>
+            <form className={classes.form} onSubmit={handleSubmit}>
               <TextField
                 id="takeOutId"
                 required
@@ -70,9 +82,10 @@ export const CreateOrderDetailPage = () => {
                 value={takeOutId}
                 disabled={true}
               />
-            </Grid>
+            </form>
           </Grid>
-        </form>
+          <Grid item xs={6} sm={6}></Grid>
+        </Grid>
       </div>
     </>
   );

@@ -7,8 +7,8 @@ import {
   CreateOrderSuccess,
   CreateOrderFailed,
   FetchTakeOutByPartialTitle,
-  PickTakeOutId,
   FetchMeals,
+  PickTakeOut,
 } from './action';
 import { Meal } from '../MealList/meal';
 
@@ -17,6 +17,7 @@ export type CreateOrderState = {
   takeOuts: TakeOut[];
   message: string;
   takeOutId: string;
+  providerId: string;
   meals: Meal[];
 };
 
@@ -25,6 +26,7 @@ export const initCreateOrderState: CreateOrderState = {
   takeOuts: [],
   message: '',
   takeOutId: '',
+  providerId: '',
   meals: [],
 };
 
@@ -60,12 +62,13 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  PickTakeOutId: (state, { takeOutId }: PickTakeOutId) => {
+  PickTakeOut: (state, { takeOutId, providerId }: PickTakeOut) => {
     return {
       ...state,
       isRequest: false,
       message: '',
       takeOutId,
+      providerId,
     };
   },
 
