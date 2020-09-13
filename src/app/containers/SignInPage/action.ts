@@ -14,7 +14,16 @@ export interface SignInSuccess extends Action<'SignInSuccess'> {
   token: string;
 }
 
-export type SignInAction = SignIn | SignInFailed | SignInSuccess;
+export interface SignInByToken extends Action<'SignInByToken'> {
+  token: string;
+  from: { pathname: string };
+}
+
+export type SignInAction =
+  | SignIn
+  | SignInFailed
+  | SignInSuccess
+  | SignInByToken;
 
 export const SignInCreator: ActionCreator<SignIn> = (input: {
   name: string;
@@ -42,5 +51,14 @@ export const SignInSuccessCreator: ActionCreator<SignInSuccess> = (input: {
   return {
     ...input,
     type: 'SignInSuccess',
+  };
+};
+
+export const SignInByToken: ActionCreator<SignInByToken> = (
+  input: SignInByToken,
+) => {
+  return {
+    ...input,
+    type: 'SignInByToken',
   };
 };

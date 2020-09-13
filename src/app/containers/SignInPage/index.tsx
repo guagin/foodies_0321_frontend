@@ -16,11 +16,12 @@ import {
   makeSelectToken,
   makeSelectMessage,
 } from './selector';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useInjectReducer } from 'redux-injectors';
 import { signInReducer } from './reducer';
 import { useInjectSaga } from 'utils/redux-injectors';
-import { signInFlow } from './saga';
+import { signInFlow, signInByTokenFlow } from './saga';
+import { SignInByToken } from './action';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -51,11 +52,15 @@ const stateSelector = createStructuredSelector({
 });
 
 export function SignInPage() {
+  const dipatch = useDispatch();
+
   useInjectReducer({
     key: 'signIn',
     reducer: signInReducer,
   });
+
   useInjectSaga({ key: 'signIn', saga: signInFlow });
+  useInjectSaga({ key: 'signInByToken', saga: signInByTokenFlow });
 
   const classes = useStyles();
   const location = useLocation();
@@ -63,6 +68,16 @@ export function SignInPage() {
   const { isRequest, message } = useSelector(stateSelector);
 
   const { from } = { from: { pathname: '/' }, ...location.state };
+
+  const token = localStorage.getItem('token');
+  if (token) {
+    dipatch(
+      SignInByToken({
+        from,
+        token,
+      }),
+    );
+  }
 
   const progressCirlcle = () => {
     if (isRequest) {

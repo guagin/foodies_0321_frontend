@@ -1,6 +1,11 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { signIn, Status } from 'api';
-import { SignIn, SignInFailedCreator, SignInSuccessCreator } from './action';
+import {
+  SignIn,
+  SignInFailedCreator,
+  SignInSuccessCreator,
+  SignInByToken,
+} from './action';
 import { push } from 'connected-react-router';
 import { FetchMeCreator } from 'store/me/action';
 
@@ -21,6 +26,7 @@ function* signInSaga(action: SignIn) {
     } = yield call(signIn, { ...action });
 
     if (status.code === 'SUCCESS') {
+      localStorage.setItem('token', data.token);
       yield put(
         SignInSuccessCreator({
           token: data.token,
@@ -36,4 +42,13 @@ function* signInSaga(action: SignIn) {
   } catch (e) {
     yield put(SignInFailedCreator({ message: e.message }));
   }
+}
+
+export function* signInByTokenFlow() {
+  yield takeLatest('SignInByToken', signInByToken);
+}
+
+function* signInByToken({ token, from }: SignInByToken) {
+  yield put(FetchMeCreator({ token }));
+  yield put(push(from.pathname));
 }
