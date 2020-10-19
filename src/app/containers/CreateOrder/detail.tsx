@@ -4,6 +4,7 @@ import {
   makeSelectMessage,
   makeSelectTakeOutId,
   makeSelectProviderId,
+  makeSelectMeals,
 } from './selector';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +18,9 @@ import { Helmet } from 'react-helmet-async';
 import { CssBaseline, Grid, TextField } from '@material-ui/core';
 
 import { useTranslation } from 'react-i18next';
-import { fetchMeals } from './action';
+import { fetchMeals, pickMeal } from './action';
+import { useTypedSelector } from 'store/reducers';
+import { MealCards } from './meail-cards';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -39,6 +42,7 @@ const stateSelector = createStructuredSelector({
   message: makeSelectMessage(),
   takeOutId: makeSelectTakeOutId(),
   providerId: makeSelectProviderId(),
+  meals: makeSelectMeals(),
 });
 
 export const CreateOrderDetailPage = () => {
@@ -49,8 +53,9 @@ export const CreateOrderDetailPage = () => {
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
+  const { token } = useTypedSelector(state => state.me);
 
-  const { isRequest, message, takeOutId, providerId } = useSelector(
+  const { isRequest, message, takeOutId, providerId, meals } = useSelector(
     stateSelector,
   );
 
@@ -58,9 +63,15 @@ export const CreateOrderDetailPage = () => {
     event.preventDefault();
   };
 
+  const handleChoose = meal => {
+    //TODO: choose meal.
+    console.log(meal);
+    dispatch(pickMeal({ token, meal }));
+  };
+
   useEffect(() => {
-    dispatch(fetchMeals({ page: 1, count: 3, providerId }));
-  }, [dispatch, providerId]);
+    dispatch(fetchMeals({ token, page: 1, count: 3, providerId }));
+  }, [dispatch, providerId, token]);
 
   return (
     <>
@@ -84,8 +95,14 @@ export const CreateOrderDetailPage = () => {
               />
             </form>
           </Grid>
-          <Grid item xs={6} sm={6}></Grid>
         </Grid>
+      </div>
+      <div className={classes.paper}>
+        <MealCards
+          meals={meals}
+          isRequest={isRequest}
+          onClickChoose={handleChoose}
+        />
       </div>
     </>
   );

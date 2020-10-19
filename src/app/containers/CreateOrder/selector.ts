@@ -18,3 +18,6 @@ export const makeSelectTakeOutId = () =>
 
 export const makeSelectProviderId = () =>
   createSelector(selectCreateOrderPageDomain, subState => subState.providerId);
+
+export const makeSelectMeals = () =>
+  createSelector(selectCreateOrderPageDomain, subState => subState.meals);

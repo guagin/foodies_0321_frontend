@@ -9,8 +9,13 @@ import {
   FetchTakeOutByPartialTitle,
   FetchMeals,
   PickTakeOut,
+  FetchMealsSuccess,
+  FetchMealsFailed,
+  PickMeal,
+  UpdatePickMealAmount,
 } from './action';
 import { Meal } from '../MealList/meal';
+import { find, map, remove } from 'lodash';
 
 export type CreateOrderState = {
   isRequest: boolean;
@@ -19,6 +24,12 @@ export type CreateOrderState = {
   takeOutId: string;
   providerId: string;
   meals: Meal[];
+  pickedMeals: {
+    id: string;
+    name: string;
+    price: number;
+    amount: number;
+  }[];
 };
 
 export const initCreateOrderState: CreateOrderState = {
@@ -28,6 +39,7 @@ export const initCreateOrderState: CreateOrderState = {
   takeOutId: '',
   providerId: '',
   meals: [],
+  pickedMeals: [],
 };
 
 export const createOrderReducer = createReducer(initCreateOrderState, {
@@ -101,6 +113,70 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
       ...state,
       isRequest: true,
       providerId,
+    };
+  },
+
+  FetchMealsSuccess: (state, { meals }: FetchMealsSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      meals,
+    };
+  },
+  FetchMealsFailed: (state, { message }: FetchMealsFailed) => {
+    return {
+      ...state,
+      message,
+      isRequest: false,
+    };
+  },
+
+  PickMeal: ({ pickedMeals, ...rest }, { meal }: PickMeal) => {
+    const found = find(pickedMeals, e => e.id === meal.id);
+
+    if (found) {
+      return {
+        ...rest,
+        pickedMeals,
+      };
+    }
+
+    const pickedMeal = {
+      id: meal.id,
+      name: meal.name,
+      price: meal.price,
+      amount: 1,
+    };
+
+    return {
+      ...rest,
+      pickedMeals: [...pickedMeals, pickedMeal],
+    };
+  },
+
+  UpdatePickMealAmount: (
+    { pickedMeals, ...rest },
+    { id, amount }: UpdatePickMealAmount,
+  ) => {
+    const meals = remove(pickedMeals, e => e.id === id);
+
+    if (meals.length > 0) {
+      const updatedMeals = map(meals, e => {
+        return {
+          ...e,
+          amount,
+        };
+      });
+
+      return {
+        ...rest,
+        pickedMeals: [...pickedMeals, ...updatedMeals],
+      };
+    }
+
+    return {
+      ...rest,
+      pickedMeals: [...pickedMeals],
     };
   },
 });

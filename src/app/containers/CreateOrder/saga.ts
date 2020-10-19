@@ -20,6 +20,7 @@ import {
 import { push } from 'connected-react-router';
 import { fetchMealsSuccess } from '../MealList/action';
 import { Meal } from '../MealList/meal';
+import { take } from 'lodash';
 
 export function* pickTakeOutFlow() {
   yield takeLatest(
@@ -64,7 +65,6 @@ function* pickedTakeOutSaga({ takeOutId }: PickTakeOut) {
 export function* createOrderFlow() {
   yield takeLatest('FetchMeals', fetchMealsSaga);
   yield takeLatest('CreateOrder', createOrderSaga);
-  // pick meal
 }
 
 function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {

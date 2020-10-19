@@ -52,6 +52,15 @@ export interface FetchMealsFailed extends Action<'FetchMealsFailed'> {
   message: string;
 }
 
+export interface PickMeal extends Action<'PickMeal'> {
+  meal: Meal;
+}
+
+export interface UpdatePickMealAmount extends Action<'UpdatePickMealAmount'> {
+  id: string;
+  amount: number;
+}
+
 export type CreateOrderAction =
   | CreateOrder
   | CreateOrderSuccess
@@ -129,4 +138,16 @@ export const fetchMealsFailed: ActionCreator<FetchMealsFailed> = (
 ) => ({
   ...input,
   type: 'FetchMealsFailed',
+});
+
+export const pickMeal: ActionCreator<PickMeal> = (input: PickMeal) => ({
+  ...input,
+  type: 'PickMeal',
+});
+
+export const updatePickMealAmount: ActionCreator<UpdatePickMealAmount> = (
+  input: UpdatePickMealAmount,
+) => ({
+  ...input,
+  type: 'UpdatePickMealAmount',
 });
