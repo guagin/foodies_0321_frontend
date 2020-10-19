@@ -56,7 +56,8 @@ export interface PickMeal extends Action<'PickMeal'> {
   meal: Meal;
 }
 
-export interface UpdatePickMealAmount extends Action<'UpdatePickMealAmount'> {
+export interface UpdatePickedMealAmount
+  extends Action<'UpdatePickedMealAmount'> {
   id: string;
   amount: number;
 }
@@ -145,9 +146,9 @@ export const pickMeal: ActionCreator<PickMeal> = (input: PickMeal) => ({
   type: 'PickMeal',
 });
 
-export const updatePickMealAmount: ActionCreator<UpdatePickMealAmount> = (
-  input: UpdatePickMealAmount,
+export const UpdatePickedMealAmount: ActionCreator<UpdatePickedMealAmount> = (
+  input: UpdatePickedMealAmount,
 ) => ({
   ...input,
-  type: 'UpdatePickMealAmount',
+  type: 'UpdatePickedMealAmount',
 });

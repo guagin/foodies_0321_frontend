@@ -5,6 +5,7 @@ import {
   makeSelectTakeOutId,
   makeSelectProviderId,
   makeSelectMeals,
+  makeSelectPickedMeals,
 } from './selector';
 
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,9 +19,10 @@ import { Helmet } from 'react-helmet-async';
 import { CssBaseline, Grid, TextField } from '@material-ui/core';
 
 import { useTranslation } from 'react-i18next';
-import { fetchMeals, pickMeal } from './action';
+import { fetchMeals, pickMeal, UpdatePickedMealAmount } from './action';
 import { useTypedSelector } from 'store/reducers';
-import { MealCards } from './meail-cards';
+import { MealCards } from './meal-cards';
+import { PickedMeal } from './picked-meals';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -43,6 +45,7 @@ const stateSelector = createStructuredSelector({
   takeOutId: makeSelectTakeOutId(),
   providerId: makeSelectProviderId(),
   meals: makeSelectMeals(),
+  pickedMeals: makeSelectPickedMeals(),
 });
 
 export const CreateOrderDetailPage = () => {
@@ -55,9 +58,14 @@ export const CreateOrderDetailPage = () => {
   const { t } = useTranslation();
   const { token } = useTypedSelector(state => state.me);
 
-  const { isRequest, message, takeOutId, providerId, meals } = useSelector(
-    stateSelector,
-  );
+  const {
+    isRequest,
+    message,
+    takeOutId,
+    providerId,
+    meals,
+    pickedMeals,
+  } = useSelector(stateSelector);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -67,6 +75,10 @@ export const CreateOrderDetailPage = () => {
     //TODO: choose meal.
     console.log(meal);
     dispatch(pickMeal({ token, meal }));
+  };
+
+  const updateAmount = (id, amount) => {
+    dispatch(UpdatePickedMealAmount({ id, amount }));
   };
 
   useEffect(() => {
@@ -96,6 +108,9 @@ export const CreateOrderDetailPage = () => {
             </form>
           </Grid>
         </Grid>
+      </div>
+      <div className={classes.paper}>
+        <PickedMeal meals={pickedMeals} updateAmount={updateAmount} />
       </div>
       <div className={classes.paper}>
         <MealCards

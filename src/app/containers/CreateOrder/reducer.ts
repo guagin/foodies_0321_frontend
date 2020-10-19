@@ -12,7 +12,7 @@ import {
   FetchMealsSuccess,
   FetchMealsFailed,
   PickMeal,
-  UpdatePickMealAmount,
+  UpdatePickedMealAmount,
 } from './action';
 import { Meal } from '../MealList/meal';
 import { find, map, remove } from 'lodash';
@@ -154,29 +154,26 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  UpdatePickMealAmount: (
+  UpdatePickedMealAmount: (
     { pickedMeals, ...rest },
-    { id, amount }: UpdatePickMealAmount,
+    { id, amount }: UpdatePickedMealAmount,
   ) => {
-    const meals = remove(pickedMeals, e => e.id === id);
-
-    if (meals.length > 0) {
-      const updatedMeals = map(meals, e => {
+    const updatedMeals = pickedMeals.map(e => {
+      if (e.id === id) {
         return {
           ...e,
           amount,
         };
-      });
+      }
 
       return {
-        ...rest,
-        pickedMeals: [...pickedMeals, ...updatedMeals],
+        ...e,
       };
-    }
+    });
 
     return {
       ...rest,
-      pickedMeals: [...pickedMeals],
+      pickedMeals: updatedMeals,
     };
   },
 });

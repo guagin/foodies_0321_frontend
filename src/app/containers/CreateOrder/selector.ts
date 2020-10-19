@@ -21,3 +21,6 @@ export const makeSelectProviderId = () =>
 
 export const makeSelectMeals = () =>
   createSelector(selectCreateOrderPageDomain, subState => subState.meals);
+
+export const makeSelectPickedMeals = () =>
+  createSelector(selectCreateOrderPageDomain, subState => subState.pickedMeals);
