@@ -17,7 +17,4 @@ export const makeSelectTakeOutId = () =>
   createSelector(selectCreateOrderPageDomain, subState => subState.takeOutId);
 
 export const makeSelectProviderId = () =>
-  createSelector(
-    selectCreateOrderPageDomain,
-    subState => subState.makeSelectProviderId,
-  );
+  createSelector(selectCreateOrderPageDomain, subState => subState.providerId);

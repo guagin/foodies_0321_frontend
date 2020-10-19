@@ -58,11 +58,11 @@ function* fetchTakeOutByPartialTitleSaga({
 }
 
 function* pickedTakeOutSaga({ takeOutId }: PickTakeOut) {
-  yield put(push('/order/create/detailPage'));
+  yield put(push('/order/create/detail'));
 }
 
 export function* createOrderFlow() {
-  yield takeLatest('fetchMeals', fetchMealsSaga);
+  yield takeLatest('FetchMeals', fetchMealsSaga);
   yield takeLatest('CreateOrder', createOrderSaga);
   // pick meal
 }

@@ -72,7 +72,6 @@ export function CreateOrder() {
   const handleChoose = ({ id, providerId }: TakeOut) => {
     console.log({ id, providerId });
     dispatch(pickTakeOut({ takeOutId: id, providerId }));
-    // dispatch(push('/order/create/detailPage'));
   };
 
   useEffect(() => {

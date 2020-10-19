@@ -91,7 +91,7 @@ export const DetailInfo = () => {
         startedAt,
         endAt,
         enabled: true,
-        providerId: 'pickedProviderId',
+        providerId,
       }),
     );
   };
