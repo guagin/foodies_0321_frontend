@@ -20,7 +20,6 @@ import {
 import { push } from 'connected-react-router';
 import { fetchMealsSuccess } from '../MealList/action';
 import { Meal } from '../MealList/meal';
-import { take } from 'lodash';
 
 export function* pickTakeOutFlow() {
   yield takeLatest(
@@ -68,8 +67,6 @@ export function* createOrderFlow() {
 }
 
 function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {
-  yield delay(1500);
-
   try {
     const {
       data,
@@ -97,9 +94,7 @@ function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {
   }
 }
 
-function* createOrderSaga({ token, userId, takeOutId }: CreateOrder) {
-  yield delay(1500);
-
+function* createOrderSaga({ token, takeOutId, meals }: CreateOrder) {
   try {
     const {
       data,
@@ -109,10 +104,11 @@ function* createOrderSaga({ token, userId, takeOutId }: CreateOrder) {
         id: string;
       };
       status: Status;
-    } = yield call(createOrder, { token, userId, takeOutId });
+    } = yield call(createOrder, { token, takeOutId, meals });
 
     if (status.code === 'ERROR') {
       yield put(createOrderFailed({ message: status.msg }));
+      yield put(push('/order-list'));
       return;
     }
 

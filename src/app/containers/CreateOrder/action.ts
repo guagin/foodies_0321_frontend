@@ -25,8 +25,8 @@ export interface PickTakeOut extends Action<'PickTakeOut'> {
 
 export interface CreateOrder extends Action<'CreateOrder'> {
   token: string;
-  userId: string;
   takeOutId: string;
+  meals: { id: string; amount: number }[];
 }
 
 export interface CreateOrderSuccess extends Action<'CreateOrderSuccess'> {

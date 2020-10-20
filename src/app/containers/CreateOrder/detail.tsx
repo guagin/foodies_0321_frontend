@@ -16,10 +16,11 @@ import { useInjectSaga } from 'utils/redux-injectors';
 import { createOrderFlow } from './saga';
 import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { CssBaseline, Grid, TextField } from '@material-ui/core';
+import { Button, CssBaseline, Grid, TextField } from '@material-ui/core';
 
 import { useTranslation } from 'react-i18next';
 import {
+  createOrder,
   fetchMeals,
   pickMeal,
   RemovePickedMeal,
@@ -74,6 +75,13 @@ export const CreateOrderDetailPage = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+    dispatch(
+      createOrder({
+        token,
+        takeOutId,
+        meals: pickedMeals,
+      }),
+    );
   };
 
   const handleChoose = meal => {
@@ -103,28 +111,37 @@ export const CreateOrderDetailPage = () => {
       <CssBaseline />
       <div className={classes.paper}>
         {message}
-
         <Grid container spacing={2} justify="center">
           <Grid item xs={6} sm={6}>
-            <form className={classes.form} onSubmit={handleSubmit}>
-              <TextField
-                id="takeOutId"
-                required
-                fullWidth
-                value={takeOutId}
-                disabled={true}
-              />
-            </form>
+            <TextField
+              id="takeOutId"
+              required
+              fullWidth
+              value={takeOutId}
+              disabled={true}
+            />
           </Grid>
         </Grid>
       </div>
       <div className={classes.paper}>
-        <PickedMeal
-          meals={pickedMeals}
-          updateAmount={updateAmount}
-          remove={remove}
-        />
+        <Grid container spacing={2} justify="flex-start">
+          <Grid item xs={12} sm={12}>
+            <PickedMeal
+              meals={pickedMeals}
+              updateAmount={updateAmount}
+              remove={remove}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} justify="flex-end">
+          <Grid item xs={1} sm={1}>
+            <Button size="large" onClick={handleSubmit}>
+              submit
+            </Button>
+          </Grid>
+        </Grid>
       </div>
+
       <div className={classes.paper}>
         <MealCards
           meals={meals}

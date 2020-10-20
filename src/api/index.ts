@@ -525,21 +525,26 @@ export const fetchTakeOutByPartialTitle: (input: {
 
 export const createOrder: (input: {
   token: string;
-  userId: string;
   takeOutId: string;
+  meals: {
+    id: string;
+    amount: number;
+  }[];
 }) => Promise<{
   data?: {
     id: string;
   };
   status: Status;
-}> = async ({ token, userId, takeOutId }) => {
+}> = async ({ token, takeOutId, meals }) => {
   try {
-    const response = await fetch(`http://localhost:3000/order/create`, {
+    const response = await fetch(`http://localhost:3000/order/order/create`, {
+      method: 'POST',
       headers: {
         token,
+        'content-type': 'application/json',
       },
       body: JSON.stringify({
-        userId,
+        meals,
         takeOutId,
       }),
     });

@@ -31,6 +31,8 @@ export const OrderListPage = () => {
     dispatch(push('/order/create/pick-takeout'));
   };
 
+  //fetch order.
+
   return (
     <>
       <Helmet>
@@ -44,7 +46,7 @@ export const OrderListPage = () => {
       <div className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
-            <OrderList></OrderList>
+            <OrderList />
           </Grid>
         </Grid>
 
