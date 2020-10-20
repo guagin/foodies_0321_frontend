@@ -12,6 +12,7 @@ import {
 export const PickedMeal = ({
   meals,
   updateAmount,
+  remove,
 }: {
   meals: {
     id: string;
@@ -20,6 +21,7 @@ export const PickedMeal = ({
     amount: number;
   }[];
   updateAmount: (id: string, amount: number) => void;
+  remove: (id: string) => void;
 }) => {
   return (
     <>
@@ -50,10 +52,20 @@ export const PickedMeal = ({
                 <Button
                   size="small"
                   onClick={() => {
-                    updateAmount(meal.id, meal.amount - 1);
+                    if (meal.amount > 1) {
+                      updateAmount(meal.id, meal.amount - 1);
+                    }
                   }}
                 >
-                  increase
+                  decrease
+                </Button>
+                <Button
+                  size="small"
+                  onClick={() => {
+                    remove(meal.id);
+                  }}
+                >
+                  remove
                 </Button>
               </TableCell>
             </TableRow>

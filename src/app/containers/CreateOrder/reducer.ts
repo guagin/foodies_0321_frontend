@@ -13,9 +13,11 @@ import {
   FetchMealsFailed,
   PickMeal,
   UpdatePickedMealAmount,
+  RemovePickedMeal,
 } from './action';
 import { Meal } from '../MealList/meal';
-import { find, map, remove } from 'lodash';
+import { curry, find, map, reduce, remove } from 'lodash';
+import { stringify } from 'querystring';
 
 export type CreateOrderState = {
   isRequest: boolean;
@@ -174,6 +176,31 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     return {
       ...rest,
       pickedMeals: updatedMeals,
+    };
+  },
+
+  RemovePickedMeal: ({ pickedMeals, ...rest }, { id }: RemovePickedMeal) => {
+    const pickedMealAfterRemoving = reduce(
+      pickedMeals,
+      (accu, curr) => {
+        if (curr.id === id) {
+          return accu;
+        }
+
+        accu.push(curr);
+        return accu;
+      },
+      [] as {
+        id: string;
+        name: string;
+        price: number;
+        amount: number;
+      }[],
+    );
+
+    return {
+      ...rest,
+      pickedMeals: pickedMealAfterRemoving,
     };
   },
 });

@@ -19,7 +19,12 @@ import { Helmet } from 'react-helmet-async';
 import { CssBaseline, Grid, TextField } from '@material-ui/core';
 
 import { useTranslation } from 'react-i18next';
-import { fetchMeals, pickMeal, UpdatePickedMealAmount } from './action';
+import {
+  fetchMeals,
+  pickMeal,
+  RemovePickedMeal,
+  UpdatePickedMealAmount,
+} from './action';
 import { useTypedSelector } from 'store/reducers';
 import { MealCards } from './meal-cards';
 import { PickedMeal } from './picked-meals';
@@ -81,6 +86,10 @@ export const CreateOrderDetailPage = () => {
     dispatch(UpdatePickedMealAmount({ id, amount }));
   };
 
+  const remove = id => {
+    dispatch(RemovePickedMeal({ id }));
+  };
+
   useEffect(() => {
     dispatch(fetchMeals({ token, page: 1, count: 3, providerId }));
   }, [dispatch, providerId, token]);
@@ -110,7 +119,11 @@ export const CreateOrderDetailPage = () => {
         </Grid>
       </div>
       <div className={classes.paper}>
-        <PickedMeal meals={pickedMeals} updateAmount={updateAmount} />
+        <PickedMeal
+          meals={pickedMeals}
+          updateAmount={updateAmount}
+          remove={remove}
+        />
       </div>
       <div className={classes.paper}>
         <MealCards

@@ -62,6 +62,10 @@ export interface UpdatePickedMealAmount
   amount: number;
 }
 
+export interface RemovePickedMeal extends Action<'RemovePickedMeal'> {
+  id: string;
+}
+
 export type CreateOrderAction =
   | CreateOrder
   | CreateOrderSuccess
@@ -151,4 +155,11 @@ export const UpdatePickedMealAmount: ActionCreator<UpdatePickedMealAmount> = (
 ) => ({
   ...input,
   type: 'UpdatePickedMealAmount',
+});
+
+export const RemovePickedMeal: ActionCreator<RemovePickedMeal> = (
+  input: RemovePickedMeal,
+) => ({
+  ...input,
+  type: 'RemovePickedMeal',
 });
