@@ -1,26 +1,26 @@
 import { initCreateOrderState } from './reducer';
 import { createSelector } from 'reselect';
 
-const selectCreateOrderPageDomain = state =>
+const selectCreateOrderDomain = state =>
   state.createOrder || initCreateOrderState;
 
 export const makeSelectIsRequest = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.isRequest);
+  createSelector(selectCreateOrderDomain, subState => subState.isRequest);
 
 export const makeSelectMessage = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.message);
+  createSelector(selectCreateOrderDomain, subState => subState.message);
 
 export const makeSelectTakeOuts = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.takeOuts);
+  createSelector(selectCreateOrderDomain, subState => subState.takeOuts);
 
 export const makeSelectTakeOutId = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.takeOutId);
+  createSelector(selectCreateOrderDomain, subState => subState.takeOutId);
 
 export const makeSelectProviderId = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.providerId);
+  createSelector(selectCreateOrderDomain, subState => subState.providerId);
 
 export const makeSelectMeals = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.meals);
+  createSelector(selectCreateOrderDomain, subState => subState.meals);
 
 export const makeSelectPickedMeals = () =>
-  createSelector(selectCreateOrderPageDomain, subState => subState.pickedMeals);
+  createSelector(selectCreateOrderDomain, subState => subState.pickedMeals);

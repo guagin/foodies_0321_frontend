@@ -16,8 +16,7 @@ import {
   RemovePickedMeal,
 } from './action';
 import { Meal } from '../MealList/meal';
-import { curry, find, map, reduce, remove } from 'lodash';
-import { stringify } from 'querystring';
+import { find, reduce } from 'lodash';
 
 export type CreateOrderState = {
   isRequest: boolean;

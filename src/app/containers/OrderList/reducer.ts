@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
   FetchOrderOfPage,
-  FetchOrderOfPageSuccess,
   FetchOrderOfPageFailure,
-} from './action/fetch-order-of-page';
+  FetchOrderOfPageSuccess,
+} from './action';
 
 export interface Order {
   id: string;
@@ -13,6 +13,7 @@ export interface Order {
   takeOutId: string;
 }
 
+// meal.
 export interface Product {
   id: string;
   amount: number;
@@ -30,7 +31,7 @@ export type OrderOfPageState = {
   message: string;
 };
 
-const initialState: OrderOfPageState = {
+export const initialOrderOfPageState: OrderOfPageState = {
   isRequest: false,
   orders: [],
   page: 1,
@@ -41,24 +42,41 @@ const initialState: OrderOfPageState = {
   message: '',
 };
 
-export const orderOfPageReducer = createReducer(initialState, {
+export const orderOfPageReducer = createReducer(initialOrderOfPageState, {
   FetchOrderOfPage: (state, action: FetchOrderOfPage) => {
     return {
       ...state,
       isRequest: true,
     };
   },
-  FetchOrderOfPageSuccess: (state, action: FetchOrderOfPageSuccess) => {
+
+  FetchOrderOfPageSuccess: (
+    state,
+    {
+      orders,
+      hasPrevious,
+      hasNext,
+      page,
+      totalPage,
+      totalCount,
+    }: FetchOrderOfPageSuccess,
+  ) => {
     return {
       ...state,
-      message: '',
       isRequest: false,
-      ...action,
+      orders,
+      hasPrevious,
+      hasNext,
+      page,
+      totalPage,
+      totalCount,
     };
   },
+
   FetchOrderOfPageFailure: (state, { message }: FetchOrderOfPageFailure) => {
     return {
       ...state,
+      isRequest: false,
       message,
     };
   },

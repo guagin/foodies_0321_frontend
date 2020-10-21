@@ -1,17 +1,17 @@
-import { takeLatest, put } from 'redux-saga/effects';
+import { fetchOrderOfPage, Status } from 'api';
+import { put, takeLatest } from 'redux-saga/effects';
 import {
   FetchOrderOfPage,
-  createFetchOrderOfPageFailure,
-  createFetchOrderOfPageSuccess,
-} from '../action/fetch-order-of-page';
-import { fetchOrderOfPage, Status } from 'api';
-import { Order } from '../reducer';
+  fetchOrderOfPageFailure,
+  fetchOrderOfPageSuccess,
+} from './action';
+import { Order } from './reducer';
 
 export function* fetchOrderOfPageFlow() {
-  yield takeLatest('FetchOrderOfPage', fetchOrderOfPageSaga);
+  yield takeLatest('FetchOrderOfPage', fetchOrderOfPageSage);
 }
 
-export function* fetchOrderOfPageSaga({
+export function* fetchOrderOfPageSage({
   token,
   page,
   count,
@@ -37,15 +37,16 @@ export function* fetchOrderOfPageSaga({
     });
 
     if (status.code !== 'SUCCESS') {
-      yield put(createFetchOrderOfPageFailure({ message: status.msg }));
+      yield put(fetchOrderOfPageFailure({ message: status.msg }));
       return;
     }
+
     yield put(
-      createFetchOrderOfPageSuccess({
+      fetchOrderOfPageSuccess({
         ...data,
       }),
     );
   } catch (e) {
-    yield put(createFetchOrderOfPageFailure({ message: e.message }));
+    yield put(fetchOrderOfPageFailure({ message: e.message }));
   }
 }

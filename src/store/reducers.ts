@@ -14,8 +14,6 @@ import { providerReducer, ProviderState } from './provider/reducer';
 import { FetchProviderAction } from './provider/action/fetch-provider';
 import { UsersOfIdsState, userOfIdsReducer } from './users-of-ids/reducer';
 import { FetchUsersOfIdAction } from './users-of-ids/action/fetch-users-of-id';
-import { FetchOrderOfPageAction } from './order/action/fetch-order-of-page';
-import { orderOfPageReducer, OrderOfPageState } from './order/reducer';
 
 import { FetchMeAction } from './me/action';
 
@@ -31,10 +29,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     userOfIds: userOfIdsReducer as Reducer<
       UsersOfIdsState,
       FetchUsersOfIdAction
-    >,
-    orderOfPage: orderOfPageReducer as Reducer<
-      OrderOfPageState,
-      FetchOrderOfPageAction
     >,
   });
 

@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
-import { Order } from '../reducer';
+import { Order } from './reducer';
 
 export interface FetchOrderOfPage extends Action<'FetchOrderOfPage'> {
   token: string;
@@ -22,12 +22,7 @@ export interface FetchOrderOfPageFailure
   message: string;
 }
 
-export type FetchOrderOfPageAction =
-  | FetchOrderOfPage
-  | FetchOrderOfPageSuccess
-  | FetchOrderOfPageFailure;
-
-export const createFetchOrderOfPage: ActionCreator<FetchOrderOfPage> = ({
+export const fetchOrderOfPage: ActionCreator<FetchOrderOfPage> = ({
   token,
   page,
   count,
@@ -44,7 +39,7 @@ export const createFetchOrderOfPage: ActionCreator<FetchOrderOfPage> = ({
   };
 };
 
-export const createFetchOrderOfPageSuccess: ActionCreator<FetchOrderOfPageSuccess> = ({
+export const fetchOrderOfPageSuccess: ActionCreator<FetchOrderOfPageSuccess> = ({
   orders,
   hasPrevious,
   hasNext,
@@ -70,7 +65,7 @@ export const createFetchOrderOfPageSuccess: ActionCreator<FetchOrderOfPageSucces
   };
 };
 
-export const createFetchOrderOfPageFailure: ActionCreator<FetchOrderOfPageFailure> = ({
+export const fetchOrderOfPageFailure: ActionCreator<FetchOrderOfPageFailure> = ({
   message,
 }: {
   message: string;

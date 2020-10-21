@@ -73,7 +73,7 @@ export const TakeOutList = () => {
 
   const { token } = useTypedSelector(state => state.me);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const { isRequest, takeOuts, totalCount, message } = useSelector(
     stateSelector,
@@ -85,7 +85,7 @@ export const TakeOutList = () => {
 
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(event.target.value);
-    setPage(1);
+    setPage(0);
   };
 
   const handleClickAddIcon = () => {
@@ -96,7 +96,7 @@ export const TakeOutList = () => {
     dispatch(
       fetchTakeOut({
         token,
-        page,
+        page: page + 1,
         count: rowsPerPage,
       }),
     );

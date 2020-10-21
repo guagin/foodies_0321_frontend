@@ -1,10 +1,10 @@
 import fetch from 'node-fetch';
 
 import { User } from 'store/users-of-ids/reducer';
-import { Order } from 'store/order/reducer';
 import { Provider } from 'store/model/provider';
 import { TakeOut } from 'app/containers/TakeOutList/take-out';
 import { Meal } from 'app/containers/MealList/meal';
+import { Order } from 'app/containers/OrderList/reducer';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';

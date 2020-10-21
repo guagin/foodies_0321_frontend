@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   makeStyles,
   LinearProgress,
@@ -11,9 +11,7 @@ import {
   TableCell,
   TablePagination,
 } from '@material-ui/core';
-import { useTypedSelector } from 'store/reducers';
-import { useDispatch } from 'react-redux';
-import { createFetchOrderOfPage } from 'store/order/action/fetch-order-of-page';
+import { Order } from 'app/containers/OrderList/reducer';
 
 const useStyles = makeStyles({
   table: {
@@ -21,36 +19,24 @@ const useStyles = makeStyles({
   },
 });
 
-export const OrderList = () => {
+export const OrderList = ({
+  isRequest,
+  orders,
+  totalCount,
+  page,
+  rowsPerPage,
+  handleChangePage,
+  handleChangeRowsPerPage,
+}: {
+  isRequest: boolean;
+  orders: Order[];
+  totalCount: number;
+  page: number;
+  rowsPerPage: number;
+  handleChangePage: (newPage: number) => void;
+  handleChangeRowsPerPage: (newRowsPerPage) => void;
+}) => {
   const classes = useStyles();
-
-  const me = useTypedSelector(state => state.me);
-  const { isRequest, totalCount, orders } = useTypedSelector(
-    state => state.orderOfPage,
-  );
-
-  const dispatch = useDispatch();
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(event.target.value);
-    setPage(0);
-  };
-
-  useEffect(() => {
-    dispatch(
-      createFetchOrderOfPage({
-        page: page + 1,
-        count: rowsPerPage,
-        token: me.token,
-      }),
-    );
-  }, [dispatch, me.token, page, rowsPerPage]);
 
   return (
     <>
@@ -81,8 +67,12 @@ export const OrderList = () => {
         component="div"
         count={totalCount}
         rowsPerPage={rowsPerPage}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
+        onChangePage={(event, newPage) => {
+          handleChangePage(newPage);
+        }}
+        onChangeRowsPerPage={event => {
+          handleChangeRowsPerPage(event.target.value);
+        }}
       />
     </>
   );
