@@ -1,8 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { TakeOut } from '../TakeOutList/take-out';
 import {
   FetchOrderOfPage,
   FetchOrderOfPageFailure,
   FetchOrderOfPageSuccess,
+  FetchTakeOutOfIds,
+  FetchTakeOutOfIdsFailure,
+  FetchTakeOutOfIdsSuccess,
 } from './action';
 
 export interface Order {
@@ -29,6 +33,7 @@ export type OrderOfPageState = {
   totalPage: number;
   totalCount: number;
   message: string;
+  takeOuts: TakeOut[];
 };
 
 export const initialOrderOfPageState: OrderOfPageState = {
@@ -40,6 +45,7 @@ export const initialOrderOfPageState: OrderOfPageState = {
   totalPage: 0,
   totalCount: 0,
   message: '',
+  takeOuts: [],
 };
 
 export const orderOfPageReducer = createReducer(initialOrderOfPageState, {
@@ -78,6 +84,29 @@ export const orderOfPageReducer = createReducer(initialOrderOfPageState, {
       ...state,
       isRequest: false,
       message,
+    };
+  },
+
+  FetchTakeOutOfIds: (state, action: FetchTakeOutOfIds) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  FetchTakeOutOfIdsSuccess: (state, { takeOuts }: FetchTakeOutOfIdsSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      takeOuts,
+    };
+  },
+
+  FetchTakeOutIdFailure: (state, { message }: FetchTakeOutOfIdsFailure) => {
+    return {
+      ...state,
+      message,
+      isRequest: false,
     };
   },
 });

@@ -1,4 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
+import { TakeOut } from '../TakeOutList/take-out';
 import { Order } from './reducer';
 
 export interface FetchOrderOfPage extends Action<'FetchOrderOfPage'> {
@@ -19,6 +20,21 @@ export interface FetchOrderOfPageSuccess
 
 export interface FetchOrderOfPageFailure
   extends Action<'FetchOrderOfPageFailure'> {
+  message: string;
+}
+
+export interface FetchTakeOutOfIds extends Action<'FetchTakeOutOfIds'> {
+  token: string;
+  ids: string[];
+}
+
+export interface FetchTakeOutOfIdsSuccess
+  extends Action<'FetchTakeOutOfIdsSuccess'> {
+  takeOuts: TakeOut[];
+}
+
+export interface FetchTakeOutOfIdsFailure
+  extends Action<'FetchTakeOutOfIdsFailure'> {
   message: string;
 }
 
@@ -72,6 +88,42 @@ export const fetchOrderOfPageFailure: ActionCreator<FetchOrderOfPageFailure> = (
 }) => {
   return {
     type: 'FetchOrderOfPageFailure',
+    message,
+  };
+};
+
+export const fetchTakeOutOfIds: ActionCreator<FetchTakeOutOfIds> = ({
+  token,
+  ids,
+}: {
+  token: string;
+  ids: string[];
+}) => {
+  return {
+    type: 'FetchTakeOutOfIds',
+    ids,
+    token,
+  };
+};
+
+export const fetchTakeOutOfIdsSuccess: ActionCreator<FetchTakeOutOfIdsSuccess> = ({
+  takeOuts,
+}: {
+  takeOuts: TakeOut[];
+}) => {
+  return {
+    type: 'FetchTakeOutOfIdsSuccess',
+    takeOuts,
+  };
+};
+
+export const fetchTakeOutOfIdsFailure: ActionCreator<FetchTakeOutOfIdsFailure> = ({
+  message,
+}: {
+  message: string;
+}) => {
+  return {
+    type: 'FetchTakeOutOfIdsFailure',
     message,
   };
 };

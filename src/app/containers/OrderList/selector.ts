@@ -27,3 +27,6 @@ export const makeSelectTotalCount = () =>
 
 export const makeSelectMessage = () =>
   createSelector(selectOrderOfPageDomain, subState => subState.message);
+
+export const makeSelectTakeOuts = () =>
+  createSelector(selectOrderOfPageDomain, subState => subState.takeOuts);

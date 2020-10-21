@@ -1,17 +1,22 @@
-import { fetchOrderOfPage, Status } from 'api';
-import { put, takeLatest } from 'redux-saga/effects';
+import { fetchOrderOfPage, fetchTakeOutOfIds, Status } from 'api';
+import { call, put, takeLatest } from 'redux-saga/effects';
+import { TakeOut } from '../TakeOutList/take-out';
 import {
   FetchOrderOfPage,
   fetchOrderOfPageFailure,
   fetchOrderOfPageSuccess,
+  FetchTakeOutOfIds,
+  fetchTakeOutOfIdsFailure,
+  fetchTakeOutOfIdsSuccess,
 } from './action';
 import { Order } from './reducer';
 
 export function* fetchOrderOfPageFlow() {
-  yield takeLatest('FetchOrderOfPage', fetchOrderOfPageSage);
+  yield takeLatest('FetchOrderOfPage', fetchOrderOfPageSaga);
+  yield takeLatest('FetchTakeOutOfIds', fetchTakeOutOfIdsSaga);
 }
 
-export function* fetchOrderOfPageSage({
+export function* fetchOrderOfPageSaga({
   token,
   page,
   count,
@@ -48,5 +53,32 @@ export function* fetchOrderOfPageSage({
     );
   } catch (e) {
     yield put(fetchOrderOfPageFailure({ message: e.message }));
+  }
+}
+
+export function* fetchTakeOutOfIdsSaga({ token, ids }: FetchTakeOutOfIds) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {
+        takeOuts: TakeOut[];
+      };
+      status: Status;
+    } = yield call(fetchTakeOutOfIds, { token, ids });
+
+    if (status.code !== 'SUCCESS') {
+      yield put(fetchTakeOutOfIdsFailure({ message: status.msg }));
+      return;
+    }
+
+    yield put(
+      fetchTakeOutOfIdsSuccess({
+        ...data,
+      }),
+    );
+  } catch (e) {
+    yield put(fetchTakeOutOfIdsFailure({ message: e.messge }));
   }
 }

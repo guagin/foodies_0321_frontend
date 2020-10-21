@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   makeStyles,
   LinearProgress,
@@ -12,6 +12,8 @@ import {
   TablePagination,
 } from '@material-ui/core';
 import { Order } from 'app/containers/OrderList/reducer';
+import { User } from 'store/users-of-ids/reducer';
+import { TakeOut } from 'app/containers/TakeOutList/take-out';
 
 const useStyles = makeStyles({
   table: {
@@ -22,6 +24,8 @@ const useStyles = makeStyles({
 export const OrderList = ({
   isRequest,
   orders,
+  users,
+  takeOuts,
   totalCount,
   page,
   rowsPerPage,
@@ -30,6 +34,8 @@ export const OrderList = ({
 }: {
   isRequest: boolean;
   orders: Order[];
+  users: User[];
+  takeOuts: TakeOut[];
   totalCount: number;
   page: number;
   rowsPerPage: number;
@@ -37,6 +43,24 @@ export const OrderList = ({
   handleChangeRowsPerPage: (newRowsPerPage) => void;
 }) => {
   const classes = useStyles();
+
+  const getUserFrom = (id: string) => {
+    const foundUser = users.find(e => e.id === id);
+    return foundUser;
+  };
+
+  const getUserName = (user?: User) => {
+    return user ? user.name : '';
+  };
+
+  const getTakeOutFrom = (id: string) => {
+    const found = takeOuts.find(e => e.id === id);
+    return found;
+  };
+
+  const getTakeOutTitle = (takeOut?: TakeOut) => {
+    return takeOut ? takeOut.title : '';
+  };
 
   return (
     <>
@@ -53,8 +77,12 @@ export const OrderList = ({
           <TableBody>
             {orders.map(order => (
               <TableRow key={order.id} hover onClick={() => {}}>
-                <TableCell>{order.createdBy}</TableCell>
-                <TableCell>{order.takeOutId}</TableCell>
+                <TableCell>
+                  {getUserName(getUserFrom(order.createdBy))}
+                </TableCell>
+                <TableCell>
+                  {getTakeOutTitle(getTakeOutFrom(order.takeOutId))}
+                </TableCell>
                 <TableCell>{order.status}</TableCell>
               </TableRow>
             ))}

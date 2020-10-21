@@ -13,9 +13,10 @@ import {
   makeSelectIsRequest,
   makeSelectMessage,
   makeSelectOrders,
+  makeSelectTakeOuts,
   makeSelectTotalCount,
 } from './selector';
-import { fetchOrderOfPage } from './action';
+import { fetchOrderOfPage, fetchTakeOutOfIds } from './action';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 import { useTypedSelector } from 'store/reducers';
 
@@ -40,6 +41,7 @@ const stateSelector = createStructuredSelector({
   orders: makeSelectOrders(),
   message: makeSelectMessage(),
   totalCount: makeSelectTotalCount(),
+  takeOuts: makeSelectTakeOuts(),
 });
 
 export const OrderListPage = () => {
@@ -54,6 +56,7 @@ export const OrderListPage = () => {
   });
 
   const { token } = useTypedSelector(state => state.me);
+  const { users } = useTypedSelector(state => state.userOfIds);
 
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -62,7 +65,9 @@ export const OrderListPage = () => {
 
   const dispatch = useDispatch();
 
-  const { isRequest, message, orders, totalCount } = useSelector(stateSelector);
+  const { isRequest, message, orders, totalCount, takeOuts } = useSelector(
+    stateSelector,
+  );
 
   const handleChangePage = newPage => {
     setPage(newPage);
@@ -96,7 +101,14 @@ export const OrderListPage = () => {
     );
   }, [token, orders, dispatch]);
 
-  //fetch order.
+  useEffect(() => {
+    dispatch(
+      fetchTakeOutOfIds({
+        token,
+        ids: orders.map(e => e.takeOutId),
+      }),
+    );
+  }, [token, orders, dispatch]);
 
   return (
     <>
@@ -114,6 +126,8 @@ export const OrderListPage = () => {
             <OrderList
               isRequest={isRequest}
               orders={orders}
+              users={users}
+              takeOuts={takeOuts}
               page={page}
               rowsPerPage={rowsPerPage}
               totalCount={totalCount}
