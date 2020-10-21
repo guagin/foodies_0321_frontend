@@ -35,7 +35,7 @@ export function* fetchOrderOfPageSaga({
         totalCount: number;
       };
       status: Status;
-    } = yield fetchOrderOfPage({
+    } = yield call(fetchOrderOfPage, {
       token,
       page,
       count,

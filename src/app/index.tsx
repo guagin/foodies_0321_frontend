@@ -7,8 +7,8 @@ import { GlobalStyle } from 'styles/global-styles';
 import { HomePage } from './containers/HomePage/Loadable';
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 
-import { SignUpPage } from './containers/SignUpPage/Loadable';
-import { SignInPage } from './containers/SignInPage/Loadable';
+import { SignUpPage } from './containers/SignUpPage';
+import { SignInPage } from './containers/SignInPage';
 import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealListPage } from './containers/MealList';
@@ -17,10 +17,11 @@ import { ProviderListPage } from './containers/ProviderList';
 import { CreateOrder } from './containers/CreateOrder';
 import { CreateProviderPage } from './containers/CreateProvider/Loadable';
 import { DetailInfo } from './containers/CreateTakeOut/detail-info';
-import { OrderListPage } from './containers/OrderList/Loadable';
+import { OrderListPage } from './containers/OrderList';
 import { CreateOrderDetailPage } from './containers/CreateOrder/detail';
 import { CreateTakeOut } from './containers/CreateTakeOut/Loadable';
 import { TakeOutList } from './containers/TakeOutList';
+import { OrderDetail } from './containers/OrderDetail';
 
 export function App() {
   return (
@@ -72,6 +73,10 @@ export function App() {
           exact
           path="/take-out/create/detail-info"
           component={DetailInfo}
+        />
+        <AuthenticatedRoute
+          path="/order/ofId/:orderId"
+          component={OrderDetail}
         />
 
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />

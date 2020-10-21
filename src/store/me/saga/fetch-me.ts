@@ -22,7 +22,7 @@ function* fetchMeSaga(action: FetchMe) {
       };
       status: Status;
     } = yield call(fetchMe, { token: action.token });
-    console.log(`fetchMeSaga: ${data}`);
+
     if (status.code === 'SUCCESS') {
       yield put(
         FetchMeSuccessCreator({

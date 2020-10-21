@@ -14,6 +14,8 @@ import {
 import { Order } from 'app/containers/OrderList/reducer';
 import { User } from 'store/users-of-ids/reducer';
 import { TakeOut } from 'app/containers/TakeOutList/take-out';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles({
   table: {
@@ -62,6 +64,8 @@ export const OrderList = ({
     return takeOut ? takeOut.title : '';
   };
 
+  const dispatch = useDispatch();
+
   return (
     <>
       <LinearProgress hidden={!isRequest} />
@@ -76,7 +80,13 @@ export const OrderList = ({
           </TableHead>
           <TableBody>
             {orders.map(order => (
-              <TableRow key={order.id} hover onClick={() => {}}>
+              <TableRow
+                key={order.id}
+                hover
+                onClick={() => {
+                  dispatch(push(`/order/ofId/${order.id}`));
+                }}
+              >
                 <TableCell>
                   {getUserName(getUserFrom(order.createdBy))}
                 </TableCell>

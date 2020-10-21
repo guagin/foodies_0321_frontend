@@ -11,13 +11,5 @@ export const UnauthenticatedRoute = ({
   component: Component,
   ...rest
 }: Props) => {
-  return (
-    <Route
-      render={() => (
-        <>
-          <Component {...rest} />
-        </>
-      )}
-    />
-  );
+  return <Route render={() => <Component {...rest} />} />;
 };

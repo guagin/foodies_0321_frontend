@@ -595,3 +595,37 @@ export const fetchTakeOutOfIds: (input: {
     };
   }
 };
+
+export const fetchOrderOfId: (input: {
+  token: string;
+  id: string;
+}) => Promise<{
+  data?: {
+    order: Order;
+  };
+  status: Status;
+}> = async ({ token, id }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/order/ofId/${id}`,
+      {
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+      },
+    );
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
