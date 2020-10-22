@@ -12,6 +12,7 @@ import { orderDetailReducer } from './reducer';
 import { fetchOrderDetailFlow } from './saga';
 import {
   makeSelectIsRequest,
+  makeSelectMeals,
   makeSelectOrder,
   makeSelectTakeOut,
 } from './selector';
@@ -32,6 +33,7 @@ const stateSelector = createStructuredSelector({
   message: makeSelectMessage(),
   order: makeSelectOrder(),
   takeOut: makeSelectTakeOut(),
+  meals: makeSelectMeals(),
 });
 
 export const OrderDetail = ({
@@ -54,7 +56,7 @@ export const OrderDetail = ({
   const dispatch = useDispatch();
 
   const { token } = useTypedSelector(state => state.me);
-  const { order } = useSelector(stateSelector);
+  const { order, meals } = useSelector(stateSelector);
   const { orderId: id } = computedMatch.params;
 
   useEffect(() => {
@@ -65,6 +67,8 @@ export const OrderDetail = ({
       }),
     );
   }, [token, id, dispatch]);
+
+  console.log('re-render OrderDetail');
 
   return (
     <>
@@ -77,9 +81,9 @@ export const OrderDetail = ({
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
-        <Grid container>
-          <Grid item xs={4} sm={4}>
-            <OrderDeatailCard order={order} />
+        <Grid container justify={'center'}>
+          <Grid item xs={8} sm={8}>
+            <OrderDeatailCard order={order} meals={meals} />
           </Grid>
         </Grid>
       </div>

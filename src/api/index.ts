@@ -629,3 +629,38 @@ export const fetchOrderOfId: (input: {
     };
   }
 };
+
+export const fetchMealOfIds: (input: {
+  token: string;
+  ids: string[];
+}) => Promise<{
+  data?: {
+    meals: Meal[];
+  };
+  status: Status;
+}> = async ({ token, ids }) => {
+  try {
+    const response = await fetch(`http://localhost:3000/order/meal/ofIds`, {
+      method: 'POST',
+      headers: {
+        token,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        ids,
+      }),
+    });
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
