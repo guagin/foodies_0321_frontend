@@ -18,3 +18,6 @@ export const makeSelectMessage = () =>
 
 export const makeSelectMeals = () =>
   createSelector(selectOrderDetailDomain, subState => subState.meals);
+
+export const makeSelectUsers = () =>
+  createSelector(selectOrderDetailDomain, subState => subState.users);

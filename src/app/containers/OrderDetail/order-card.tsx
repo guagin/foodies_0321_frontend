@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 
 import { Meal, Order, Product } from './reducer';
+import { User } from 'store/users-of-ids/reducer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,11 +32,14 @@ const statusMap = ['pended', 'placed', 'canceled'];
 export const OrderDeatailCard = ({
   order,
   meals,
+  users,
 }: {
   order?: Order;
   meals: Meal[];
+  users: User[];
 }) => {
   const classes = useStyles();
+
   if (!order) {
     return (
       <>
@@ -43,6 +47,11 @@ export const OrderDeatailCard = ({
       </>
     );
   }
+
+  const getUserName = () => {
+    return users.length > 0 ? users[0].name : '';
+  };
+
   return (
     <div>
       <Typography className={classes.pos} color="textSecondary">
@@ -72,13 +81,16 @@ export const OrderDeatailCard = ({
             createdBy
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {order.createdBy}
+            {getUserName()}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             status
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             {statusMap[order.status]}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            takeOutId
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
             {order.takeOutId}

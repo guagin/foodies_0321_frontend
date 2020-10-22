@@ -6,6 +6,9 @@ import {
   FetchMealOfIdsSuccess,
   FetchOrderOfId,
   FetchOrderOfIdSuccess,
+  FetchUserOfIds,
+  FetchUserOfIdsFailure,
+  FetchUserOfIdsSuccess,
 } from './action';
 
 export interface Order {
@@ -25,6 +28,12 @@ export interface Meal {
   createdBy: string;
 }
 
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
 export interface Product {
   id: string;
   amount: number;
@@ -37,12 +46,14 @@ export type OrderDetailState = {
   message: string;
   takeOut?: TakeOut;
   meals: Meal[];
+  users: User[];
 };
 
 export const initOrderDetailState: OrderDetailState = {
   isRequest: true,
   message: '',
   meals: [],
+  users: [],
 };
 
 export const orderDetailReducer = createReducer(initOrderDetailState, {
@@ -86,6 +97,29 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
   },
 
   FetchMealOfIdFailure: (state, { message }: FetchMealOfIdsFailure) => {
+    return {
+      ...state,
+      isRequest: false,
+      message,
+    };
+  },
+
+  FetchUserOfIds: (state, action: FetchUserOfIds) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  FetchUserOfIdsSuccess: (state, { users }: FetchUserOfIdsSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      users,
+    };
+  },
+
+  FetchUserOfIdsFailure: (state, { message }: FetchUserOfIdsFailure) => {
     return {
       ...state,
       isRequest: false,

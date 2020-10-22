@@ -16,8 +16,7 @@ import {
   makeSelectTakeOuts,
   makeSelectTotalCount,
 } from './selector';
-import { fetchOrderOfPage, fetchTakeOutOfIds } from './action';
-import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
+import { fetchOrderOfPage } from './action';
 import { useTypedSelector } from 'store/reducers';
 
 const useStyles = makeStyles(theme => ({
@@ -91,24 +90,6 @@ export const OrderListPage = () => {
       }),
     );
   }, [dispatch, page, rowsPerPage, token]);
-
-  useEffect(() => {
-    dispatch(
-      fetchUserOfIdsCreator({
-        token,
-        ids: orders.map(e => e.createdBy),
-      }),
-    );
-  }, [token, orders, dispatch]);
-
-  useEffect(() => {
-    dispatch(
-      fetchTakeOutOfIds({
-        token,
-        ids: orders.map(e => e.takeOutId),
-      }),
-    );
-  }, [token, orders, dispatch]);
 
   return (
     <>

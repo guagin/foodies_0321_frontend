@@ -15,6 +15,7 @@ import {
   makeSelectMeals,
   makeSelectOrder,
   makeSelectTakeOut,
+  makeSelectUsers,
 } from './selector';
 
 const useStyle = makeStyles(theme => ({
@@ -34,6 +35,7 @@ const stateSelector = createStructuredSelector({
   order: makeSelectOrder(),
   takeOut: makeSelectTakeOut(),
   meals: makeSelectMeals(),
+  users: makeSelectUsers(),
 });
 
 export const OrderDetail = ({
@@ -56,7 +58,7 @@ export const OrderDetail = ({
   const dispatch = useDispatch();
 
   const { token } = useTypedSelector(state => state.me);
-  const { order, meals } = useSelector(stateSelector);
+  const { order, meals, users } = useSelector(stateSelector);
   const { orderId: id } = computedMatch.params;
 
   useEffect(() => {
@@ -67,8 +69,6 @@ export const OrderDetail = ({
       }),
     );
   }, [token, id, dispatch]);
-
-  console.log('re-render OrderDetail');
 
   return (
     <>
@@ -83,7 +83,7 @@ export const OrderDetail = ({
       <div className={classes.paper}>
         <Grid container justify={'center'}>
           <Grid item xs={8} sm={8}>
-            <OrderDeatailCard order={order} meals={meals} />
+            <OrderDeatailCard order={order} meals={meals} users={users} />
           </Grid>
         </Grid>
       </div>

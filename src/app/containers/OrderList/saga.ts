@@ -1,10 +1,16 @@
-import { fetchOrderOfPage, fetchTakeOutOfIds, Status } from 'api';
+import {
+  fetchOrderOfPage,
+  fetchTakeOutOfIds as fetchTakeOutOfIdsApi,
+  Status,
+} from 'api';
 import { call, put, takeLatest } from 'redux-saga/effects';
+import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 import { TakeOut } from '../TakeOutList/take-out';
 import {
   FetchOrderOfPage,
   fetchOrderOfPageFailure,
   fetchOrderOfPageSuccess,
+  fetchTakeOutOfIds,
   FetchTakeOutOfIds,
   fetchTakeOutOfIdsFailure,
   fetchTakeOutOfIdsSuccess,
@@ -41,7 +47,7 @@ export function* fetchOrderOfPageSaga({
       count,
     });
 
-    if (status.code !== 'SUCCESS') {
+    if (status.code !== 'SUCCESS' || !data) {
       yield put(fetchOrderOfPageFailure({ message: status.msg }));
       return;
     }
@@ -49,6 +55,22 @@ export function* fetchOrderOfPageSaga({
     yield put(
       fetchOrderOfPageSuccess({
         ...data,
+      }),
+    );
+
+    const { orders } = data;
+
+    yield put(
+      fetchTakeOutOfIds({
+        token,
+        ids: orders.map(e => e.takeOutId),
+      }),
+    );
+
+    yield put(
+      fetchUserOfIdsCreator({
+        token,
+        ids: orders.map(e => e.createdBy),
       }),
     );
   } catch (e) {
@@ -66,7 +88,7 @@ export function* fetchTakeOutOfIdsSaga({ token, ids }: FetchTakeOutOfIds) {
         takeOuts: TakeOut[];
       };
       status: Status;
-    } = yield call(fetchTakeOutOfIds, { token, ids });
+    } = yield call(fetchTakeOutOfIdsApi, { token, ids });
 
     if (status.code !== 'SUCCESS') {
       yield put(fetchTakeOutOfIdsFailure({ message: status.msg }));

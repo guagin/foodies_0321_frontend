@@ -4,6 +4,7 @@ import {
   Status,
 } from 'api';
 import { call, put, takeLatest } from 'redux-saga/effects';
+
 import {
   fetchMealOfIds,
   FetchMealOfIds,
@@ -12,12 +13,17 @@ import {
   FetchOrderOfId,
   fetchOrderOfIdFailure,
   fetchOrderOfIdSuccess,
+  fetchUserOfIds,
+  FetchUserOfIds,
+  fetchUserOfIdsFailure,
+  fetchUserOfIdsSuccess,
 } from './action';
-import { Order } from './reducer';
+import { Order, User } from './reducer';
 
 export function* fetchOrderDetailFlow() {
   yield takeLatest('FetchOrderOfId', fetchOrderDetailSaga);
   yield takeLatest('FetchMealOfIds', fetchMealOfIdsSaga);
+  yield takeLatest('FetchUserOfIds', fetchUserOfIdsSaga);
 }
 
 export function* fetchOrderDetailSaga({ token, id }: FetchOrderOfId) {
@@ -42,9 +48,11 @@ export function* fetchOrderDetailSaga({ token, id }: FetchOrderOfId) {
 
     yield put(fetchOrderOfIdSuccess({ ...data }));
 
-    const mealIds = data.order.products.map(e => e.id);
+    yield put(
+      fetchMealOfIds({ token, ids: data.order.products.map(e => e.id) }),
+    );
 
-    yield put(fetchMealOfIds({ token, ids: mealIds }));
+    yield put(fetchUserOfIds({ token, ids: [data.order.createdBy] }));
   } catch (e) {
     yield put(fetchOrderOfIdFailure({ message: e.message }));
   }
@@ -75,5 +83,38 @@ export function* fetchMealOfIdsSaga({ token, ids }: FetchMealOfIds) {
   } catch (e) {
     console.log(e);
     yield put(fetchMealOfIdsFailure({ message: e.message }));
+  }
+}
+
+function* fetchUserOfIdsSaga({ token, ids }: FetchUserOfIds) {
+  try {
+    const {
+      data,
+      status,
+    }: { data?: { users: User[] }; status: Status } = yield fetchUserOfIds({
+      token,
+      ids,
+    });
+
+    if (status.code !== 'SUCCESS') {
+      yield put(
+        fetchUserOfIdsFailure({
+          message: status.msg,
+        }),
+      );
+      return;
+    }
+
+    yield put(
+      fetchUserOfIdsSuccess({
+        ...data,
+      }),
+    );
+  } catch (e) {
+    yield put(
+      fetchUserOfIdsFailure({
+        message: e.message,
+      }),
+    );
   }
 }

@@ -23,6 +23,8 @@ const useStyles = makeStyles({
   },
 });
 
+const statusMap = ['pended', 'placed', 'canceled'];
+
 export const OrderList = ({
   isRequest,
   orders,
@@ -93,7 +95,7 @@ export const OrderList = ({
                 <TableCell>
                   {getTakeOutTitle(getTakeOutFrom(order.takeOutId))}
                 </TableCell>
-                <TableCell>{order.status}</TableCell>
+                <TableCell>{statusMap[order.status]}</TableCell>
               </TableRow>
             ))}
           </TableBody>
