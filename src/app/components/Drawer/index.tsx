@@ -27,6 +27,7 @@ import LocalShipping from '@material-ui/icons/LocalShipping';
 import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
+import { SwipeableDrawer } from '@material-ui/core';
 
 const drawerWidth = 240;
 
@@ -95,10 +96,6 @@ export const AppDrawer = ({ children }) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -119,6 +116,19 @@ export const AppDrawer = ({ children }) => {
     dispatch(push('/take-out/list'));
   };
 
+  const toggleDrawer = open => event => {
+    console.log('WTF');
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+
+    setOpen(open);
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -132,7 +142,7 @@ export const AppDrawer = ({ children }) => {
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={toggleDrawer(true)}
             edge="start"
             className={clsx(classes.menuButton, open && classes.hide)}
           >
@@ -143,7 +153,7 @@ export const AppDrawer = ({ children }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer
+      <SwipeableDrawer
         className={classes.drawer}
         variant="persistent"
         anchor="left"
@@ -151,6 +161,8 @@ export const AppDrawer = ({ children }) => {
         classes={{
           paper: classes.drawerPaper,
         }}
+        onOpen={toggleDrawer(true)}
+        onClose={toggleDrawer(false)}
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
@@ -162,7 +174,7 @@ export const AppDrawer = ({ children }) => {
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List onClick={toggleDrawer(false)}>
           <ListItem
             button
             key={'meal'}
@@ -214,18 +226,10 @@ export const AppDrawer = ({ children }) => {
           </ListItem>
         </List>
         <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <main className={classes.content}>{children}</main>
+      </SwipeableDrawer>
+      <main className={classes.content} onClick={toggleDrawer(false)}>
+        {children}
+      </main>
     </div>
   );
 };
