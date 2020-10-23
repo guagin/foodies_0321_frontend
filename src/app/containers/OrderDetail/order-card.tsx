@@ -4,6 +4,7 @@ import {
   CardContent,
   CircularProgress,
   createStyles,
+  Divider,
   makeStyles,
   Theme,
   Typography,
@@ -19,10 +20,16 @@ const useStyles = makeStyles((theme: Theme) =>
       minWidth: 275,
     },
     title: {
-      fontSize: 14,
+      fontSize: 26,
     },
-    pos: {
+    subTitle: {
       marginBottom: 12,
+    },
+    inline: {
+      marginBottom: 12,
+    },
+    divier: {
+      marginBottom: theme.spacing(2),
     },
   }),
 );
@@ -54,13 +61,13 @@ export const OrderDeatailCard = ({
 
   return (
     <div>
-      <Typography className={classes.pos} color="textSecondary">
+      <Typography className={classes.title} color="textSecondary">
         basicInfo
       </Typography>
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Typography
-            className={classes.title}
+            className={classes.subTitle}
             color="textSecondary"
             gutterBottom
             variant="h5"
@@ -69,7 +76,7 @@ export const OrderDeatailCard = ({
             orderId
           </Typography>
           <Typography
-            className={classes.title}
+            className={classes.subTitle}
             color="textSecondary"
             gutterBottom
             variant="h5"
@@ -77,27 +84,27 @@ export const OrderDeatailCard = ({
           >
             {order.id}
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             createdBy
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             {getUserName()}
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             status
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             {statusMap[order.status]}
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             takeOutId
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography className={classes.inline} color="textSecondary">
             {order.takeOutId}
           </Typography>
         </CardContent>
       </Card>
-      <Typography className={classes.pos} color="textSecondary">
+      <Typography className={classes.inline} color="textSecondary">
         products
       </Typography>
       <Card className={classes.root} variant="outlined">
@@ -119,45 +126,56 @@ const ListProduct = ({
   const classes = useStyles();
 
   const getMeal = (id: string) => meals.find(e => e.id === id);
-  const getName = (id: string) => {
-    const meal = getMeal(id);
-
-    return meal ? meal.name : '';
-  };
-
-  const getDes = (id: string) => {
-    const meal = getMeal(id);
-
-    return meal ? meal.description : '';
-  };
 
   return (
     <>
-      {products.map(product => (
-        <div key={product.id}>
-          <Typography className={classes.pos} color="textSecondary">
-            {getName(product.id)}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            description
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {getDes(product.id)}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            amount
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {product.amount}
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            note
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {product.note}
-          </Typography>
-        </div>
-      ))}
+      {products.map((product, indx) => {
+        if (indx < products.length - 1) {
+          return (
+            <>
+              <ProductCard product={product} meal={getMeal(product.id)} />
+              <Divider className={classes.divier} />
+            </>
+          );
+        }
+        return <ProductCard product={product} meal={getMeal(product.id)} />;
+      })}
+    </>
+  );
+};
+
+const ProductCard = ({ product, meal }: { product: Product; meal?: Meal }) => {
+  const classes = useStyles();
+
+  const getName = (id: string) => (meal ? meal.name : '');
+
+  const getDes = (id: string) => (meal ? meal.description : '');
+
+  return (
+    <>
+      <div key={product.id}>
+        <Typography className={classes.inline} color="textSecondary">
+          {getName(product.id)}
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          description
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          {getDes(product.id)}
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          amount
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          {product.amount}
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          note
+        </Typography>
+        <Typography className={classes.inline} color="textSecondary">
+          {product.note}
+        </Typography>
+      </div>
     </>
   );
 };
