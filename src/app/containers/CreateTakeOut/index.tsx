@@ -55,7 +55,7 @@ export const CreateOrder = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { isRequest, message, providers } = useSelector(stateSelector);
+  const { isRequest, providers } = useSelector(stateSelector);
 
   const { token } = useTypedSelector(state => state.me);
 

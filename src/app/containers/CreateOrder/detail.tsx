@@ -18,7 +18,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Button, CssBaseline, Grid, TextField } from '@material-ui/core';
 
-import { useTranslation } from 'react-i18next';
 import {
   createOrder,
   fetchMeals,
@@ -61,7 +60,6 @@ export const CreateOrderDetailPage = () => {
 
   const dispatch = useDispatch();
 
-  const { t } = useTranslation();
   const { token } = useTypedSelector(state => state.me);
 
   const {

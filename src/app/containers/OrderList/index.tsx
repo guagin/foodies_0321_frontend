@@ -64,7 +64,7 @@ export const OrderListPage = () => {
 
   const dispatch = useDispatch();
 
-  const { isRequest, message, orders, totalCount, takeOuts } = useSelector(
+  const { isRequest, orders, totalCount, takeOuts } = useSelector(
     stateSelector,
   );
 
