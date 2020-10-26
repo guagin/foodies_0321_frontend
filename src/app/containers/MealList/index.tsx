@@ -62,7 +62,7 @@ export const MealListPage = () => {
   const dispatch = useDispatch();
 
   const handleClickAddIcon = () => {
-    dispatch(push('/create-meal'));
+    dispatch(push('/create-meal/pick-provider'));
   };
 
   return (

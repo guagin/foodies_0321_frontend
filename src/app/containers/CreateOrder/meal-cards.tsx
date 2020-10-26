@@ -34,19 +34,17 @@ export function MealCards({
   isRequest: boolean;
   onClickChoose: (meal: Meal) => void;
 }) {
-  const mealRows = chunk(meals, 3);
-
   if (isRequest) {
     return <CircularProgress />;
   }
 
   console.log(meals);
-
+  const mealRows = chunk(meals, 3);
   return (
     <>
       {mealRows.map(row => (
         <>
-          <MealCardRows meals={meals} onClickChoose={onClickChoose} />
+          <MealCardRows meals={row} onClickChoose={onClickChoose} />
         </>
       ))}
     </>

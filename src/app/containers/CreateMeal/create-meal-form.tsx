@@ -7,7 +7,7 @@ import {
   Button,
 } from '@material-ui/core';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
 import { createMeal } from './action';
@@ -15,6 +15,8 @@ import { useInjectSaga } from 'utils/redux-injectors';
 import { createMealReducer } from './reducer';
 import { createMealFlow } from './saga';
 import { useInjectReducer } from 'redux-injectors';
+import { makeSelectIsRequest, makeSelectPickedProvider } from './selector';
+import { createStructuredSelector } from 'reselect';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -26,22 +28,27 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  pickedProvider: makeSelectPickedProvider(),
+});
+
 export function CreateMealForm() {
   useInjectReducer({ key: 'createMeal', reducer: createMealReducer });
   useInjectSaga({ key: 'createMeal', saga: createMealFlow });
 
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const { t } = useTranslation();
+
+  const { pickedProvider } = useSelector(stateSelector);
   const me = useTypedSelector(state => state.me);
 
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  //   const [pictureCount, setPictureCount] = useState(0);
-  //   const [pictures, setPictures] = useState([]);
-  const [provider, setProvider] = useState('');
+
+  // const [provider, setProvider] = useState('');
 
   const handleNameChange = value => {
     setName(value);
@@ -55,10 +62,6 @@ export function CreateMealForm() {
     setDescription(value);
   };
 
-  const handleProviderChange = value => {
-    setProvider(value);
-  };
-
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
 
@@ -69,7 +72,7 @@ export function CreateMealForm() {
         price,
         description,
         pictures: [],
-        provider,
+        provider: pickedProvider.id,
       }),
     );
   };
@@ -142,11 +145,8 @@ export function CreateMealForm() {
               label={t('meal.provider')}
               autoFocus
               placeholder={t('meal.providerPlaceholder')}
-              value={provider}
-              onChange={e => {
-                handleProviderChange(e.target.value);
-              }}
-              //   disabled={disabled}
+              value={pickedProvider.name}
+              disabled={true}
             />
           </Grid>
           <Grid item xs={12}>

@@ -12,7 +12,6 @@ import { SignInPage } from './containers/SignInPage';
 import { AuthenticatedRoute } from './containers/AuthenticatedRoute';
 import { UnauthenticatedRoute } from './containers/UnauthentiactedRoute';
 import { MealListPage } from './containers/MealList';
-import { CreateMeal } from './containers/CreateMeal';
 import { ProviderListPage } from './containers/ProviderList';
 import { CreateOrder } from './containers/CreateOrder';
 import { CreateProviderPage } from './containers/CreateProvider/Loadable';
@@ -22,6 +21,8 @@ import { CreateOrderDetailPage } from './containers/CreateOrder/detail';
 import { CreateTakeOut } from './containers/CreateTakeOut/Loadable';
 import { TakeOutList } from './containers/TakeOutList';
 import { OrderDetail } from './containers/OrderDetail';
+import { PickProvider } from './containers/CreateMeal/pick-provider';
+import { CreateMealForm } from './containers/CreateMeal/create-meal-form';
 
 export function App() {
   return (
@@ -33,7 +34,16 @@ export function App() {
       <Switch>
         <AuthenticatedRoute exact path="/" component={HomePage} />
         <AuthenticatedRoute exact path="/meal-list" component={MealListPage} />
-        <AuthenticatedRoute exact path="/create-meal" component={CreateMeal} />
+        <AuthenticatedRoute
+          exact
+          path="/create-meal/pick-provider"
+          component={PickProvider}
+        />
+        <AuthenticatedRoute
+          exact
+          path="/create-meal/form"
+          component={CreateMealForm}
+        />
         <AuthenticatedRoute
           exact
           path="/provider-list"

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Grid, makeStyles } from '@material-ui/core';
-import { CreateMealForm } from './create-meal-form';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -24,9 +23,7 @@ export const CreateMeal = () => {
       </Helmet>
       <div className={classes.paper}>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={12}>
-            <CreateMealForm></CreateMealForm>
-          </Grid>
+          <Grid item xs={12} sm={12}></Grid>
         </Grid>
       </div>
     </>

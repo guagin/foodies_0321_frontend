@@ -1,8 +1,23 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { CreateMealFailed, CreateMeal, CreateMealSuccess } from './action';
+import {
+  CreateMealFailed,
+  CreateMeal,
+  CreateMealSuccess,
+  FetchProviderOfPartialName,
+  FetchProviderOfPartialNameSuccess,
+  FetchProviderOfPartialNameFailure,
+  PickProvider,
+} from './action';
 
-// TODO: maybe extract this to model
+export interface Provider {
+  id: string;
+  name: string;
+  description: string;
+  phone: number;
+  createdBy: string;
+}
+
 export interface Meal {
   id: string;
   name: string;
@@ -17,12 +32,15 @@ export interface CreateMealState {
   isRequest: boolean;
   id: string;
   message: string;
+  providers: Provider[];
+  pickedProvider?: Provider;
 }
 
 export const initCreateMealState: CreateMealState = {
   isRequest: false,
   id: '',
   message: '',
+  providers: [],
 };
 
 export const createMealReducer = createReducer(initCreateMealState, {
@@ -49,6 +67,42 @@ export const createMealReducer = createReducer(initCreateMealState, {
       isRequest: false,
       message,
       id: '',
+    };
+  },
+
+  FetchProviderOfPartialName: (state, action: FetchProviderOfPartialName) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  FetchProviderOfPartialNameSuccess: (
+    state,
+    { providers }: FetchProviderOfPartialNameSuccess,
+  ) => {
+    return {
+      ...state,
+      isRequest: false,
+      providers,
+    };
+  },
+
+  FetchProvidersOfPartialNameFailure: (
+    state,
+    { message }: FetchProviderOfPartialNameFailure,
+  ) => {
+    return {
+      ...state,
+      isReques: false,
+      message,
+    };
+  },
+
+  PickProvider: (state, { pickedProvider }: PickProvider) => {
+    return {
+      ...state,
+      pickedProvider,
     };
   },
 });

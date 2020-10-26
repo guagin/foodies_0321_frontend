@@ -1,4 +1,21 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
+import { Provider } from './reducer';
+
+export interface FetchProviderOfPartialName
+  extends Action<'FetchProviderOfPartialName'> {
+  name: string;
+  token: string;
+}
+
+export interface FetchProviderOfPartialNameSuccess
+  extends Action<'FetchProviderOfPartialNameSuccess'> {
+  providers: Provider[];
+}
+
+export interface FetchProviderOfPartialNameFailure
+  extends Action<'FetchProviderOfPartialNameFailure'> {
+  message: string;
+}
 
 export interface CreateMeal extends Action<'CreateMeal'> {
   name: string;
@@ -17,10 +34,9 @@ export interface CreateMealFailed extends Action<'CreateMealFailed'> {
   message: string;
 }
 
-export type CreateMealAtions =
-  | CreateMeal
-  | CreateMealSuccess
-  | CreateMealFailed;
+export interface PickProvider extends Action<'PickProvider'> {
+  pickedProvider: Provider;
+}
 
 export const createMeal: ActionCreator<CreateMeal> = (input: {
   name: string;
@@ -46,4 +62,32 @@ export const createMealFailed: ActionCreator<CreateMealFailed> = (input: {
 }) => ({
   ...input,
   type: 'CreateMealFailed',
+});
+
+export const fetchProviderOfPartialName: ActionCreator<FetchProviderOfPartialName> = (
+  input: FetchProviderOfPartialName,
+) => ({
+  ...input,
+  type: 'FetchProviderOfPartialName',
+});
+
+export const fetchProviderOfPartialNameSuccess: ActionCreator<FetchProviderOfPartialNameSuccess> = (
+  input: FetchProviderOfPartialNameSuccess,
+) => ({
+  ...input,
+  type: 'FetchProviderOfPartialNameSuccess',
+});
+
+export const fetchProviderOfPartialNameFailure: ActionCreator<FetchProviderOfPartialNameFailure> = (
+  input: FetchProviderOfPartialNameFailure,
+) => ({
+  ...input,
+  type: 'FetchProviderOfPartialNameFailure',
+});
+
+export const pickProvider: ActionCreator<PickProvider> = (
+  input: PickProvider,
+) => ({
+  ...input,
+  type: 'PickProvider',
 });

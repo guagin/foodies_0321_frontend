@@ -1,14 +1,19 @@
 import { initCreateMealState } from './reducer';
 import { createSelector } from 'reselect';
 
-const selectCreateMealPageDomain = state =>
-  state.CreateMeal || initCreateMealState;
+const selectCreateMealDomain = state => state.createMeal || initCreateMealState;
 
 export const makeSelectId = () =>
-  createSelector(selectCreateMealPageDomain, subState => subState.id);
+  createSelector(selectCreateMealDomain, subState => subState.id);
 
 export const makeSelectIsRequest = () =>
-  createSelector(selectCreateMealPageDomain, subState => subState.isRequest);
+  createSelector(selectCreateMealDomain, subState => subState.isRequest);
 
 export const makeSelectMessage = () =>
-  createSelector(selectCreateMealPageDomain, subState => subState.message);
+  createSelector(selectCreateMealDomain, subState => subState.message);
+
+export const makeSelectProviders = () =>
+  createSelector(selectCreateMealDomain, subState => subState.providers);
+
+export const makeSelectPickedProvider = () =>
+  createSelector(selectCreateMealDomain, subState => subState.pickedProvider);

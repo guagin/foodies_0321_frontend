@@ -115,7 +115,6 @@ export const AppDrawer = ({ children }) => {
   };
 
   const toggleDrawer = open => event => {
-    console.log('WTF');
     if (
       event &&
       event.type === 'keydown' &&
@@ -128,7 +127,14 @@ export const AppDrawer = ({ children }) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div
+      className={classes.root}
+      onClick={() => {
+        if (open) {
+          toggleDrawer(false);
+        }
+      }}
+    >
       <CssBaseline />
       <AppBar
         position="fixed"
