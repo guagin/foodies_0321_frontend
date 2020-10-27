@@ -10,8 +10,7 @@ import {
 } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { chunk } from 'lodash';
-
-import { Meal } from '../MealList/meal';
+import { Meal } from '../MealList/reducer';
 
 const useStyles = makeStyles({
   root: {

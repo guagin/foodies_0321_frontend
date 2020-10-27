@@ -1,6 +1,29 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { FetchMealsFailed, FetchMeals, FetchMealsSuccess } from './action';
-import { Meal } from './meal';
+import {
+  FetchMealsFailed,
+  FetchMeals,
+  FetchMealsSuccess,
+  FetchProviderOfIds,
+  FetchProviderOfIdsSuccess,
+  FetchProviderOfIdsFailure,
+} from './action';
+
+export interface Meal {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  provider: string;
+  createdBy: string;
+}
+
+export interface Provider {
+  id: string;
+  name: string;
+  description: string;
+  phone: number;
+  createdBy: string;
+}
 
 export type FetchMealState = {
   message: string;
@@ -11,6 +34,7 @@ export type FetchMealState = {
   totalPage: number;
   totalCount: number;
   page: number;
+  providers: Provider[];
 };
 
 export const initialFetchMealsState: FetchMealState = {
@@ -22,6 +46,7 @@ export const initialFetchMealsState: FetchMealState = {
   totalCount: 0,
   totalPage: 0,
   page: 1,
+  providers: [],
 };
 
 export const fetchMealsReducer = createReducer(initialFetchMealsState, {
@@ -49,6 +74,35 @@ export const fetchMealsReducer = createReducer(initialFetchMealsState, {
   },
 
   FetchMealsFailed: (state, { message }: FetchMealsFailed) => {
+    return {
+      ...state,
+      isRequest: false,
+      message,
+    };
+  },
+
+  FetchProviderOfIds: (state, action: FetchProviderOfIds) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  FetchProviderOfIdsSuccess: (
+    state,
+    { providers }: FetchProviderOfIdsSuccess,
+  ) => {
+    return {
+      ...state,
+      isRequest: false,
+      providers,
+    };
+  },
+
+  FetchProvidersOfIdsFailure: (
+    state,
+    { message }: FetchProviderOfIdsFailure,
+  ) => {
     return {
       ...state,
       isRequest: false,

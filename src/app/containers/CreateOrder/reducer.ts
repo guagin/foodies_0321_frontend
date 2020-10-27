@@ -15,8 +15,8 @@ import {
   UpdatePickedMealAmount,
   RemovePickedMeal,
 } from './action';
-import { Meal } from '../MealList/meal';
 import { find, reduce } from 'lodash';
+import { Meal } from '../MealList/reducer';
 
 export type CreateOrderState = {
   isRequest: boolean;

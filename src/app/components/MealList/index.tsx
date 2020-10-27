@@ -17,7 +17,8 @@ import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-
 import { MeState } from 'store/me/reducer';
 import { UsersOfIdsState } from 'store/users-of-ids/reducer';
 import { fetchMeals } from 'app/containers/MealList/action';
-import { Meal } from 'app/containers/MealList/meal';
+import { Meal, Provider } from 'app/containers/MealList/reducer';
+import { find } from 'lodash';
 
 const useStyles = makeStyles({
   table: {
@@ -32,6 +33,7 @@ export const MealList = ({
   totalCount,
   me,
   userOfIds,
+  providers,
 }: {
   isRequest: boolean;
   message: string;
@@ -39,6 +41,7 @@ export const MealList = ({
   totalCount: number;
   me: MeState;
   userOfIds: UsersOfIdsState;
+  providers: Provider[];
 }) => {
   const classes = useStyles();
 
@@ -83,6 +86,12 @@ export const MealList = ({
     return user ? user.name : `not found this user's namn: ${userId}`;
   };
 
+  const getProviderName: (id: string) => string = id => {
+    const provider = find(providers, e => e.id === id);
+
+    return provider ? provider.name : 'not found';
+  };
+
   return (
     <>
       <LinearProgress hidden={!isRequest} />
@@ -90,7 +99,6 @@ export const MealList = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell> id </TableCell>
               <TableCell> name </TableCell>
               <TableCell> description </TableCell>
               <TableCell> price </TableCell>
@@ -101,11 +109,10 @@ export const MealList = ({
           <TableBody>
             {meals.map(meal => (
               <TableRow key={meal.id} hover>
-                <TableCell>{meal.id}</TableCell>
                 <TableCell>{meal.name}</TableCell>
                 <TableCell>{meal.description}</TableCell>
                 <TableCell>{meal.price}</TableCell>
-                <TableCell>{meal.provider}</TableCell>
+                <TableCell>{getProviderName(meal.provider)}</TableCell>
                 <TableCell>{showUserName(meal.createdBy)}</TableCell>
               </TableRow>
             ))}

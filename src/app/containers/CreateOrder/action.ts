@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
+import { Meal } from '../MealList/reducer';
 import { TakeOut } from '../TakeOutList/take-out';
-import { Meal } from '../MealList/meal';
 
 export interface FetchTakeOutByPartialTitle
   extends Action<'FetchTakeOutByPartialTitle'> {

@@ -1,17 +1,20 @@
 import { createSelector } from 'reselect';
 import { initialFetchMealsState } from './reducer';
 
-const selectorFetchMealsPageDomain = state =>
+const selectorFetchMealsDomain = state =>
   state.fetchMeals || initialFetchMealsState;
 
 export const makeSelectIsRequest = () =>
-  createSelector(selectorFetchMealsPageDomain, subState => subState.isRequest);
+  createSelector(selectorFetchMealsDomain, subState => subState.isRequest);
 
 export const makeSelectMessage = () =>
-  createSelector(selectorFetchMealsPageDomain, subState => subState.message);
+  createSelector(selectorFetchMealsDomain, subState => subState.message);
 
 export const makeSelectMeals = () =>
-  createSelector(selectorFetchMealsPageDomain, subState => subState.meals);
+  createSelector(selectorFetchMealsDomain, subState => subState.meals);
 
 export const makeTotalSelectTotalCount = () =>
-  createSelector(selectorFetchMealsPageDomain, subState => subState.totalCount);
+  createSelector(selectorFetchMealsDomain, subState => subState.totalCount);
+
+export const makeProviders = () =>
+  createSelector(selectorFetchMealsDomain, subState => subState.providers);

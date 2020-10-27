@@ -1,20 +1,21 @@
 import { Status } from './status';
 
-interface Provider {
+export interface Meal {
   id: string;
   name: string;
   description: string;
-  phone: number;
+  price: number;
+  provider: string;
   createdBy: string;
 }
 
-export const fetchProvider: (input: {
+export const fetchMeals: (input: {
   token: string;
   page: number;
   count: number;
 }) => Promise<{
   data?: {
-    provider: Provider[];
+    meals: Meal[];
     hasNext: boolean;
     hasPrevious: boolean;
     totalPages: number;
@@ -25,45 +26,42 @@ export const fetchProvider: (input: {
 }> = async ({ token, page = 1, count }) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/order/provider/ofPage?page=${page}&count=${count}`,
+      `http://localhost:3000/order/meal/ofPage?page=${page}&count=${count}`,
       {
         headers: {
           token,
         },
       },
     );
-
     const json = await response.json();
     console.log(json);
     return json;
   } catch (e) {
-    console.error(e);
     return {
       status: {
         code: 'ERROR',
-        msg: e.message,
+        msg: e.mesage,
       },
     };
   }
 };
 
-export const fetchProvidersByPartialName: (input: {
+export const mealsOfProvider: (input: {
   token: string;
-  name: string;
+  page: number;
+  count: number;
+  providerId: string;
 }) => Promise<{
-  data?: {
-    providers: Provider[];
-    hasNext: boolean;
-    hasPrevious: boolean;
-    totalPages: number;
-    page: number;
-    totalCount: number;
-  };
-  status: Status;
-}> = async ({ token, name }) => {
+  meals: Meal[];
+  hasNext: boolean;
+  hasPrevious: boolean;
+  totalPages: number;
+  page: number;
+  totalCount: number;
+}> = async ({ token, page = 1, count, providerId }) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/order/provider/ofPartialName?partialName=${name}&count=3`,
+      `http://localhost:3000/order/meal/ofProvider?page=${page}&count=${count}&providerId=${providerId}`,
       {
         headers: {
           token,
@@ -71,51 +69,53 @@ export const fetchProvidersByPartialName: (input: {
       },
     );
     const json = await response.json();
+    console.log(json);
     return json;
   } catch (e) {
-    console.error(e);
     return {
       status: {
         code: 'ERROR',
-        message: e.message,
+        msg: e.mesage,
       },
     };
   }
 };
 
-export const createProvider: (input: {
+export const createMeal: (input: {
   token: string;
   name: string;
+  price: number;
   description: string;
-  phone: string;
+  pictures: string[];
+  provider: string;
 }) => Promise<{
   data?: {
-    id: string;
+    ids: string[];
   };
   status: Status;
-}> = async ({ token, name, description, phone }) => {
+}> = async ({ token, name, price, description, pictures, provider }) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/order/provider/create`,
-      {
-        method: 'POST',
-        headers: {
-          token,
-          'content-type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          description,
-          phone,
-        }),
+    const response = await fetch(`http://localhost:3000/order/meal/create`, {
+      method: 'POST',
+      headers: {
+        token,
+        'content-type': 'application/json',
       },
-    );
-
+      body: JSON.stringify({
+        meals: [
+          {
+            name,
+            price,
+            description,
+            pictures,
+            provider,
+          },
+        ],
+      }),
+    });
     const json = await response.json();
-
     return json;
   } catch (e) {
-    console.error(e);
     return {
       status: {
         code: 'ERROR',
@@ -125,17 +125,17 @@ export const createProvider: (input: {
   }
 };
 
-export const fetchProviderOfIds: (input: {
+export const fetchMealOfIds: (input: {
   token: string;
   ids: string[];
 }) => Promise<{
   data?: {
-    providers: Provider[];
+    meals: Meal[];
   };
   status: Status;
 }> = async ({ token, ids }) => {
   try {
-    const response = await fetch(`http://localhost:3000/order/provider/ofIds`, {
+    const response = await fetch(`http://localhost:3000/order/meal/ofIds`, {
       method: 'POST',
       headers: {
         token,
@@ -154,7 +154,7 @@ export const fetchProviderOfIds: (input: {
     return {
       status: {
         code: 'ERROR',
-        msg: e.message,
+        message: e.message,
       },
     };
   }

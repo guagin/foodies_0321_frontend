@@ -19,7 +19,7 @@ import {
 } from 'api';
 import { push } from 'connected-react-router';
 import { fetchMealsSuccess } from '../MealList/action';
-import { Meal } from '../MealList/meal';
+import { Meal } from '../MealList/reducer';
 
 export function* pickTakeOutFlow() {
   yield takeLatest(
