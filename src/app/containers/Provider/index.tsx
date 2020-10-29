@@ -3,7 +3,9 @@ import {
   CssBaseline,
   Grid,
   makeStyles,
+  Typography,
 } from '@material-ui/core';
+import { chunk } from 'lodash';
 import React, { ReactElement, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,11 +14,13 @@ import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
 
 import { fetchProviderOfId } from './action';
+import { MealCard } from './meal-card';
 import { ProviderCard } from './provider-card';
 import { providerReducer } from './reducer';
 import { providerFlow } from './saga';
 import {
   makeSelectIsRequest,
+  makeSelectMeals,
   makeSelectMessage,
   makeSelectProvider,
 } from './selector';
@@ -35,12 +39,16 @@ const useStyles = makeStyles(theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  title: {
+    fontSize: 26,
+  },
 }));
 
 const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   provider: makeSelectProvider(),
   message: makeSelectMessage(),
+  meals: makeSelectMeals(),
 });
 
 interface Props {
@@ -64,7 +72,7 @@ export const Provider: (props: Props) => ReactElement = ({
   const dispatch = useDispatch();
   const { token } = useTypedSelector(state => state.me);
   const { users } = useTypedSelector(state => state.userOfIds);
-  const { isRequest, provider, message } = useSelector(stateSelector);
+  const { isRequest, provider, message, meals } = useSelector(stateSelector);
 
   useEffect(() => {
     dispatch(
@@ -83,6 +91,8 @@ export const Provider: (props: Props) => ReactElement = ({
     );
   }
 
+  // const mealsRow = chunk(meals, 3);
+
   return (
     <>
       <Helmet>
@@ -95,6 +105,18 @@ export const Provider: (props: Props) => ReactElement = ({
           <Grid item xs={8} sm={8}>
             <ProviderCard provider={provider} users={users} />
           </Grid>
+        </Grid>
+      </div>
+      <div className={classes.paper}>
+        <Typography className={classes.title} color="textSecondary">
+          meal
+        </Typography>
+        <Grid container justify={'center'} spacing={2}>
+          {meals.map(e => (
+            <Grid item xs={2} sm={2}>
+              <MealCard meal={e} />
+            </Grid>
+          ))}
         </Grid>
       </div>
     </>

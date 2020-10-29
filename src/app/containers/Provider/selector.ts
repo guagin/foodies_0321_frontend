@@ -11,3 +11,6 @@ export const makeSelectIsRequest = () =>
 
 export const makeSelectMessage = () =>
   createSelector(selectProviderDomain, subState => subState.message);
+
+export const makeSelectMeals = () =>
+  createSelector(selectProviderDomain, subState => subState.meals);

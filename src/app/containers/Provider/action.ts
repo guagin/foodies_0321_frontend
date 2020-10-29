@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
-import { Provider } from './reducer';
+import { Meal, Provider } from './reducer';
 
 export interface FetchProviderOfId extends Action<'FetchProviderOfId'> {
   token: string;
@@ -13,6 +13,23 @@ export interface FetchProviderOfIdSuccess
 
 export interface FetchProviderOfIdFailure
   extends Action<'FetchProviderOfIdFailure'> {
+  message: string;
+}
+
+export interface FetchMealOfProviderId extends Action<'FetchMealOfProviderId'> {
+  token: string;
+  page: number;
+  count: number;
+  id: string;
+}
+
+export interface FetchMealOfProviderIdSuccess
+  extends Action<'FetchMealOfProviderIdSuccess'> {
+  meals: Meal[];
+}
+
+export interface FetchMealOfProviderIdFailure
+  extends Action<'FetchMealOfProviderIdFailure'> {
   message: string;
 }
 
@@ -35,4 +52,25 @@ export const fetchProviderOfIdFailure: ActionCreator<FetchProviderOfIdFailure> =
 ) => ({
   ...input,
   type: 'FetchProviderOfIdFailure',
+});
+
+export const fetchMealOfProviderId: ActionCreator<FetchMealOfProviderId> = (
+  input: FetchMealOfProviderId,
+) => ({
+  ...input,
+  type: 'FetchMealOfProviderId',
+});
+
+export const fetchMealOfProviderIdSuccess: ActionCreator<FetchMealOfProviderIdSuccess> = (
+  input: FetchMealOfProviderIdSuccess,
+) => ({
+  ...input,
+  type: 'FetchMealOfProviderIdSuccess',
+});
+
+export const fetchMealOfProviderIdFailure: ActionCreator<FetchMealOfProviderIdFailure> = (
+  input: FetchMealOfProviderIdFailure,
+) => ({
+  ...input,
+  type: 'FetchMealOfProviderIdFailure',
 });
