@@ -23,6 +23,7 @@ import { TakeOutList } from './containers/TakeOutList';
 import { OrderDetail } from './containers/OrderDetail';
 import { PickProvider } from './containers/CreateMeal/pick-provider';
 import { CreateMealForm } from './containers/CreateMeal/create-meal-form';
+import { Provider } from './containers/Provider';
 
 export function App() {
   return (
@@ -87,6 +88,10 @@ export function App() {
         <AuthenticatedRoute
           path="/order/ofId/:orderId"
           component={OrderDetail}
+        />
+        <AuthenticatedRoute
+          path="/provider/ofId/:providerId"
+          component={Provider}
         />
 
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />

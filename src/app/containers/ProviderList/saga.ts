@@ -1,6 +1,6 @@
 import { takeLatest, put } from 'redux-saga/effects';
 
-import { Status, fetchProvider } from 'api';
+import { Status, fetchProviderOfPage } from 'api';
 import { Provider } from 'store/model/provider';
 import {
   FetchProviderOfPage,
@@ -27,7 +27,7 @@ function* fetchProviderOfPageSaga({ page, count, token }: FetchProviderOfPage) {
         totalCount: number;
       };
       status: Status;
-    } = yield fetchProvider({ token, page, count });
+    } = yield fetchProviderOfPage({ token, page, count });
 
     if (status.code !== 'SUCCESS') {
       yield put(fetchProviderOfPageFailure({ message: status.msg }));

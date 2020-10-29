@@ -8,7 +8,7 @@ interface Provider {
   createdBy: string;
 }
 
-export const fetchProvider: (input: {
+export const fetchProviderOfPage: (input: {
   token: string;
   page: number;
   count: number;
@@ -145,6 +145,39 @@ export const fetchProviderOfIds: (input: {
         ids,
       }),
     });
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        msg: e.message,
+      },
+    };
+  }
+};
+
+export const fetchProviderOfId: (input: {
+  token: string;
+  id: string;
+}) => Promise<{ data?: { provider: Provider }; status: Status }> = async ({
+  token,
+  id,
+}) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/provider/ofId/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+      },
+    );
 
     const json = await response.json();
 

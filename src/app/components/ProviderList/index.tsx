@@ -30,6 +30,7 @@ export const ProviderList = ({
   totalCount,
   handleChangePage,
   handleChangeRowsPerPage,
+  handleOnClick,
 }: {
   providers: Provider[];
   isRequest: boolean;
@@ -38,6 +39,7 @@ export const ProviderList = ({
   totalCount: number;
   handleChangePage: (page) => void;
   handleChangeRowsPerPage: (rowsPerPage) => void;
+  handleOnClick: (id: string) => void;
 }) => {
   const classes = useStyles();
   const userOfIds = useTypedSelector(state => state.userOfIds);
@@ -65,7 +67,11 @@ export const ProviderList = ({
           </TableHead>
           <TableBody>
             {providers.map(data => (
-              <TableRow key={data.id} hover>
+              <TableRow
+                key={data.id}
+                hover
+                onClick={() => handleOnClick(data.id)}
+              >
                 <TableCell>{data.name}</TableCell>
                 <TableCell>{data.description}</TableCell>
                 <TableCell>{data.phone}</TableCell>

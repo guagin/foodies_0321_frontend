@@ -91,6 +91,10 @@ export const ProviderListPage = () => {
     setPage(0);
   };
 
+  const handleOnClick = (id: string) => {
+    dispatch(push(`/provider/ofId/${id}`));
+  };
+
   if (message) {
     return (
       <>
@@ -131,6 +135,7 @@ export const ProviderListPage = () => {
               totalCount={totalCount}
               handleChangePage={handleChangePage}
               handleChangeRowsPerPage={handleChangeRowsPerPage}
+              handleOnClick={handleOnClick}
             />
           </Grid>
         </Grid>
