@@ -33,7 +33,7 @@ export function* ProviderOfIdSaga({ token, id }: FetchProviderOfId) {
 
     const { createdBy } = data.provider;
 
-    yield put(fetchUserOfIdsCreator({ token, id: createdBy }));
+    yield put(fetchUserOfIdsCreator({ token, ids: createdBy }));
   } catch (e) {
     yield put(fetchProviderOfIdFailure({ message: e.message }));
   }

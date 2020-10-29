@@ -20,7 +20,7 @@ export type ProviderState = {
 };
 
 export const initProviderState: ProviderState = {
-  isRequest: false,
+  isRequest: true,
   message: '',
 };
 

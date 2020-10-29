@@ -83,8 +83,6 @@ export const Provider: (props: Props) => ReactElement = ({
     );
   }
 
-  console.log(provider);
-
   return (
     <>
       <Helmet>

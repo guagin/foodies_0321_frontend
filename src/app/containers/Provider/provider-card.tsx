@@ -6,6 +6,7 @@ import {
   Theme,
   Typography,
 } from '@material-ui/core';
+import { find } from 'lodash';
 import React, { ReactElement } from 'react';
 import { User } from 'store/users-of-ids/reducer';
 import { Provider } from './reducer';
@@ -39,7 +40,11 @@ export const ProviderCard: ({
   users: User[];
 }) => ReactElement = ({ provider, users }) => {
   const classes = useStyles();
+  const getName = (id: string) => {
+    const user = find(users, e => e.id === id);
 
+    return user ? user.name : '';
+  };
   return (
     <>
       <Typography className={classes.title} color="textSecondary">
@@ -48,15 +53,6 @@ export const ProviderCard: ({
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            name
-          </Typography>
-          {/* <Typography
             className={classes.subTitle}
             color="textSecondary"
             gutterBottom
@@ -64,7 +60,21 @@ export const ProviderCard: ({
             component="h2"
           >
             {provider.name}
-          </Typography> */}
+          </Typography>
+          <Typography
+            className={classes.subTitle}
+            color="textSecondary"
+            gutterBottom
+          >
+            {getName(provider.createdBy)}
+          </Typography>
+          <Typography
+            className={classes.subTitle}
+            color="textSecondary"
+            gutterBottom
+          >
+            {provider.phone}
+          </Typography>
         </CardContent>
       </Card>
     </>
