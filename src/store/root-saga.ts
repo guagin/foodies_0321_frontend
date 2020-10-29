@@ -1,13 +1,8 @@
 import { all, fork } from 'redux-saga/effects';
 
 import { fetchMeFlow } from './me/saga/fetch-me';
-import { fetchProviderFlow } from './provider/saga/fetch-provider';
 import { FetchUserOfIdsFlow } from './users-of-ids/saga/fetch-user-of-ids';
 
 export const rootSaga = function* root() {
-  yield all([
-    fork(fetchMeFlow),
-    fork(fetchProviderFlow),
-    fork(FetchUserOfIdsFlow),
-  ]);
+  yield all([fork(fetchMeFlow), fork(FetchUserOfIdsFlow)]);
 };

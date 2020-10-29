@@ -7,9 +7,11 @@ import {
   Button,
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTypedSelector } from 'store/reducers';
 import { createProvider } from './action';
+import { createStructuredSelector } from 'reselect';
+import { makeSelectIsRequest } from './selector';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -21,12 +23,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+});
 export const CreateProviderForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const me = useTypedSelector(state => state.me);
-  const provider = useTypedSelector(state => state.provider);
+
+  const { isRequest } = useSelector(stateSelector);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [phone, setPhone] = useState('');
@@ -77,7 +83,7 @@ export const CreateProviderForm = () => {
               onChange={e => {
                 handleNameChange(e.target.value);
               }}
-              disabled={provider.isRequest}
+              disabled={isRequest}
             />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -94,7 +100,7 @@ export const CreateProviderForm = () => {
               onChange={e => {
                 handleDescriptionChange(e.target.value);
               }}
-              disabled={provider.isRequest}
+              disabled={isRequest}
             />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -111,7 +117,7 @@ export const CreateProviderForm = () => {
               onChange={e => {
                 handlePhoneChange(e.target.value);
               }}
-              disabled={provider.isRequest}
+              disabled={isRequest}
             />
           </Grid>
           <Grid item xs={12}>
@@ -121,7 +127,7 @@ export const CreateProviderForm = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
-              disabled={provider.isRequest}
+              disabled={isRequest}
             >
               {t('submit')}
             </Button>

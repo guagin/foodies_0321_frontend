@@ -10,8 +10,6 @@ import { InjectedReducersType } from 'utils/types/injector-typings';
 import { meReducer, MeState } from './me/reducer';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
 
-import { providerReducer, ProviderState } from './provider/reducer';
-import { FetchProviderAction } from './provider/action/fetch-provider';
 import { UsersOfIdsState, userOfIdsReducer } from './users-of-ids/reducer';
 import { FetchUsersOfIdAction } from './users-of-ids/action/fetch-users-of-id';
 
@@ -25,7 +23,6 @@ export function createReducer(injectedReducers: InjectedReducersType = {}) {
     ...injectedReducers,
     router: connectRouter(history) as Reducer<RouterState, AnyAction>,
     me: meReducer as Reducer<MeState, FetchMeAction>,
-    provider: providerReducer as Reducer<ProviderState, FetchProviderAction>,
     userOfIds: userOfIdsReducer as Reducer<
       UsersOfIdsState,
       FetchUsersOfIdAction
