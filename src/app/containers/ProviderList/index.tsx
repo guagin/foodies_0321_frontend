@@ -4,10 +4,22 @@ import { useTypedSelector } from 'store/reducers';
 import { Helmet } from 'react-helmet-async';
 import { CssBaseline, makeStyles, Grid, Fab } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { push } from 'connected-react-router';
+import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectMessage,
+  makeSelectProviders,
+} from './selector';
+import { makeSelectTotalCount } from '../TakeOutList/selector';
+import { fetchProviderOfPage } from './action';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
-import { fetchProviderCreator } from 'store/provider/action/fetch-provider';
+
+import { providerListReducer } from './reducer';
+import { useInjectReducer } from 'redux-injectors';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { providerListFlow } from './saga';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -25,10 +37,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const stateSelector = createStructuredSelector({
+  isRequest: makeSelectIsRequest(),
+  providers: makeSelectProviders(),
+  totalCount: makeSelectTotalCount(),
+  message: makeSelectMessage(),
+});
+
 export const ProviderListPage = () => {
-  const provider = useTypedSelector(state => state.provider);
+  useInjectReducer({ key: 'ProviderList', reducer: providerListReducer });
+  useInjectSaga({ key: 'ProviderList', saga: providerListFlow });
+
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const { isRequest, providers, totalCount, message } = useSelector(
+    stateSelector,
+  );
+
   const me = useTypedSelector(state => state.me);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
@@ -41,14 +67,14 @@ export const ProviderListPage = () => {
     dispatch(
       fetchUserOfIdsCreator({
         token: me.token,
-        ids: provider.providers.map(data => data.createdBy),
+        ids: providers.map(data => data.createdBy),
       }),
     );
-  }, [dispatch, me.token, provider.providers]);
+  }, [dispatch, me.token, providers]);
 
   useEffect(() => {
     dispatch(
-      fetchProviderCreator({
+      fetchProviderOfPage({
         page: page + 1,
         count: rowsPerPage,
         token: me.token,
@@ -65,9 +91,7 @@ export const ProviderListPage = () => {
     setPage(0);
   };
 
-  const { totalCount } = provider;
-
-  if (provider.message) {
+  if (message) {
     return (
       <>
         <Helmet>
@@ -79,7 +103,7 @@ export const ProviderListPage = () => {
         </Helmet>
         <CssBaseline />
         <div className={classes.paper}>
-          <p>{provider.message} </p>
+          <p>{message} </p>
         </div>
       </>
     );
@@ -100,8 +124,8 @@ export const ProviderListPage = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={12}>
             <ProviderList
-              providers={provider.providers}
-              isRequest={provider.isRequest}
+              providers={providers}
+              isRequest={isRequest}
               page={page}
               rowsPerPage={rowsPerPage}
               totalCount={totalCount}
