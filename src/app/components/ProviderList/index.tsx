@@ -57,17 +57,15 @@ export const ProviderList = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell> id </TableCell>
               <TableCell> name </TableCell>
               <TableCell> description </TableCell>
-              <TableCell> provider </TableCell>
+              <TableCell> phone </TableCell>
               <TableCell> createdBy </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {providers.map(data => (
               <TableRow key={data.id} hover>
-                <TableCell>{data.id}</TableCell>
                 <TableCell>{data.name}</TableCell>
                 <TableCell>{data.description}</TableCell>
                 <TableCell>{data.phone}</TableCell>
