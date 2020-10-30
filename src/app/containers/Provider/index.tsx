@@ -4,14 +4,16 @@ import {
   Grid,
   makeStyles,
   Typography,
+  Fab,
 } from '@material-ui/core';
 import { push } from 'connected-react-router';
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
+import AddIcon from '@material-ui/icons/Add';
 
 import { fetchProviderOfId } from './action';
 import { MealCard } from './meal-card';
@@ -95,7 +97,9 @@ export const Provider: (props: Props) => ReactElement = ({
     dispatch(push(`/meal/ofId/${id}`));
   };
 
-  // const mealsRow = chunk(meals, 3);
+  const handleClickAddIcon = () => {
+    dispatch(push(`/provider/${providerId}/createMeal/`));
+  };
 
   return (
     <>
@@ -115,13 +119,22 @@ export const Provider: (props: Props) => ReactElement = ({
         <Typography className={classes.title} color="textSecondary">
           meal
         </Typography>
-        <Grid container justify={'center'} spacing={2}>
+        <Grid container justify={'flex-start'} spacing={2}>
           {meals.map(e => (
             <Grid item xs={2} sm={2}>
               <MealCard meal={e} handleOnClick={handleMealDetailOnlick} />
             </Grid>
           ))}
         </Grid>
+
+        <Fab
+          color="primary"
+          aria-label="add"
+          className={classes.fab}
+          onClick={handleClickAddIcon}
+        >
+          <AddIcon />
+        </Fab>
       </div>
     </>
   );

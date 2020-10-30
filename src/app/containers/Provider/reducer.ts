@@ -6,6 +6,9 @@ import {
   FetchProviderOfId,
   FetchProviderOfIdFailure,
   FetchProviderOfIdSuccess,
+  CreateMeal,
+  CreateMealSuccess,
+  CreateMealFailure,
 } from './action';
 
 export interface Meal {
@@ -18,7 +21,7 @@ export interface Meal {
 }
 
 export interface Provider {
-  id: string;
+  _id: string;
   name: string;
   description: string;
   phone: number;
@@ -84,6 +87,28 @@ export const providerReducer = createReducer(initProviderState, {
     state,
     { message }: FetchMealOfProviderIdFailure,
   ) => {
+    return {
+      ...state,
+      isRequest: false,
+      message,
+    };
+  },
+
+  CreateMeal: (state, action: CreateMeal) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  CreateMealSuccess: (state, action: CreateMealSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+    };
+  },
+
+  CreateMealFailure: (state, { message }: CreateMealFailure) => {
     return {
       ...state,
       isRequest: false,

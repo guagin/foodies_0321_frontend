@@ -1,22 +1,16 @@
 import React, { FormEvent, useState } from 'react';
 import {
-  makeStyles,
   Typography,
   Grid,
+  makeStyles,
   TextField,
   Button,
 } from '@material-ui/core';
-
-import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useTypedSelector } from 'store/reducers';
+import { Provider } from './reducer';
+import { useDispatch } from 'react-redux';
 import { createMeal } from './action';
-import { useInjectSaga } from 'utils/redux-injectors';
-import { createMealReducer } from './reducer';
-import { createMealFlow } from './saga';
-import { useInjectReducer } from 'redux-injectors';
-import { makeSelectIsRequest, makeSelectPickedProvider } from './selector';
-import { createStructuredSelector } from 'reselect';
+import { useTypedSelector } from 'store/reducers';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -28,22 +22,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const stateSelector = createStructuredSelector({
-  isRequest: makeSelectIsRequest(),
-  pickedProvider: makeSelectPickedProvider(),
-});
-
-export function CreateMealForm() {
-  useInjectReducer({ key: 'createMeal', reducer: createMealReducer });
-  useInjectSaga({ key: 'createMeal', saga: createMealFlow });
-
+export function MealForm({ provider }: { provider: Provider }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const { token } = useTypedSelector(state => state.me);
   const { t } = useTranslation();
-
-  const { pickedProvider } = useSelector(stateSelector);
-  const me = useTypedSelector(state => state.me);
-
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
@@ -62,15 +46,13 @@ export function CreateMealForm() {
 
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
-
     dispatch(
       createMeal({
-        token: me.token,
+        token,
+        providerId: provider._id,
         name,
         price,
         description,
-        pictures: [],
-        provider: pickedProvider.id,
       }),
     );
   };
@@ -82,6 +64,20 @@ export function CreateMealForm() {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmmit}>
         <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              name="provider"
+              variant="outlined"
+              required
+              fullWidth
+              id="provider"
+              label={t('meal.provider')}
+              autoFocus
+              placeholder={t('meal.providerPlaceholder')}
+              value={provider.name}
+              disabled={true}
+            />
+          </Grid>
           <Grid item xs={12} sm={12}>
             <TextField
               autoComplete="name"
@@ -132,20 +128,7 @@ export function CreateMealForm() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              name="provider"
-              variant="outlined"
-              required
-              fullWidth
-              id="provider"
-              label={t('meal.provider')}
-              autoFocus
-              placeholder={t('meal.providerPlaceholder')}
-              value={pickedProvider.name}
-              disabled={true}
-            />
-          </Grid>
+
           <Grid item xs={12}>
             <Button
               type="submit"

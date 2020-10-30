@@ -25,6 +25,8 @@ import { PickProvider } from './containers/CreateMeal/pick-provider';
 import { CreateMealForm } from './containers/CreateMeal/create-meal-form';
 import { Provider } from './containers/Provider';
 import { Meal } from './containers/Meal';
+import { CreateMeal } from './containers/Provider/create-meal';
+import { EditMeal } from './containers/Meal/edit-meal';
 
 export function App() {
   return (
@@ -95,6 +97,11 @@ export function App() {
           component={Provider}
         />
         <AuthenticatedRoute path="/meal/ofId/:id" component={Meal} />
+        <AuthenticatedRoute
+          path="/provider/:id/createMeal/"
+          component={CreateMeal}
+        />
+        <AuthenticatedRoute path="/meal/:id/edit" component={EditMeal} />
 
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />

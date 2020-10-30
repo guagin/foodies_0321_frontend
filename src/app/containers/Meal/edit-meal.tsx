@@ -6,17 +6,17 @@ import {
   TextField,
   Button,
 } from '@material-ui/core';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { useTypedSelector } from 'store/reducers';
-import { createMeal } from './action';
-import { useInjectSaga } from 'utils/redux-injectors';
-import { createMealReducer } from './reducer';
-import { createMealFlow } from './saga';
-import { useInjectReducer } from 'redux-injectors';
-import { makeSelectIsRequest, makeSelectPickedProvider } from './selector';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import {
+  makeSelectIsRequest,
+  makeSelectMessage,
+  makeSelectMeal,
+  makeSelectProvider,
+} from './selector';
+import { updateMeal } from './action';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -30,23 +30,23 @@ const useStyles = makeStyles(theme => ({
 
 const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
-  pickedProvider: makeSelectPickedProvider(),
+  message: makeSelectMessage(),
+  meal: makeSelectMeal(),
+  provider: makeSelectProvider(),
 });
 
-export function CreateMealForm() {
-  useInjectReducer({ key: 'createMeal', reducer: createMealReducer });
-  useInjectSaga({ key: 'createMeal', saga: createMealFlow });
-
+export const EditMeal = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+
+  const { token } = useTypedSelector(state => state.me);
+  const { isRequest, message, meal, provider } = useSelector(stateSelector);
+
   const { t } = useTranslation();
-
-  const { pickedProvider } = useSelector(stateSelector);
-  const me = useTypedSelector(state => state.me);
-
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
-  const [description, setDescription] = useState('');
+  const dispatch = useDispatch();
+  const [name, setName] = useState(meal.name);
+  const [price, setPrice] = useState(meal.price);
+  const [description, setDescription] = useState(meal.description);
+  const [pictures] = useState([]);
 
   const handleNameChange = value => {
     setName(value);
@@ -62,15 +62,15 @@ export function CreateMealForm() {
 
   const handleSubmmit = (event: FormEvent) => {
     event.preventDefault();
-
+    // update meal
     dispatch(
-      createMeal({
-        token: me.token,
+      updateMeal({
+        token,
+        id: meal.id,
         name,
-        price,
         description,
-        pictures: [],
-        provider: pickedProvider.id,
+        price,
+        pictures,
       }),
     );
   };
@@ -82,6 +82,20 @@ export function CreateMealForm() {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmmit}>
         <Grid container spacing={2}>
+          <Grid item xs={12} sm={12}>
+            <TextField
+              name="provider"
+              variant="outlined"
+              required
+              fullWidth
+              id="provider"
+              label={t('meal.provider')}
+              autoFocus
+              placeholder={t('meal.providerPlaceholder')}
+              value={provider.name}
+              disabled={true}
+            />
+          </Grid>
           <Grid item xs={12} sm={12}>
             <TextField
               autoComplete="name"
@@ -113,7 +127,6 @@ export function CreateMealForm() {
               onChange={e => {
                 handlePriceChange(e.target.value);
               }}
-              //   disabled={disabled}
             />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -132,20 +145,7 @@ export function CreateMealForm() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={12}>
-            <TextField
-              name="provider"
-              variant="outlined"
-              required
-              fullWidth
-              id="provider"
-              label={t('meal.provider')}
-              autoFocus
-              placeholder={t('meal.providerPlaceholder')}
-              value={pickedProvider.name}
-              disabled={true}
-            />
-          </Grid>
+
           <Grid item xs={12}>
             <Button
               type="submit"
@@ -161,4 +161,4 @@ export function CreateMealForm() {
       </form>
     </>
   );
-}
+};

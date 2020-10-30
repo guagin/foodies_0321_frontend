@@ -3,6 +3,7 @@ import {
   CssBaseline,
   Grid,
   makeStyles,
+  Fab,
 } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -13,6 +14,7 @@ import { useTypedSelector } from 'store/reducers';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { fetchMealOfId } from './action';
 import { MealCard } from './meal-card';
+import EditIcon from '@material-ui/icons/Edit';
 
 import { mealReducer } from './reducer';
 import { MealFlow } from './saga';
@@ -22,6 +24,7 @@ import {
   makeSelectMessage,
   makeSelectProvider,
 } from './selector';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,6 +34,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
   root: {
     marginTop: theme.spacing(2),
@@ -91,7 +99,9 @@ export const Meal: (props: Props) => React.ReactElement = ({
     );
   }
 
-  console.log(meal);
+  const handleClickEdit = () => {
+    dispatch(push(`/meal/${meal.id}/edit`));
+  };
 
   return (
     <>
@@ -107,6 +117,16 @@ export const Meal: (props: Props) => React.ReactElement = ({
           </Grid>
         </Grid>
       </div>
+      <Fab
+        color="secondary"
+        aria-label="edit"
+        className={classes.fab}
+        onClick={() => {
+          handleClickEdit();
+        }}
+      >
+        <EditIcon />
+      </Fab>
     </>
   );
 };

@@ -98,9 +98,9 @@ export const AppDrawer = ({ children }) => {
     setOpen(false);
   };
 
-  const handleMealItemClick = () => {
-    dispatch(push('/meal-list'));
-  };
+  // const handleMealItemClick = () => {
+  //   dispatch(push('/meal-list'));
+  // };
 
   const handleProviderClick = () => {
     dispatch(push('/provider-list'));
@@ -179,7 +179,7 @@ export const AppDrawer = ({ children }) => {
         </div>
         <Divider />
         <List onClick={toggleDrawer(false)}>
-          <ListItem
+          {/* <ListItem
             button
             key={'meal'}
             onClick={() => {
@@ -190,7 +190,7 @@ export const AppDrawer = ({ children }) => {
               <LocalDining />
             </ListItemIcon>
             <ListItemText primary={'meal'} />
-          </ListItem>
+          </ListItem> */}
           <ListItem
             button
             key={'provider'}

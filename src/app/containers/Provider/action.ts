@@ -1,5 +1,6 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Meal, Provider } from './reducer';
+import { Input } from '@material-ui/core';
 
 export interface FetchProviderOfId extends Action<'FetchProviderOfId'> {
   token: string;
@@ -30,6 +31,22 @@ export interface FetchMealOfProviderIdSuccess
 
 export interface FetchMealOfProviderIdFailure
   extends Action<'FetchMealOfProviderIdFailure'> {
+  message: string;
+}
+
+export interface CreateMeal extends Action<'CreateMeal'> {
+  token: string;
+  providerId: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+export interface CreateMealSuccess extends Action<'CreateMealSuccess'> {
+  id: string;
+}
+
+export interface CreateMealFailure extends Action<'CreateMealFailure'> {
   message: string;
 }
 
@@ -73,4 +90,23 @@ export const fetchMealOfProviderIdFailure: ActionCreator<FetchMealOfProviderIdFa
 ) => ({
   ...input,
   type: 'FetchMealOfProviderIdFailure',
+});
+
+export const createMeal: ActionCreator<CreateMeal> = (input: CreateMeal) => ({
+  ...input,
+  type: 'CreateMeal',
+});
+
+export const createMealSuccess: ActionCreator<CreateMealSuccess> = (
+  input: CreateMealSuccess,
+) => ({
+  ...input,
+  type: 'CreateMealSuccess',
+});
+
+export const createMealFailure: ActionCreator<CreateMealFailure> = (
+  input: CreateMealFailure,
+) => ({
+  ...input,
+  type: 'CreateMealFailure',
 });

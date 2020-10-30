@@ -1,4 +1,3 @@
-import classes from '*.module.css';
 import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { User } from 'store/users-of-ids/reducer';

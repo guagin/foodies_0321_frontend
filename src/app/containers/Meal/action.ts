@@ -29,6 +29,23 @@ export interface FetchProviderOfIdFailure
   message: string;
 }
 
+export interface UpdateMeal extends Action<'UpdateMeal'> {
+  token: string;
+  id: string;
+  name: string;
+  description: string;
+  prices: number;
+  pictures: string[];
+}
+
+export interface UpdateMealSuccess extends Action<'UpdateMealSuccess'> {
+  id: string;
+}
+
+export interface UpdateMealFailure extends Action<'UpdateMealFailure'> {
+  message: string;
+}
+
 export const fetchMealOfId: ActionCreator<FetchMealOfId> = (
   input: FetchMealOfId,
 ) => ({
@@ -69,4 +86,23 @@ export const fetchProviderOfIdFailure: ActionCreator<FetchProviderOfIdFailure> =
 ) => ({
   ...input,
   type: 'FetchProviderOfIdFailure',
+});
+
+export const updateMeal: ActionCreator<UpdateMeal> = (input: UpdateMeal) => ({
+  ...input,
+  type: 'UpdateMeal',
+});
+
+export const updateMealSuccess: ActionCreator<UpdateMealSuccess> = (
+  input: UpdateMealSuccess,
+) => ({
+  ...input,
+  type: 'UpdateMealSuccess',
+});
+
+export const updateMealFailure: ActionCreator<UpdateMealFailure> = (
+  input: UpdateMealFailure,
+) => ({
+  ...input,
+  type: 'UpdateMealFailure',
 });

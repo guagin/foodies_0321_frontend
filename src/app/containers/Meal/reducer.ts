@@ -48,7 +48,6 @@ export const mealReducer = createReducer(initMealState, {
   FetchMealOfIdSuccess: (state, { meal }: FetchMealOfIdSuccess) => {
     return {
       ...state,
-      // isRequest: false,
       meal,
     };
   },
@@ -56,7 +55,6 @@ export const mealReducer = createReducer(initMealState, {
   FetchMealOfIdFailure: (state, { message }: FetchMealOfIdFailure) => {
     return {
       ...state,
-      // isRequest: false,
       message,
     };
   },
