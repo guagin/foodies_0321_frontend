@@ -159,3 +159,38 @@ export const fetchMealOfIds: (input: {
     };
   }
 };
+
+export const fetchMealOfId: (input: {
+  token: string;
+  id: string;
+}) => Promise<{
+  data?: {
+    meal: Meal;
+  };
+  status: Status;
+}> = async ({ token, id }) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/meal/ofId/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+      },
+    );
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};

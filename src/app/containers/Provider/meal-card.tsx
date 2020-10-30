@@ -1,5 +1,7 @@
 import {
+  Button,
   Card,
+  CardActions,
   CardContent,
   createStyles,
   makeStyles,
@@ -30,7 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const MealCard = ({ meal }: { meal: Meal }) => {
+export const MealCard = ({
+  meal,
+  handleOnClick,
+}: {
+  meal: Meal;
+  handleOnClick: (id: string) => void;
+}) => {
   const classes = useStyles();
   return (
     <>
@@ -61,6 +69,9 @@ export const MealCard = ({ meal }: { meal: Meal }) => {
             {meal.price}
           </Typography>
         </CardContent>
+        <CardActions>
+          <Button onClick={() => handleOnClick(meal.id)}>detail</Button>
+        </CardActions>
       </Card>
     </>
   );

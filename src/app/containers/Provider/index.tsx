@@ -5,7 +5,7 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core';
-import { chunk } from 'lodash';
+import { push } from 'connected-react-router';
 import React, { ReactElement, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,6 +91,10 @@ export const Provider: (props: Props) => ReactElement = ({
     );
   }
 
+  const handleMealDetailOnlick = (id: string) => {
+    dispatch(push(`/meal/ofId/${id}`));
+  };
+
   // const mealsRow = chunk(meals, 3);
 
   return (
@@ -114,7 +118,7 @@ export const Provider: (props: Props) => ReactElement = ({
         <Grid container justify={'center'} spacing={2}>
           {meals.map(e => (
             <Grid item xs={2} sm={2}>
-              <MealCard meal={e} />
+              <MealCard meal={e} handleOnClick={handleMealDetailOnlick} />
             </Grid>
           ))}
         </Grid>
