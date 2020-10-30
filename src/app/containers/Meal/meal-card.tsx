@@ -2,7 +2,7 @@ import classes from '*.module.css';
 import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { User } from 'store/users-of-ids/reducer';
-import { Meal } from './reducer';
+import { Meal, Provider } from './reducer';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -37,7 +37,15 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const MealCard = ({ meal, users }: { meal: Meal; users: User[] }) => {
+export const MealCard = ({
+  meal,
+  users,
+  provider,
+}: {
+  meal: Meal;
+  users: User[];
+  provider: Provider;
+}) => {
   const classes = useStyles();
   const getUserName = () => {
     const found = users.find(e => e.id === meal.createdBy);
@@ -83,7 +91,7 @@ export const MealCard = ({ meal, users }: { meal: Meal; users: User[] }) => {
             color="textSecondary"
             gutterBottom
           >
-            {meal.provider}
+            {provider.name}
           </Typography>
         </CardContent>
       </Card>

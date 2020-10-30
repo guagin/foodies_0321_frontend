@@ -3,6 +3,9 @@ import {
   FetchMealOfId,
   FetchMealOfIdFailure,
   FetchMealOfIdSuccess,
+  FetchProviderOfId,
+  FetchProviderOfIdFailure,
+  FetchProviderOfIdSuccess,
 } from './action';
 
 export interface Meal {
@@ -26,6 +29,7 @@ export type MealState = {
   isRequest: boolean;
   message: string;
   meal?: Meal;
+  provider?: Provider;
 };
 
 export const initMealState: MealState = {
@@ -44,7 +48,7 @@ export const mealReducer = createReducer(initMealState, {
   FetchMealOfIdSuccess: (state, { meal }: FetchMealOfIdSuccess) => {
     return {
       ...state,
-      isRequest: false,
+      // isRequest: false,
       meal,
     };
   },
@@ -52,10 +56,31 @@ export const mealReducer = createReducer(initMealState, {
   FetchMealOfIdFailure: (state, { message }: FetchMealOfIdFailure) => {
     return {
       ...state,
-      isRequest: false,
+      // isRequest: false,
       message,
     };
   },
 
-  // TODO: fetchProvider.
+  FetchProviderOfId: (state, action: FetchProviderOfId) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  FetchProviderOfIdSuccess: (state, { provider }: FetchProviderOfIdSuccess) => {
+    return {
+      ...state,
+      isRequest: false,
+      provider,
+    };
+  },
+
+  FetchProviderOfIdFailure: (state, { message }: FetchProviderOfIdFailure) => {
+    return {
+      ...state,
+      isRequest: false,
+      message,
+    };
+  },
 });

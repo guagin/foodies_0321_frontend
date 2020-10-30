@@ -12,4 +12,5 @@ export const makeSelectMessage = () =>
 export const makeSelectMeal = () =>
   createSelector(selectorMealDomain, subState => subState.meal);
 
-// TODO: fetchProvider.
+export const makeSelectProvider = () =>
+  createSelector(selectorMealDomain, subState => subState.provider);

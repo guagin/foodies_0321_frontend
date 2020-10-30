@@ -20,6 +20,7 @@ import {
   makeSelectIsRequest,
   makeSelectMeal,
   makeSelectMessage,
+  makeSelectProvider,
 } from './selector';
 
 const useStyles = makeStyles(theme => ({
@@ -49,6 +50,7 @@ const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   message: makeSelectMessage(),
   meal: makeSelectMeal(),
+  provider: makeSelectProvider(),
 });
 
 export const Meal: (props: Props) => React.ReactElement = ({
@@ -63,7 +65,7 @@ export const Meal: (props: Props) => React.ReactElement = ({
   const dispatch = useDispatch();
   const { token } = useTypedSelector(state => state.me);
   const { users } = useTypedSelector(state => state.userOfIds);
-  const { isRequest, message, meal } = useSelector(stateSelector);
+  const { isRequest, message, meal, provider } = useSelector(stateSelector);
 
   useEffect(() => {
     dispatch(
@@ -101,7 +103,7 @@ export const Meal: (props: Props) => React.ReactElement = ({
       <div className={classes.paper}>
         <Grid container justify={'center'}>
           <Grid item xs={8} sm={8}>
-            <MealCard meal={meal} users={users} />
+            <MealCard meal={meal} users={users} provider={provider} />
           </Grid>
         </Grid>
       </div>

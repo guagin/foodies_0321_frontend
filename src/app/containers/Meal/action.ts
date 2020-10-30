@@ -26,7 +26,7 @@ export interface FetchProviderOfIdSuccess
 
 export interface FetchProviderOfIdFailure
   extends Action<'FetchProviderOfIdFailure'> {
-  messge: string;
+  message: string;
 }
 
 export const fetchMealOfId: ActionCreator<FetchMealOfId> = (
