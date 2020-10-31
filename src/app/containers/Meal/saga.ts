@@ -3,6 +3,7 @@ import {
   fetchProviderOfId as fetchProviderOfIdAPI,
   Meal,
   Status,
+  updateMealProps,
 } from 'api';
 import { put, takeLatest } from 'redux-saga/effects';
 import * as Effects from 'redux-saga/effects';
@@ -14,21 +15,29 @@ import {
   FetchProviderOfId,
   fetchProviderOfIdFailure,
   fetchProviderOfIdSuccess,
+  UpdateMeal,
+  updateMealFailure,
+  updateMealSuccess,
 } from './action';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 import { Provider } from './reducer';
+import {
+  FETCH_MEAL_OF_ID,
+  FETCH_PROVIDER_OF_ID,
+  UPDATE_MEAL,
+} from './constants';
+import { push } from 'connected-react-router';
 
 const call: any = Effects.call;
 
 export function* MealFlow() {
-  yield takeLatest('FetchMealOfId', fetchMealSaga);
-  // TODO: fetchProvider.
-  yield takeLatest('FetchProviderOfId', fetchProviderOfIdSaga);
+  yield takeLatest(FETCH_MEAL_OF_ID, fetchMealSaga);
+  yield takeLatest(FETCH_PROVIDER_OF_ID, fetchProviderOfIdSaga);
+  yield takeLatest(UPDATE_MEAL, updateMealSaga);
 }
 
 function* fetchMealSaga({ token, id }: FetchMealOfId) {
   try {
-    // fetch meal ofid
     const {
       data,
       status,
@@ -74,5 +83,27 @@ function* fetchProviderOfIdSaga({ token, id }: FetchProviderOfId) {
     yield put(fetchProviderOfIdSuccess({ ...data }));
   } catch (e) {
     yield put(fetchProviderOfIdFailure({ message: e.message }));
+  }
+}
+
+function* updateMealSaga(input: UpdateMeal) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {};
+      status: Status;
+    } = yield call(updateMealProps, { ...input });
+
+    if (status.code === 'ERROR') {
+      yield put(updateMealFailure({ message: status.msg }));
+      return;
+    }
+
+    yield put(updateMealSuccess({ ...data }));
+    yield put(push(`/meal/ofId/${input.id}`));
+  } catch (e) {
+    yield put(updateMealFailure({ message: e.message }));
   }
 }

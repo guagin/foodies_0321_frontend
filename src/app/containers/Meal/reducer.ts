@@ -8,7 +8,14 @@ import {
   FetchProviderOfIdFailure,
   ActionType,
 } from './action';
-import { FETCH_MEAL_OF_ID } from './constants';
+import {
+  FETCH_MEAL_OF_ID,
+  FETCH_MEAL_OF_ID_SUCCESS,
+  FETCH_MEAL_OF_ID_FAILURE,
+  FETCH_PROVIDER_OF_ID,
+  FETCH_PROVIDER_OF_ID_SUCCESS,
+  FETCH_PROVIDER_OF_ID_FAILURE,
+} from './constants';
 
 export interface Meal {
   id: string;
@@ -47,28 +54,31 @@ export const mealReducer = createReducer<MealState>(initMealState, {
     };
   },
 
-  FetchMealOfIdSuccess: (state, { meal }: FetchMealOfIdSuccess) => {
+  [FETCH_MEAL_OF_ID_SUCCESS]: (state, { meal }: FetchMealOfIdSuccess) => {
     return {
       ...state,
       meal,
     };
   },
 
-  FetchMealOfIdFailure: (state, { message }: FetchMealOfIdFailure) => {
+  [FETCH_MEAL_OF_ID_FAILURE]: (state, { message }: FetchMealOfIdFailure) => {
     return {
       ...state,
       message,
     };
   },
 
-  FetchProviderOfId: (state, action: FetchProviderOfId) => {
+  [FETCH_PROVIDER_OF_ID]: (state, action: FetchProviderOfId) => {
     return {
       ...state,
       isRequest: true,
     };
   },
 
-  FetchProviderOfIdSuccess: (state, { provider }: FetchProviderOfIdSuccess) => {
+  [FETCH_PROVIDER_OF_ID_SUCCESS]: (
+    state,
+    { provider }: FetchProviderOfIdSuccess,
+  ) => {
     return {
       ...state,
       isRequest: false,
@@ -76,7 +86,10 @@ export const mealReducer = createReducer<MealState>(initMealState, {
     };
   },
 
-  FetchProviderOfIdFailure: (state, { message }: FetchProviderOfIdFailure) => {
+  [FETCH_PROVIDER_OF_ID_FAILURE]: (
+    state,
+    { message }: FetchProviderOfIdFailure,
+  ) => {
     return {
       ...state,
       isRequest: false,

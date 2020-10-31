@@ -1,4 +1,5 @@
 import { Status } from './status';
+import { UpdateMeal } from 'app/containers/Meal/action';
 
 export interface Meal {
   id: string;
@@ -178,6 +179,51 @@ export const fetchMealOfId: (input: {
           token,
           'content-type': 'application/json',
         },
+      },
+    );
+
+    const json = await response.json();
+
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const updateMealProps: (input: {
+  token: string;
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}) => Promise<{ data?: {}; status: Status }> = async ({
+  token,
+  id,
+  name,
+  price,
+  description,
+}) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/meal/updateProps`,
+      {
+        method: 'POST',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          price,
+          description,
+        }),
       },
     );
 

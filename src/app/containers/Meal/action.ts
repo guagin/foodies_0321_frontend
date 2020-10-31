@@ -89,7 +89,7 @@ export interface UpdateMeal extends Action<typeof UPDATE_MEAL> {
   id: string;
   name: string;
   description: string;
-  prices: number;
+  price: number;
   pictures: string[];
 }
 
@@ -98,9 +98,7 @@ export const updateMeal: ActionCreator<UpdateMeal> = (input: UpdateMeal) => ({
   type: UPDATE_MEAL,
 });
 
-export interface UpdateMealSuccess extends Action<typeof UPDATE_MEAL_SUCCESS> {
-  id: string;
-}
+export interface UpdateMealSuccess extends Action<typeof UPDATE_MEAL_SUCCESS> {}
 
 export const updateMealSuccess: ActionCreator<UpdateMealSuccess> = (
   input: UpdateMealSuccess,
