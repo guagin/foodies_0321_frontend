@@ -1,35 +1,90 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Meal, Provider } from './reducer';
+import {
+  FETCH_MEAL_OF_ID,
+  FETCH_MEAL_OF_ID_SUCCESS,
+  FETCH_MEAL_OF_ID_FAILURE,
+  FETCH_PROVIDER_OF_ID,
+  FETCH_PROVIDER_OF_ID_SUCCESS,
+  FETCH_PROVIDER_OF_ID_FAILURE,
+  UPDATE_MEAL,
+  UPDATE_MEAL_SUCCESS,
+  UPDATE_MEAL_FAILURE,
+} from './constants';
 
-export interface FetchMealOfId extends Action<'FetchMealOfId'> {
+export interface FetchMealOfId extends Action<typeof FETCH_MEAL_OF_ID> {
   token: string;
   id: string;
 }
 
-export interface FetchMealOfIdSuccess extends Action<'FetchMealOfIdSuccess'> {
+export const fetchMealOfId: ActionCreator<FetchMealOfId> = (
+  input: FetchMealOfId,
+) => ({
+  ...input,
+  type: FETCH_MEAL_OF_ID,
+});
+
+export interface FetchMealOfIdSuccess
+  extends Action<typeof FETCH_MEAL_OF_ID_SUCCESS> {
   meal: Meal;
 }
 
-export interface FetchMealOfIdFailure extends Action<'FetchMealOfIdFailure'> {
+export const fetchMealOfIdSuccess: ActionCreator<FetchMealOfIdSuccess> = (
+  input: FetchMealOfIdSuccess,
+) => ({
+  ...input,
+  type: FETCH_MEAL_OF_ID_SUCCESS,
+});
+
+export interface FetchMealOfIdFailure
+  extends Action<typeof FETCH_MEAL_OF_ID_FAILURE> {
   message: string;
 }
 
-export interface FetchProviderOfId extends Action<'FetchProviderOfId'> {
+export const fetchMealOfIdFailure: ActionCreator<FetchMealOfIdFailure> = (
+  input: FetchMealOfIdFailure,
+) => ({
+  ...input,
+  type: FETCH_MEAL_OF_ID_FAILURE,
+});
+
+export interface FetchProviderOfId extends Action<typeof FETCH_PROVIDER_OF_ID> {
   token: string;
   id: string;
 }
 
+export const fetchProviderOfId: ActionCreator<FetchProviderOfId> = (
+  input: FetchProviderOfId,
+) => ({
+  ...input,
+  type: FETCH_PROVIDER_OF_ID,
+});
+
 export interface FetchProviderOfIdSuccess
-  extends Action<'FetchProviderOfIdSuccess'> {
+  extends Action<typeof FETCH_PROVIDER_OF_ID_SUCCESS> {
   provider: Provider;
 }
 
+export const fetchProviderOfIdSuccess: ActionCreator<FetchProviderOfIdSuccess> = (
+  input: FetchProviderOfIdSuccess,
+) => ({
+  ...input,
+  type: FETCH_PROVIDER_OF_ID_SUCCESS,
+});
+
 export interface FetchProviderOfIdFailure
-  extends Action<'FetchProviderOfIdFailure'> {
+  extends Action<typeof FETCH_PROVIDER_OF_ID_FAILURE> {
   message: string;
 }
 
-export interface UpdateMeal extends Action<'UpdateMeal'> {
+export const fetchProviderOfIdFailure: ActionCreator<FetchProviderOfIdFailure> = (
+  input: FetchProviderOfIdFailure,
+) => ({
+  ...input,
+  type: FETCH_PROVIDER_OF_ID_FAILURE,
+});
+
+export interface UpdateMeal extends Action<typeof UPDATE_MEAL> {
   token: string;
   id: string;
   name: string;
@@ -38,71 +93,40 @@ export interface UpdateMeal extends Action<'UpdateMeal'> {
   pictures: string[];
 }
 
-export interface UpdateMealSuccess extends Action<'UpdateMealSuccess'> {
-  id: string;
-}
-
-export interface UpdateMealFailure extends Action<'UpdateMealFailure'> {
-  message: string;
-}
-
-export const fetchMealOfId: ActionCreator<FetchMealOfId> = (
-  input: FetchMealOfId,
-) => ({
-  ...input,
-  type: 'FetchMealOfId',
-});
-
-export const fetchMealOfIdSuccess: ActionCreator<FetchMealOfIdSuccess> = (
-  input: FetchMealOfIdSuccess,
-) => ({
-  ...input,
-  type: 'FetchMealOfIdSuccess',
-});
-
-export const fetchMealOfIdFailure: ActionCreator<FetchMealOfIdFailure> = (
-  input: FetchMealOfIdFailure,
-) => ({
-  ...input,
-  type: 'FetchMealOfIdFailure',
-});
-
-export const fetchProviderOfId: ActionCreator<FetchProviderOfId> = (
-  input: FetchProviderOfId,
-) => ({
-  ...input,
-  type: 'FetchProviderOfId',
-});
-
-export const fetchProviderOfIdSuccess: ActionCreator<FetchProviderOfIdSuccess> = (
-  input: FetchProviderOfIdSuccess,
-) => ({
-  ...input,
-  type: 'FetchProviderOfIdSuccess',
-});
-
-export const fetchProviderOfIdFailure: ActionCreator<FetchProviderOfIdFailure> = (
-  input: FetchProviderOfIdFailure,
-) => ({
-  ...input,
-  type: 'FetchProviderOfIdFailure',
-});
-
 export const updateMeal: ActionCreator<UpdateMeal> = (input: UpdateMeal) => ({
   ...input,
-  type: 'UpdateMeal',
+  type: UPDATE_MEAL,
 });
+
+export interface UpdateMealSuccess extends Action<typeof UPDATE_MEAL_SUCCESS> {
+  id: string;
+}
 
 export const updateMealSuccess: ActionCreator<UpdateMealSuccess> = (
   input: UpdateMealSuccess,
 ) => ({
   ...input,
-  type: 'UpdateMealSuccess',
+  type: UPDATE_MEAL_SUCCESS,
 });
+
+export interface UpdateMealFailure extends Action<typeof UPDATE_MEAL_FAILURE> {
+  message: string;
+}
 
 export const updateMealFailure: ActionCreator<UpdateMealFailure> = (
   input: UpdateMealFailure,
 ) => ({
   ...input,
-  type: 'UpdateMealFailure',
+  type: UPDATE_MEAL_FAILURE,
 });
+
+export type ActionType =
+  | FetchMealOfId
+  | FetchMealOfIdSuccess
+  | FetchMealOfIdFailure
+  | FetchProviderOfId
+  | FetchProviderOfIdSuccess
+  | FetchProviderOfIdFailure
+  | UpdateMeal
+  | UpdateMealSuccess
+  | UpdateMealFailure;

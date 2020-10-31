@@ -1,12 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
   FetchMealOfId,
-  FetchMealOfIdFailure,
   FetchMealOfIdSuccess,
+  FetchMealOfIdFailure,
   FetchProviderOfId,
-  FetchProviderOfIdFailure,
   FetchProviderOfIdSuccess,
+  FetchProviderOfIdFailure,
+  ActionType,
 } from './action';
+import { FETCH_MEAL_OF_ID } from './constants';
 
 export interface Meal {
   id: string;
@@ -37,8 +39,8 @@ export const initMealState: MealState = {
   message: '',
 };
 
-export const mealReducer = createReducer(initMealState, {
-  FetchMealOfId: (state, action: FetchMealOfId) => {
+export const mealReducer = createReducer<MealState>(initMealState, {
+  [FETCH_MEAL_OF_ID]: (state, action: FetchMealOfId) => {
     return {
       ...state,
       isRequest: true,
