@@ -27,6 +27,7 @@ import { Provider } from './containers/Provider';
 import { Meal } from './containers/Meal';
 import { CreateMeal } from './containers/Provider/create-meal';
 import { EditMeal } from './containers/Meal/edit-meal';
+import { TakeoutPage } from './containers/Takeout';
 
 export function App() {
   return (
@@ -102,6 +103,8 @@ export function App() {
           component={CreateMeal}
         />
         <AuthenticatedRoute path="/meal/:id/edit" component={EditMeal} />
+
+        <AuthenticatedRoute path="/takeout/ofId/:id" component={TakeoutPage} />
 
         <UnauthenticatedRoute exact path="/sign-in" component={SignInPage} />
         <UnauthenticatedRoute exact path="/sign-up" component={SignUpPage} />

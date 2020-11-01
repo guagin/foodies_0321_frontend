@@ -1,12 +1,11 @@
 import fetch from 'node-fetch';
 
 import { User } from 'store/users-of-ids/reducer';
-import { TakeOut } from 'app/containers/TakeOutList/take-out';
-
-import { Order } from 'app/containers/OrderList/reducer';
 
 export * from './provider';
 export * from './meal';
+export * from './takeout';
+export * from './order';
 
 export interface Status {
   code: 'SUCCESS' | 'ERROR';
@@ -127,84 +126,6 @@ export const fetchUserOfIds: (input: {
   }
 };
 
-export const fetchOrderOfPage: (input: {
-  token: string;
-  page: number;
-  count: number;
-}) => Promise<{
-  data?: {
-    orders: Order[];
-    hasPrevious: boolean;
-    hasNext: boolean;
-    page: number;
-    totalPage: number;
-    totalCount: number;
-  };
-  status: Status;
-}> = async ({ token, page, count }) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/order/order/ofPage?page=${page}&count=${count}`,
-      {
-        headers: {
-          token,
-          'content-type': 'application/json',
-        },
-      },
-    );
-    const json = await response.json();
-
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        msg: e.message,
-      },
-    };
-  }
-};
-
-export const fetchTakeOutList: (input: {
-  token: string;
-  page: number;
-  count: number;
-}) => Promise<{
-  data?: {
-    takeOuts: TakeOut[];
-    hasPrevious: boolean;
-    hasNext: boolean;
-    page: number;
-    totalPage: number;
-    totalCount: number;
-  };
-  status: Status;
-}> = async ({ token, page, count }) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/order/takeOut/ofPage?page=${page}&count=${count}`,
-      {
-        headers: {
-          token,
-        },
-      },
-    );
-
-    const json = await response.json();
-
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        message: e.message,
-      },
-    };
-  }
-};
-
 export const createTakeOut: (input: {
   token: string;
   title: string;
@@ -244,149 +165,6 @@ export const createTakeOut: (input: {
       }),
     });
     const json = await response.json();
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        message: e.message,
-      },
-    };
-  }
-};
-
-export const fetchTakeOutByPartialTitle: (input: {
-  token: string;
-  title: string;
-}) => Promise<{
-  data?: {
-    providers: TakeOut[];
-    hasNext: boolean;
-    hasPrevious: boolean;
-    totalPages: number;
-    page: number;
-    totalCount: number;
-  };
-  status: Status;
-}> = async ({ token, title }) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/order/takeOut/ofPartialTitle?title=${title}&count=3`,
-      {
-        headers: {
-          token,
-        },
-      },
-    );
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        message: e.message,
-      },
-    };
-  }
-};
-
-export const createOrder: (input: {
-  token: string;
-  takeOutId: string;
-  meals: {
-    id: string;
-    amount: number;
-  }[];
-}) => Promise<{
-  data?: {
-    id: string;
-  };
-  status: Status;
-}> = async ({ token, takeOutId, meals }) => {
-  try {
-    const response = await fetch(`http://localhost:3000/order/order/create`, {
-      method: 'POST',
-      headers: {
-        token,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        meals,
-        takeOutId,
-      }),
-    });
-
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        message: e.message,
-      },
-    };
-  }
-};
-
-export const fetchTakeOutOfIds: (input: {
-  token: string;
-  ids: string[];
-}) => Promise<{
-  data?: {
-    takeOuts: TakeOut[];
-  };
-  status: Status;
-}> = async ({ token, ids }) => {
-  try {
-    const response = await fetch(`http://localhost:3000/order/takeOut/ofIds`, {
-      method: 'POST',
-      headers: {
-        token,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        ids,
-      }),
-    });
-
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.error(e);
-    return {
-      status: {
-        code: 'ERROR',
-        message: e.message,
-      },
-    };
-  }
-};
-
-export const fetchOrderOfId: (input: {
-  token: string;
-  id: string;
-}) => Promise<{
-  data?: {
-    order: Order;
-  };
-  status: Status;
-}> = async ({ token, id }) => {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/order/order/ofId/${id}`,
-      {
-        headers: {
-          token,
-          'content-type': 'application/json',
-        },
-      },
-    );
-
-    const json = await response.json();
-
     return json;
   } catch (e) {
     console.error(e);
