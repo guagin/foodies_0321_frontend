@@ -1,12 +1,16 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeSelectIsRequest, makeSelectTakeout } from './selector';
+import {
+  makeSelectIsRequest,
+  makeSelectTakeout,
+  makeSelectProvider,
+} from './selector';
 import { createStructuredSelector } from 'reselect';
 import { makeSelectMessage } from '../SignUpPage/selector';
 import { fetchTakeoutOfId } from './action';
 import { useTypedSelector } from 'store/reducers';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
-import { takeoutReducer, Takeout } from './reducer';
+import { takeoutReducer, Takeout, Order, Provider } from './reducer';
 import { TakeoutFlow } from './saga';
 import {
   makeStyles,
@@ -16,8 +20,14 @@ import {
   CssBaseline,
   CircularProgress,
   CardContent,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
+import { makeSelectOrders } from '../OrderList/selector';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -31,6 +41,8 @@ const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   takeout: makeSelectTakeout(),
   message: makeSelectMessage(),
+  orders: makeSelectOrders(),
+  provider: makeSelectProvider(),
 });
 
 const useStyles = makeStyles(theme => ({
@@ -65,7 +77,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const BasicInfo = ({ takeout }: { takeout: Takeout }) => {
+const BasicInfo = ({
+  takeout,
+  provider,
+}: {
+  takeout: Takeout;
+  provider: Provider;
+}) => {
   const classes = useStyles();
   return (
     <>
@@ -91,7 +109,7 @@ const BasicInfo = ({ takeout }: { takeout: Takeout }) => {
                   color="textSecondary"
                   gutterBottom
                 >
-                  {takeout.providerId}
+                  {provider.name}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
@@ -137,6 +155,31 @@ const BasicInfo = ({ takeout }: { takeout: Takeout }) => {
   );
 };
 
+const OrderTable = ({ orders }: { orders: Order[] }) => {
+  return (
+    <>
+      <Grid container justify={'center'}>
+        <Grid item sm={10} xs={10}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>createdBy</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {orders.map(e => (
+                <TableRow>
+                  <TableCell>{e.createdBy}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
+
 export const TakeoutPage: (props: Props) => ReactElement = ({
   computedMatch: {
     params: { id },
@@ -145,10 +188,10 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
-  const { isRequest, takeout, message } = useSelector(stateSelector);
-
+  const { isRequest, takeout, message, orders, provider } = useSelector(
+    stateSelector,
+  );
   const { token } = useTypedSelector(state => state.me);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -168,12 +211,12 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   return (
     <>
       <Helmet>
-        <title>Provider Detail Page</title>
+        <title>Takeout Detail Page</title>
         <meta name="takeout page" content="foodies takeout page." />
       </Helmet>
       <CssBaseline />
-      <BasicInfo takeout={takeout} />
-      {/* <OrderList orders={} /> */}
+      <BasicInfo takeout={takeout} provider={provider} />
+      <OrderTable orders={orders} />
     </>
   );
 };

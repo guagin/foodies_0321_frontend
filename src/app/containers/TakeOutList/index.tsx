@@ -110,6 +110,10 @@ export const TakeOutList = () => {
     return <></>;
   };
 
+  const handleOnClick = (id: string) => {
+    dispatch(push(`/takeout/ofId/${id}`));
+  };
+
   return (
     <>
       <Helmet>
@@ -135,7 +139,11 @@ export const TakeOutList = () => {
             </TableHead>
             <TableBody>
               {takeOuts.map(data => (
-                <TableRow key={data.id} hover>
+                <TableRow
+                  key={data.id}
+                  hover
+                  onClick={() => handleOnClick(data.id)}
+                >
                   <TableCell>{data.id}</TableCell>
                   <TableCell>{data.title}</TableCell>
                   <TableCell>{data.createdBy}</TableCell>

@@ -6,16 +6,29 @@ import {
   FETCH_ORDER_OF_TAKEOUT_ID,
   FETCH_ORDER_OF_TAKEOUT_ID_SUCCESS,
   FETCH_ORDER_OF_TAKEOUT_ID_FAILURE,
+  FETCH_PROVIDER_OF_ID,
+  FETCH_PROVIDER_OF_ID_SUCCESS,
+  FETCH_PROVIDER_OF_ID_FAILURE,
 } from './constants';
 import {
   FetchTakeoutOfId,
   FetchTakeoutOfIdSuccess,
   FetchTakeoutOfIdFailure,
-  fetchOrderOfTakeoutId,
   FetchOrderOfTakeoutId,
   FetchOrderOfTakeoutIdSuccess,
   FetchOrderOfTakeoutIdFailure,
+  FetchProviderOfId,
+  FetchProviderOfIdSuccess,
+  FetchProviderOfIdFailure,
 } from './action';
+
+export interface Provider {
+  _id: string;
+  name: string;
+  description: string;
+  phone: number;
+  createdBy: string;
+}
 
 export interface Product {
   id: string;
@@ -47,6 +60,7 @@ export type TakeoutState = {
   message: string;
   takeout?: Takeout;
   orders: Order[];
+  provider?: Provider;
 };
 
 export const initTakeoutState: TakeoutState = {
@@ -110,6 +124,33 @@ export const takeoutReducer = createReducer(initTakeoutState, {
     return {
       ...state,
       isRequest: false,
+      message,
+    };
+  },
+
+  [FETCH_PROVIDER_OF_ID]: (state, action: FetchProviderOfId) => {
+    return {
+      ...state,
+      isRequest: true,
+    };
+  },
+
+  [FETCH_PROVIDER_OF_ID_SUCCESS]: (
+    state,
+    { provider }: FetchProviderOfIdSuccess,
+  ) => {
+    return {
+      ...state,
+      provider,
+    };
+  },
+
+  [FETCH_PROVIDER_OF_ID_FAILURE]: (
+    state,
+    { message }: FetchProviderOfIdFailure,
+  ) => {
+    return {
+      ...state,
       message,
     };
   },

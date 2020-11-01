@@ -11,3 +11,9 @@ export const makeSelectMessage = () =>
 
 export const makeSelectTakeout = () =>
   createSelector(selectTakeoutDomain, subState => subState.takeout);
+
+export const makeSelectOrders = () =>
+  createSelector(selectTakeoutDomain, subState => subState.orders);
+
+export const makeSelectProvider = () =>
+  createSelector(selectTakeoutDomain, subState => subState.provider);
