@@ -29,6 +29,7 @@ import {
   makeSelectTakeoutUser,
 } from './selector';
 import { getDateTimeString } from 'utils/datetime-string';
+import { push } from 'connected-react-router';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -152,6 +153,12 @@ const BasicInfo = ({
 };
 
 const OrderTable = ({ orders }: { orders: Order[] }) => {
+  const dispatch = useDispatch();
+
+  const handleClickOnOrder = (id: string) => {
+    dispatch(push(`/order/ofId/${id}`));
+  };
+
   return (
     <>
       <Grid container justify={'center'}>
@@ -164,7 +171,11 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
             </TableHead>
             <TableBody>
               {orders.map(e => (
-                <TableRow>
+                <TableRow
+                  onClick={() => {
+                    handleClickOnOrder(e.id);
+                  }}
+                >
                   <TableCell>{e.createdBy}</TableCell>
                 </TableRow>
               ))}
@@ -210,8 +221,6 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     );
   }
 
-  // todo: basic info.
-  // todo: order lsit.
   return (
     <>
       <Helmet>
