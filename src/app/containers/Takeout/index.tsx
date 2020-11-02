@@ -19,7 +19,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  Fab,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { Helmet } from 'react-helmet-async';
 import {
   makeSelectMessage,
@@ -31,6 +33,8 @@ import {
 } from './selector';
 import { getDateTimeString } from 'utils/datetime-string';
 import { push } from 'connected-react-router';
+import { some } from 'lodash';
+import moment from 'moment';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -121,14 +125,14 @@ const BasicInfo = ({
                   color="textSecondary"
                   gutterBottom
                 >
-                  {getDateTimeString(takeout.startedAt)}
+                  {getDateTimeString(moment(takeout.startedAt).toDate())}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
                   color="textSecondary"
                   gutterBottom
                 >
-                  {getDateTimeString(takeout.endAt)}
+                  {getDateTimeString(moment(takeout.endAt).toDate())}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
@@ -202,6 +206,49 @@ const stateSelector = createStructuredSelector({
   orderUsers: makeSelectOrderUsers(),
 });
 
+export const AddFab = ({
+  takeout,
+  orders,
+  userId,
+}: {
+  takeout: Takeout;
+  orders: Order[];
+  userId: string;
+}) => {
+  const classes = useStyles();
+
+  const isTakeoutAvailable = () => {
+    if (!takeout) {
+      return false;
+    }
+
+    const current = new Date();
+    const startedAt = moment(takeout.startedAt).toDate();
+    const endAt = moment(takeout.endAt).toDate();
+    return (
+      startedAt.getTime() <= current.getTime() &&
+      endAt.getTime() > current.getTime() &&
+      takeout.enabled
+    );
+  };
+
+  const isNoOrderBelongsTo = () => {
+    return !some(orders, e => e.createdBy === userId);
+  };
+
+  if (isTakeoutAvailable() && isNoOrderBelongsTo()) {
+    return (
+      <>
+        <Fab className={classes.fab} color="primary" aria-label="add">
+          <AddIcon />
+        </Fab>
+      </>
+    );
+  }
+
+  return <></>;
+};
+
 export const TakeoutPage: (props: Props) => ReactElement = ({
   computedMatch: {
     params: { id },
@@ -220,21 +267,6 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     dispatch(fetchTakeoutOfId({ token, id }));
   }, [token, id, dispatch]);
 
-  const shouldShowFAB = () => {
-    if (!orders) {
-      return false;
-    }
-
-    if (orders.length === 0) {
-      return true;
-    }
-
-    const found = orders.find(e => e.createdBy === selfUserId);
-    return found === undefined;
-  };
-
-  console.log(shouldShowFAB());
-
   if (!takeout) {
     return (
       <>
@@ -252,8 +284,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
       <CssBaseline />
       <BasicInfo takeout={takeout} provider={provider} user={user} />
       <OrderTable orders={orders} users={orderUsers} />
-
-      {/* add fab button. */}
+      <AddFab takeout={takeout} orders={orders} userId={selfUserId} />
     </>
   );
 };

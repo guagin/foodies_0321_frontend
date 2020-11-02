@@ -33,6 +33,7 @@ import {
   FetchOrderUsersSuccess,
   FetchOrderUsersFailure,
 } from './action';
+import moment from 'moment';
 
 export interface User {
   id: string;
@@ -64,8 +65,8 @@ export interface Takeout {
   title: string;
   createdBy: string;
   description: string;
-  startedAt: Date;
-  endAt: Date;
+  startedAt: string;
+  endAt: string;
   enabled: boolean;
   providerId: string;
 }
