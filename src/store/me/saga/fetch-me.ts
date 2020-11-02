@@ -17,6 +17,7 @@ function* fetchMeSaga(action: FetchMe) {
       status,
     }: {
       data: {
+        id: string;
         name: string;
         email: string;
       };
@@ -26,6 +27,7 @@ function* fetchMeSaga(action: FetchMe) {
     if (status.code === 'SUCCESS') {
       yield put(
         FetchMeSuccessCreator({
+          id: data.id,
           name: data.name,
           email: data.email,
         }),

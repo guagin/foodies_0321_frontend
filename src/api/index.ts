@@ -71,6 +71,7 @@ export const fetchMe: (input: {
   token: string;
 }) => Promise<{
   data?: {
+    id: string;
     name: string;
     email: string;
   };

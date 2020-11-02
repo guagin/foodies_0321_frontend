@@ -213,12 +213,27 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   const { takeout, message, orders, provider, user, orderUsers } = useSelector(
     stateSelector,
   );
-  const { token } = useTypedSelector(state => state.me);
+  const { token, id: selfUserId } = useTypedSelector(state => state.me);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchTakeoutOfId({ token, id }));
   }, [token, id, dispatch]);
+
+  const shouldShowFAB = () => {
+    if (!orders) {
+      return false;
+    }
+
+    if (orders.length === 0) {
+      return true;
+    }
+
+    const found = orders.find(e => e.createdBy === selfUserId);
+    return found === undefined;
+  };
+
+  console.log(shouldShowFAB());
 
   if (!takeout) {
     return (
@@ -237,6 +252,8 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
       <CssBaseline />
       <BasicInfo takeout={takeout} provider={provider} user={user} />
       <OrderTable orders={orders} users={orderUsers} />
+
+      {/* add fab button. */}
     </>
   );
 };

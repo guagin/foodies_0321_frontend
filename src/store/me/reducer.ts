@@ -31,6 +31,7 @@ export const meReducer = createReducer(initialState, {
     return {
       ...state,
       isRequest: false,
+      id: action.id,
       name: action.name,
       email: action.email,
     };

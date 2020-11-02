@@ -5,6 +5,7 @@ export interface FetchMe extends Action<'FetchMe'> {
 }
 
 export interface FetchMeSuccess extends Action<'FetchMeSuccess'> {
+  id: string;
   name: string;
   email: string;
 }
@@ -25,6 +26,7 @@ export const FetchMeCreator: ActionCreator<FetchMe> = (input: {
 };
 
 export const FetchMeSuccessCreator: ActionCreator<FetchMeSuccess> = (input: {
+  id: string;
   name: string;
   email: string;
 }) => {
