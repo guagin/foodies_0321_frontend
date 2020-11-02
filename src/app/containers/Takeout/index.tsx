@@ -1,12 +1,6 @@
 import React, { ReactElement, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  makeSelectIsRequest,
-  makeSelectTakeout,
-  makeSelectProvider,
-} from './selector';
 import { createStructuredSelector } from 'reselect';
-import { makeSelectMessage } from '../SignUpPage/selector';
 import { fetchTakeoutOfId } from './action';
 import { useTypedSelector } from 'store/reducers';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
@@ -27,7 +21,13 @@ import {
   TableBody,
 } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
-import { makeSelectOrders } from '../OrderList/selector';
+import {
+  makeSelectMessage,
+  makeSelectOrders,
+  makeSelectProvider,
+  makeSelectTakeout,
+  makeSelectTakeoutUser,
+} from './selector';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -36,14 +36,6 @@ interface Props {
 interface ComputedMatch {
   params: { id: string };
 }
-
-const stateSelector = createStructuredSelector({
-  isRequest: makeSelectIsRequest(),
-  takeout: makeSelectTakeout(),
-  message: makeSelectMessage(),
-  orders: makeSelectOrders(),
-  provider: makeSelectProvider(),
-});
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -80,9 +72,11 @@ const useStyles = makeStyles(theme => ({
 const BasicInfo = ({
   takeout,
   provider,
+  user,
 }: {
   takeout: Takeout;
   provider: Provider;
+  user: { name: string };
 }) => {
   const classes = useStyles();
   return (
@@ -109,14 +103,14 @@ const BasicInfo = ({
                   color="textSecondary"
                   gutterBottom
                 >
-                  {provider.name}
+                  {provider ? provider.name : ''}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
                   color="textSecondary"
                   gutterBottom
                 >
-                  {takeout.createdBy}
+                  {user ? user.name : ''}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
@@ -180,6 +174,14 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
   );
 };
 
+const stateSelector = createStructuredSelector({
+  takeout: makeSelectTakeout(),
+  message: makeSelectMessage(),
+  orders: makeSelectOrders(),
+  provider: makeSelectProvider(),
+  user: makeSelectTakeoutUser(),
+});
+
 export const TakeoutPage: (props: Props) => ReactElement = ({
   computedMatch: {
     params: { id },
@@ -188,7 +190,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
-  const { isRequest, takeout, message, orders, provider } = useSelector(
+  const { takeout, message, orders, provider, user } = useSelector(
     stateSelector,
   );
   const { token } = useTypedSelector(state => state.me);
@@ -198,7 +200,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     dispatch(fetchTakeoutOfId({ token, id }));
   }, [token, id, dispatch]);
 
-  if (isRequest) {
+  if (!takeout) {
     return (
       <>
         <CircularProgress />
@@ -215,7 +217,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
         <meta name="takeout page" content="foodies takeout page." />
       </Helmet>
       <CssBaseline />
-      <BasicInfo takeout={takeout} provider={provider} />
+      <BasicInfo takeout={takeout} provider={provider} user={user} />
       <OrderTable orders={orders} />
     </>
   );

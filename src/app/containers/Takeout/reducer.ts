@@ -40,16 +40,14 @@ export interface Provider {
   createdBy: string;
 }
 
-export interface Product {
-  id: string;
-  amount: number;
-  note: string;
-}
-
 export interface Order {
   id: string;
   createdBy: string;
-  products: Product[];
+  products: {
+    id: string;
+    amount: number;
+    note: string;
+  }[];
   status: number;
   takeOutId: string;
 }
@@ -71,7 +69,7 @@ export type TakeoutState = {
   takeout?: Takeout;
   orders: Order[];
   provider?: Provider;
-  takeOutUser?: User;
+  takeoutUser?: User;
 };
 
 export const initTakeoutState: TakeoutState = {
@@ -94,7 +92,7 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   ) => {
     return {
       ...state,
-      isRequest: false,
+      // isRequest: false,
       takeout,
     };
   },
@@ -105,7 +103,6 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   ) => {
     return {
       ...state,
-      isRequest: false,
       message,
     };
   },
@@ -113,7 +110,6 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   [FETCH_ORDER_OF_TAKEOUT_ID]: (state, action: FetchOrderOfTakeoutId) => {
     return {
       ...state,
-      isRequest: true,
     };
   },
 
@@ -123,7 +119,6 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   ) => {
     return {
       ...state,
-      isRequest: false,
       orders,
     };
   },
@@ -134,7 +129,6 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   ) => {
     return {
       ...state,
-      isRequest: false,
       message,
     };
   },
@@ -142,7 +136,6 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   [FETCH_PROVIDER_OF_ID]: (state, action: FetchProviderOfId) => {
     return {
       ...state,
-      isRequest: true,
     };
   },
 
@@ -169,13 +162,12 @@ export const takeoutReducer = createReducer(initTakeoutState, {
   [FETCH_TAKEOUT_USER]: (state, action: FetchTakeoutUser) => {
     return {
       ...state,
-      isRequest: true,
     };
   },
   [FETCH_TAKEOUT_USER_SUCCESS]: (state, { user }: FetchTakeoutUserSuccess) => {
     return {
       ...state,
-      takeOutUser: user,
+      takeoutUser: user,
     };
   },
 

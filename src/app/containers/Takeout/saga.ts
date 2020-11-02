@@ -20,18 +20,21 @@ import {
   fetchProviderOfId,
   fetchTakeoutUser,
   FetchTakeoutUser,
+  fetchTakeoutUserSuccess,
+  fetchTakeoutUserFailure,
 } from './action';
 import {
   Takeout,
   Status,
   fetchTakeoutOfId,
   fetchProviderOfId as fetchProviderOfIdAPI,
+  fetchUserOfId,
+  User,
 } from 'api';
 import {
   Order,
   fetchOrderOfTakeoutId as fetchOrderOfTakeoutIdAPI,
 } from 'api/order';
-import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 
 const call: any = Effects.call;
 
@@ -59,11 +62,10 @@ function* takeoutOfIdSaga({ token, id }: FetchTakeoutOfId) {
       return;
     }
 
-    yield put(fetchTakeoutOfIdSuccess({ ...data }));
-
     yield put(fetchTakeoutUser({ token, id: data.takeout.createdBy }));
-    yield put(fetchOrderOfTakeoutId({ token, takeoutId: data.takeout.id }));
+    yield put(fetchTakeoutOfIdSuccess({ ...data }));
     yield put(fetchProviderOfId({ token, id: data.takeout.providerId }));
+    yield put(fetchOrderOfTakeoutId({ token, takeoutId: data.takeout.id }));
   } catch (e) {
     yield put(fetchTakeoutOfIdFailure({ message: e.message }));
   }
@@ -76,19 +78,19 @@ function* takeoutUserSaga({ token, id }: FetchTakeoutUser) {
       status,
     }: {
       data?: {
-        orders: Order[];
+        user: User;
       };
       status: Status;
-    } = yield call(fetchOrderOfTakeoutIdAPI, { token, id });
+    } = yield call(fetchUserOfId, { token, id });
 
     if (status.code === 'ERROR' || !data) {
-      yield put(fetchOrderOfTakeoutIdFailure({ message: status.msg }));
+      yield put(fetchTakeoutUserSuccess({ message: status.msg }));
       return;
     }
 
-    yield put(fetchOrderOfTakeoutIdSuccess({ ...data }));
+    yield put(fetchTakeoutUserSuccess({ ...data }));
   } catch (e) {
-    yield put(fetchOrderOfTakeoutIdFailure({ message: e.message }));
+    yield put(fetchTakeoutUserFailure({ message: e.message }));
   }
 }
 

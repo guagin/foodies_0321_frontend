@@ -154,3 +154,54 @@ export const fetchTakeoutOfId: (input: {
     };
   }
 };
+
+export const createTakeOut: (input: {
+  token: string;
+  title: string;
+  description: string;
+  startedAt: Date;
+  endAt: Date;
+  enabled: boolean;
+  providerId: string;
+}) => Promise<{
+  data?: {
+    id: string;
+  };
+  status: Status;
+}> = async ({
+  token,
+  title,
+  description,
+  startedAt,
+  endAt,
+  enabled,
+  providerId,
+}) => {
+  try {
+    const response = await fetch(`http://localhost:3000/order/takeOut/create`, {
+      method: 'POST',
+      headers: {
+        token,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        startedAt,
+        endAt,
+        enabled,
+        providerId,
+      }),
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
