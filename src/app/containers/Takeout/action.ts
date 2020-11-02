@@ -11,6 +11,9 @@ import {
   FETCH_TAKEOUT_USER,
   FETCH_TAKEOUT_USER_SUCCESS,
   FETCH_TAKEOUT_USER_FAILURE,
+  FETCH_ORDER_USERS,
+  FETCH_ORDER_USERS_SUCCESS,
+  FETCH_ORDER_USERS_FAILURE,
 } from './constants';
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Takeout, Order, Provider, User } from './reducer';
@@ -158,4 +161,40 @@ export const fetchTakeoutUserFailure: ActionCreator<FetchTakeoutUserFailure> = (
 ) => ({
   ...input,
   type: FETCH_TAKEOUT_USER_FAILURE,
+});
+
+export interface FetchOrderUsers extends Action<typeof FETCH_ORDER_USERS> {
+  token: string;
+  userIds: string[];
+}
+
+export const fetchOrderUsers: ActionCreator<FetchOrderUsers> = (
+  input: FetchOrderUsers,
+) => ({
+  ...input,
+  type: FETCH_ORDER_USERS,
+});
+
+export interface FetchOrderUsersSuccess
+  extends Action<typeof FETCH_ORDER_USERS_SUCCESS> {
+  users: User[];
+}
+
+export const fetchOrderUsersSuccess: ActionCreator<FetchOrderUsersSuccess> = (
+  input: FetchOrderUsersSuccess,
+) => ({
+  ...input,
+  type: FETCH_ORDER_USERS_SUCCESS,
+});
+
+export interface FetchOrderUsersFailure
+  extends Action<typeof FETCH_ORDER_USERS_FAILURE> {
+  message: string;
+}
+
+export const fetchOrderUsersFailure: ActionCreator<FetchOrderUsersFailure> = (
+  input: FetchOrderUsersFailure,
+) => ({
+  ...input,
+  type: FETCH_ORDER_USERS_FAILURE,
 });

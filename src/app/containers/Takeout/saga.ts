@@ -5,6 +5,7 @@ import {
   FETCH_ORDER_OF_TAKEOUT_ID,
   FETCH_PROVIDER_OF_ID,
   FETCH_TAKEOUT_USER,
+  FETCH_ORDER_USERS,
 } from './constants';
 import {
   fetchTakeoutOfIdFailure,
@@ -22,6 +23,10 @@ import {
   FetchTakeoutUser,
   fetchTakeoutUserSuccess,
   fetchTakeoutUserFailure,
+  FetchOrderUsers,
+  fetchOrderUsers,
+  fetchOrderUsersFailure,
+  fetchOrderUsersSuccess,
 } from './action';
 import {
   Takeout,
@@ -30,6 +35,7 @@ import {
   fetchProviderOfId as fetchProviderOfIdAPI,
   fetchUserOfId,
   User,
+  fetchUserOfIds,
 } from 'api';
 import {
   Order,
@@ -43,6 +49,7 @@ export function* TakeoutFlow() {
   yield takeLatest(FETCH_TAKEOUT_USER, takeoutUserSaga);
   yield takeLatest(FETCH_ORDER_OF_TAKEOUT_ID, orderOfIdSaga);
   yield takeLatest(FETCH_PROVIDER_OF_ID, providerOfIdSaga);
+  yield takeLatest(FETCH_ORDER_USERS, orderUsersSaga);
 }
 
 function* takeoutOfIdSaga({ token, id }: FetchTakeoutOfId) {
@@ -112,6 +119,10 @@ function* orderOfIdSaga({ token, takeoutId }: FetchOrderOfTakeoutId) {
     }
 
     yield put(fetchOrderOfTakeoutIdSuccess({ ...data }));
+
+    yield put(
+      fetchOrderUsers({ token, userIds: data.orders.map(e => e.createdBy) }),
+    );
   } catch (e) {
     yield put(fetchOrderOfTakeoutIdFailure({ message: e.message }));
   }
@@ -137,5 +148,28 @@ function* providerOfIdSaga({ token, id }: FetchProviderOfId) {
     yield put(fetchProviderOfIdSuccess({ ...data }));
   } catch (e) {
     yield put(fetchProviderOfIdFailure({ message: e.message }));
+  }
+}
+
+function* orderUsersSaga({ token, userIds }: FetchOrderUsers) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {
+        users: User[];
+      };
+      status: Status;
+    } = yield call(fetchUserOfIds, { token, ids: userIds });
+
+    if (status.code === 'ERROR') {
+      yield put(fetchOrderUsersFailure({ message: status.msg }));
+      return;
+    }
+
+    yield put(fetchOrderUsersSuccess({ ...data }));
+  } catch (e) {
+    yield put(fetchOrderUsersFailure({ message: e.message }));
   }
 }

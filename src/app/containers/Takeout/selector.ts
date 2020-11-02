@@ -17,3 +17,6 @@ export const makeSelectProvider = () =>
 
 export const makeSelectTakeoutUser = () =>
   createSelector(selectTakeoutDomain, subState => subState.takeoutUser);
+
+export const makeSelectOrderUsers = () =>
+  createSelector(selectTakeoutDomain, subState => subState.orderUsers);

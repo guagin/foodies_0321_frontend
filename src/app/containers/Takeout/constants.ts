@@ -15,3 +15,7 @@ export const FETCH_PROVIDER_OF_ID_FAILURE = 'takeout/fetchProviderOfIdFailure';
 export const FETCH_TAKEOUT_USER = 'takeout/fetchTakeoutUser';
 export const FETCH_TAKEOUT_USER_SUCCESS = 'takeout/fetchTakeoutUserSuccess';
 export const FETCH_TAKEOUT_USER_FAILURE = 'takeout/fetchTakeoutUserFailure';
+
+export const FETCH_ORDER_USERS = 'takeout/fetchOrderUsers';
+export const FETCH_ORDER_USERS_SUCCESS = 'takeout/fetchOrderUsersSuccess';
+export const FETCH_ORDER_USERS_FAILURE = 'takeout/fetchOrderUsersFailure';

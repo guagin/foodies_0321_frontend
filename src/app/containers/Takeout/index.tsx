@@ -4,7 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { fetchTakeoutOfId } from './action';
 import { useTypedSelector } from 'store/reducers';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
-import { takeoutReducer, Takeout, Order, Provider } from './reducer';
+import { takeoutReducer, Takeout, Order, Provider, User } from './reducer';
 import { TakeoutFlow } from './saga';
 import {
   makeStyles,
@@ -24,6 +24,7 @@ import { Helmet } from 'react-helmet-async';
 import {
   makeSelectMessage,
   makeSelectOrders,
+  makeSelectOrderUsers,
   makeSelectProvider,
   makeSelectTakeout,
   makeSelectTakeoutUser,
@@ -152,11 +153,16 @@ const BasicInfo = ({
   );
 };
 
-const OrderTable = ({ orders }: { orders: Order[] }) => {
+const OrderTable = ({ orders, users }: { orders: Order[]; users: User[] }) => {
   const dispatch = useDispatch();
 
   const handleClickOnOrder = (id: string) => {
     dispatch(push(`/order/ofId/${id}`));
+  };
+
+  const getUserName = (id: string) => {
+    const found = users.find(e => e.id === id);
+    return found ? found.name : '';
   };
 
   return (
@@ -176,7 +182,7 @@ const OrderTable = ({ orders }: { orders: Order[] }) => {
                     handleClickOnOrder(e.id);
                   }}
                 >
-                  <TableCell>{e.createdBy}</TableCell>
+                  <TableCell>{getUserName(e.createdBy)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -193,6 +199,7 @@ const stateSelector = createStructuredSelector({
   orders: makeSelectOrders(),
   provider: makeSelectProvider(),
   user: makeSelectTakeoutUser(),
+  orderUsers: makeSelectOrderUsers(),
 });
 
 export const TakeoutPage: (props: Props) => ReactElement = ({
@@ -203,7 +210,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
-  const { takeout, message, orders, provider, user } = useSelector(
+  const { takeout, message, orders, provider, user, orderUsers } = useSelector(
     stateSelector,
   );
   const { token } = useTypedSelector(state => state.me);
@@ -229,7 +236,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
       </Helmet>
       <CssBaseline />
       <BasicInfo takeout={takeout} provider={provider} user={user} />
-      <OrderTable orders={orders} />
+      <OrderTable orders={orders} users={orderUsers} />
     </>
   );
 };
