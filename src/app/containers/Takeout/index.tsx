@@ -28,6 +28,7 @@ import {
   makeSelectTakeout,
   makeSelectTakeoutUser,
 } from './selector';
+import { getDateTimeString } from 'utils/datetime-string';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -79,6 +80,7 @@ const BasicInfo = ({
   user: { name: string };
 }) => {
   const classes = useStyles();
+
   return (
     <>
       <div className={classes.paper}>
@@ -117,14 +119,14 @@ const BasicInfo = ({
                   color="textSecondary"
                   gutterBottom
                 >
-                  {takeout.startedAt}
+                  {getDateTimeString(takeout.startedAt)}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
                   color="textSecondary"
                   gutterBottom
                 >
-                  {takeout.endAt}
+                  {getDateTimeString(takeout.endAt)}
                 </Typography>
                 <Typography
                   className={classes.subTitle}
