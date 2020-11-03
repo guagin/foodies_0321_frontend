@@ -1,28 +1,50 @@
-import { TakeOut } from '../TakeOutList/take-out';
 import { createReducer } from '@reduxjs/toolkit';
 import {
-  FetchTakeOutByPartialTitleSuccess,
-  FetchTakeOutByPartialTitleFailed,
   CreateOrder,
   CreateOrderSuccess,
-  CreateOrderFailed,
-  FetchTakeOutByPartialTitle,
+  CreateOrderFailure,
   FetchMeals,
-  PickTakeOut,
   FetchMealsSuccess,
-  FetchMealsFailed,
+  FetchMealsFailure,
   PickMeal,
   UpdatePickedMealAmount,
   RemovePickedMeal,
+  FetchTakeout,
+  FetchTakeoutSuccess,
+  FetchTakeoutFailure,
 } from './action';
 import { find, reduce } from 'lodash';
 import { Meal } from '../MealList/reducer';
+import {
+  CREATE_ORDER,
+  CREATE_ORDER_FAILURE,
+  CREATE_ORDER_SUCCESS,
+  FETCH_MEALS,
+  FETCH_MEALS_FAILURE,
+  FETCH_MEALS_SUCCESS,
+  FETCH_TAKEOUT,
+  FETCH_TAKEOUT_FAILURE,
+  FETCH_TAKEOUT_SUCCESS,
+  PICK_MEAL,
+  REMOVE_PICKED_MEAL,
+  UPDATE_PICKED_MEAL_AMOUNT,
+} from './constants';
+
+export interface Takeout {
+  id: string;
+  title: string;
+  createdBy: string;
+  description: string;
+  startedAt: Date;
+  endAt: Date;
+  enabled: boolean;
+  providerId: string;
+}
 
 export type CreateOrderState = {
   isRequest: boolean;
-  takeOuts: TakeOut[];
   message: string;
-  takeOutId: string;
+  takeout?: Takeout;
   providerId: string;
   meals: Meal[];
   pickedMeals: {
@@ -35,39 +57,27 @@ export type CreateOrderState = {
 
 export const initCreateOrderState: CreateOrderState = {
   isRequest: false,
-  takeOuts: [],
   message: '',
-  takeOutId: '',
   providerId: '',
   meals: [],
   pickedMeals: [],
 };
 
 export const createOrderReducer = createReducer(initCreateOrderState, {
-  FetchTakeOutByPartialTitle: (state, action: FetchTakeOutByPartialTitle) => {
+  [FETCH_TAKEOUT]: (state, action: FetchTakeout) => {
     return {
       ...state,
       isRequest: true,
-      message: '',
     };
   },
-
-  FetchTakeOutByPartialTitleSuccess: (
-    state,
-    { takeOuts }: FetchTakeOutByPartialTitleSuccess,
-  ) => {
+  [FETCH_TAKEOUT_SUCCESS]: (state, { takeout }: FetchTakeoutSuccess) => {
     return {
       ...state,
       isRequest: false,
-      message: '',
-      takeOuts,
+      takeout,
     };
   },
-
-  FetchTakeOutByPartialTitleFailed: (
-    state,
-    { message }: FetchTakeOutByPartialTitleFailed,
-  ) => {
+  [FETCH_TAKEOUT_FAILURE]: (state, { message }: FetchTakeoutFailure) => {
     return {
       ...state,
       isRequest: false,
@@ -75,17 +85,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  PickTakeOut: (state, { takeOutId, providerId }: PickTakeOut) => {
-    return {
-      ...state,
-      isRequest: false,
-      message: '',
-      takeOutId,
-      providerId,
-    };
-  },
-
-  CreateOrder: (state, action: CreateOrder) => {
+  [CREATE_ORDER]: (state, action: CreateOrder) => {
     return {
       ...state,
       isRequest: true,
@@ -93,7 +93,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  CreateOrderSuccess: (state, action: CreateOrderSuccess) => {
+  [CREATE_ORDER_SUCCESS]: (state, action: CreateOrderSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -101,7 +101,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  CreateOrderFailed: (state, { message }: CreateOrderFailed) => {
+  [CREATE_ORDER_FAILURE]: (state, { message }: CreateOrderFailure) => {
     return {
       ...state,
       isRequest: false,
@@ -109,7 +109,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  FetchMeals: (state, { providerId }: FetchMeals) => {
+  [FETCH_MEALS]: (state, { providerId }: FetchMeals) => {
     return {
       ...state,
       isRequest: true,
@@ -117,14 +117,14 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  FetchMealsSuccess: (state, { meals }: FetchMealsSuccess) => {
+  [FETCH_MEALS_SUCCESS]: (state, { meals }: FetchMealsSuccess) => {
     return {
       ...state,
       isRequest: false,
       meals,
     };
   },
-  FetchMealsFailed: (state, { message }: FetchMealsFailed) => {
+  [FETCH_MEALS_FAILURE]: (state, { message }: FetchMealsFailure) => {
     return {
       ...state,
       message,
@@ -132,7 +132,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  PickMeal: ({ pickedMeals, ...rest }, { meal }: PickMeal) => {
+  [PICK_MEAL]: ({ pickedMeals, ...rest }, { meal }: PickMeal) => {
     const found = find(pickedMeals, e => e.id === meal.id);
 
     if (found) {
@@ -155,7 +155,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  UpdatePickedMealAmount: (
+  [UPDATE_PICKED_MEAL_AMOUNT]: (
     { pickedMeals, ...rest },
     { id, amount }: UpdatePickedMealAmount,
   ) => {
@@ -178,7 +178,10 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  RemovePickedMeal: ({ pickedMeals, ...rest }, { id }: RemovePickedMeal) => {
+  [REMOVE_PICKED_MEAL]: (
+    { pickedMeals, ...rest },
+    { id }: RemovePickedMeal,
+  ) => {
     const pickedMealAfterRemoving = reduce(
       pickedMeals,
       (accu, curr) => {

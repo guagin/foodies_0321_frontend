@@ -10,12 +10,6 @@ export const makeSelectIsRequest = () =>
 export const makeSelectMessage = () =>
   createSelector(selectCreateOrderDomain, subState => subState.message);
 
-export const makeSelectTakeOuts = () =>
-  createSelector(selectCreateOrderDomain, subState => subState.takeOuts);
-
-export const makeSelectTakeOutId = () =>
-  createSelector(selectCreateOrderDomain, subState => subState.takeOutId);
-
 export const makeSelectProviderId = () =>
   createSelector(selectCreateOrderDomain, subState => subState.providerId);
 
@@ -24,3 +18,6 @@ export const makeSelectMeals = () =>
 
 export const makeSelectPickedMeals = () =>
   createSelector(selectCreateOrderDomain, subState => subState.pickedMeals);
+
+export const makeSelectTakeout = () =>
+  createSelector(selectCreateOrderDomain, subState => subState.takeout);

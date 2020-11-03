@@ -1,69 +1,67 @@
-import { takeLatest, delay, call, put } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
+import * as Effects from 'redux-saga/effects';
 import {
-  FetchTakeOutByPartialTitle,
-  fetchTakeOutByPartialTitleFailed,
-  fetchTakeOutByPartialTitleSuccess,
-  createOrderFailed,
+  createOrderFailure,
   CreateOrder,
   createOrderSuccess,
   FetchMeals,
   fetchMealsFailed,
-  PickTakeOut,
+  FetchTakeout,
+  fetchTakeoutFailure,
+  fetchTakeoutSuccess,
+  fetchMeals,
+  fetchMealsSuccess,
 } from './action';
-import { TakeOut } from '../TakeOutList/take-out';
+
 import {
-  fetchTakeOutByPartialTitle,
   Status,
   createOrder,
   mealsOfProvider,
+  fetchTakeoutOfId,
+  Takeout,
+  Meal,
 } from 'api';
 import { push } from 'connected-react-router';
-import { fetchMealsSuccess } from '../MealList/action';
-import { Meal } from '../MealList/reducer';
 
-export function* pickTakeOutFlow() {
-  yield takeLatest(
-    'FetchTakeOutByPartialTitle',
-    fetchTakeOutByPartialTitleSaga,
-  );
-  yield takeLatest('PickTakeOut', pickedTakeOutSaga);
+import { CREATE_ORDER, FETCH_MEALS, FETCH_TAKEOUT } from './constants';
+
+const call: any = Effects.call;
+
+export function* createOrderFlow() {
+  yield takeLatest(FETCH_TAKEOUT, fetchTakeoutSaga);
+  yield takeLatest(FETCH_MEALS, fetchMealsSaga);
+  yield takeLatest(CREATE_ORDER, createOrderSaga);
 }
 
-function* fetchTakeOutByPartialTitleSaga({
-  title,
-  token,
-}: FetchTakeOutByPartialTitle) {
-  yield delay(1500);
-
+function* fetchTakeoutSaga({ token, id }: FetchTakeout) {
   try {
     const {
       data,
       status,
     }: {
       data?: {
-        takeOuts: TakeOut[];
+        takeout: Takeout;
       };
       status: Status;
-    } = yield call(fetchTakeOutByPartialTitle, { title, token });
+    } = yield call(fetchTakeoutOfId, { token, id });
 
-    if (status.code === 'ERROR') {
-      yield put(fetchTakeOutByPartialTitleFailed({ message: status.msg }));
+    if (status.code === 'ERROR' || !data) {
+      yield put(fetchTakeoutFailure({ message: status.msg }));
       return;
     }
 
-    yield put(fetchTakeOutByPartialTitleSuccess({ ...data }));
+    yield put(fetchTakeoutSuccess({ ...data }));
+    yield put(
+      fetchMeals({
+        token,
+        page: 1,
+        count: 500,
+        providerId: data.takeout.providerId,
+      }),
+    );
   } catch (e) {
-    yield put(fetchTakeOutByPartialTitleFailed({ message: e.message }));
+    yield put(fetchTakeoutFailure({ messge: e.messge }));
   }
-}
-
-function* pickedTakeOutSaga({ takeOutId }: PickTakeOut) {
-  yield put(push('/order/create/detail'));
-}
-
-export function* createOrderFlow() {
-  yield takeLatest('FetchMeals', fetchMealsSaga);
-  yield takeLatest('CreateOrder', createOrderSaga);
 }
 
 function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {
@@ -90,7 +88,7 @@ function* fetchMealsSaga({ token, providerId, page, count }: FetchMeals) {
 
     yield put(fetchMealsSuccess({ ...data }));
   } catch (e) {
-    yield put(createOrderFailed({ messge: e.messge }));
+    yield put(createOrderFailure({ messge: e.messge }));
   }
 }
 
@@ -107,13 +105,13 @@ function* createOrderSaga({ token, takeOutId, meals }: CreateOrder) {
     } = yield call(createOrder, { token, takeOutId, meals });
 
     if (status.code === 'ERROR') {
-      yield put(createOrderFailed({ message: status.msg }));
+      yield put(createOrderFailure({ message: status.msg }));
       yield put(push('/order-list'));
       return;
     }
 
     yield put(createOrderSuccess({ ...data }));
   } catch (e) {
-    yield put(createOrderFailed({ messge: e.messge }));
+    yield put(createOrderFailure({ messge: e.messge }));
   }
 }

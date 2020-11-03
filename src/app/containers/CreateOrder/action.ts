@@ -1,165 +1,165 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Meal } from '../MealList/reducer';
-import { TakeOut } from '../TakeOutList/take-out';
+import {
+  CREATE_ORDER,
+  CREATE_ORDER_FAILURE,
+  CREATE_ORDER_SUCCESS,
+  FETCH_MEALS,
+  FETCH_MEALS_FAILURE,
+  FETCH_MEALS_SUCCESS,
+  FETCH_TAKEOUT,
+  FETCH_TAKEOUT_FAILURE,
+  FETCH_TAKEOUT_SUCCESS,
+  PICK_MEAL,
+  REMOVE_PICKED_MEAL,
+  UPDATE_PICKED_MEAL_AMOUNT,
+} from './constants';
+import { Takeout } from './reducer';
 
-export interface FetchTakeOutByPartialTitle
-  extends Action<'FetchTakeOutByPartialTitle'> {
-  token: string;
-  title: string;
-}
-
-export interface FetchTakeOutByPartialTitleSuccess
-  extends Action<'FetchTakeOutByPartialTitleSuccess'> {
-  takeOuts: TakeOut[];
-}
-
-export interface FetchTakeOutByPartialTitleFailed
-  extends Action<'FetchTakeOutByPartialFailed'> {
-  message: string;
-}
-
-export interface PickTakeOut extends Action<'PickTakeOut'> {
-  takeOutId: string;
-  providerId: string;
-}
-
-export interface CreateOrder extends Action<'CreateOrder'> {
+export interface CreateOrder extends Action<typeof CREATE_ORDER> {
   token: string;
   takeOutId: string;
   meals: { id: string; amount: number }[];
 }
 
-export interface CreateOrderSuccess extends Action<'CreateOrderSuccess'> {
+export const createOrder: ActionCreator<CreateOrder> = (
+  input: CreateOrder,
+) => ({
+  ...input,
+  type: CREATE_ORDER,
+});
+
+export interface CreateOrderSuccess
+  extends Action<typeof CREATE_ORDER_SUCCESS> {
   id: string;
 }
 
-export interface CreateOrderFailed extends Action<'CreateOrderFailed'> {
+export const createOrderSuccess: ActionCreator<CreateOrderSuccess> = (
+  input: CreateOrderSuccess,
+) => ({
+  ...input,
+  type: CREATE_ORDER_SUCCESS,
+});
+
+export interface CreateOrderFailure
+  extends Action<typeof CREATE_ORDER_FAILURE> {
   message: string;
 }
 
-export interface FetchMeals extends Action<'FetchMeals'> {
+export const createOrderFailure: ActionCreator<CreateOrderFailure> = (
+  input: CreateOrderFailure,
+) => ({
+  ...input,
+  type: CREATE_ORDER_FAILURE,
+});
+
+export interface FetchMeals extends Action<typeof FETCH_MEALS> {
   token: string;
   page: number;
   count: number;
   providerId: string;
 }
 
-export interface FetchMealsSuccess extends Action<'FetchMealsSuccess'> {
-  meals: Meal[];
-}
-
-export interface FetchMealsFailed extends Action<'FetchMealsFailed'> {
-  message: string;
-}
-
-export interface PickMeal extends Action<'PickMeal'> {
-  meal: Meal;
-}
-
-export interface UpdatePickedMealAmount
-  extends Action<'UpdatePickedMealAmount'> {
-  id: string;
-  amount: number;
-}
-
-export interface RemovePickedMeal extends Action<'RemovePickedMeal'> {
-  id: string;
-}
-
-export type CreateOrderAction =
-  | CreateOrder
-  | CreateOrderSuccess
-  | CreateOrderFailed
-  | FetchMeals
-  | FetchMealsSuccess
-  | FetchMealsFailed
-  | FetchTakeOutByPartialTitle
-  | FetchTakeOutByPartialTitleSuccess
-  | FetchTakeOutByPartialTitleFailed;
-
-export const fetchTakeOutByPartialTitle: ActionCreator<FetchTakeOutByPartialTitle> = (
-  input: FetchTakeOutByPartialTitle,
-) => ({
-  ...input,
-  type: 'FetchTakeOutByPartialTitle',
-});
-
-export const fetchTakeOutByPartialTitleSuccess: ActionCreator<FetchTakeOutByPartialTitleSuccess> = (
-  input: FetchTakeOutByPartialTitleSuccess,
-) => ({
-  ...input,
-  type: 'FetchTakeOutByPartialTitleSuccess',
-});
-
-export const fetchTakeOutByPartialTitleFailed: ActionCreator<FetchTakeOutByPartialTitleFailed> = (
-  input: FetchTakeOutByPartialTitleFailed,
-) => ({
-  ...input,
-  type: 'FetchTakeOutByPartialFailed',
-});
-
-export const pickTakeOut: ActionCreator<PickTakeOut> = (
-  input: PickTakeOut,
-) => ({
-  ...input,
-  type: 'PickTakeOut',
-});
-
-export const createOrder: ActionCreator<CreateOrder> = (
-  input: CreateOrder,
-) => ({
-  ...input,
-  type: 'CreateOrder',
-});
-
-export const createOrderSuccess: ActionCreator<CreateOrderSuccess> = (
-  input: CreateOrderSuccess,
-) => ({
-  ...input,
-  type: 'CreateOrderSuccess',
-});
-
-export const createOrderFailed: ActionCreator<CreateOrderFailed> = (
-  input: CreateOrderFailed,
-) => ({
-  ...input,
-  type: 'CreateOrderFailed',
-});
-
 export const fetchMeals: ActionCreator<FetchMeals> = (input: FetchMeals) => ({
   ...input,
-  type: 'FetchMeals',
+  type: FETCH_MEALS,
 });
+
+export interface FetchMealsSuccess extends Action<typeof FETCH_MEALS_SUCCESS> {
+  meals: Meal[];
+}
 
 export const fetchMealsSuccess: ActionCreator<FetchMealsSuccess> = (
   input: FetchMealsSuccess,
 ) => ({
   ...input,
-  type: 'FetchMealsSuccess',
+  type: FETCH_MEALS_SUCCESS,
 });
 
-export const fetchMealsFailed: ActionCreator<FetchMealsFailed> = (
-  input: FetchMealsFailed,
+export interface FetchMealsFailure extends Action<typeof FETCH_MEALS_FAILURE> {
+  message: string;
+}
+
+export const fetchMealsFailed: ActionCreator<FetchMealsFailure> = (
+  input: FetchMealsFailure,
 ) => ({
   ...input,
-  type: 'FetchMealsFailed',
+  type: FETCH_MEALS_FAILURE,
 });
+
+export interface PickMeal extends Action<typeof PICK_MEAL> {
+  meal: Meal;
+}
 
 export const pickMeal: ActionCreator<PickMeal> = (input: PickMeal) => ({
   ...input,
-  type: 'PickMeal',
+  type: PICK_MEAL,
 });
+
+export interface UpdatePickedMealAmount
+  extends Action<typeof UPDATE_PICKED_MEAL_AMOUNT> {
+  id: string;
+  amount: number;
+}
 
 export const UpdatePickedMealAmount: ActionCreator<UpdatePickedMealAmount> = (
   input: UpdatePickedMealAmount,
 ) => ({
   ...input,
-  type: 'UpdatePickedMealAmount',
+  type: UPDATE_PICKED_MEAL_AMOUNT,
 });
+
+export interface RemovePickedMeal extends Action<typeof REMOVE_PICKED_MEAL> {
+  id: string;
+}
 
 export const RemovePickedMeal: ActionCreator<RemovePickedMeal> = (
   input: RemovePickedMeal,
 ) => ({
   ...input,
-  type: 'RemovePickedMeal',
+  type: REMOVE_PICKED_MEAL,
 });
+
+export interface FetchTakeout extends Action<typeof FETCH_TAKEOUT> {
+  token: string;
+  id: string;
+}
+
+export const fetchTakeout: ActionCreator<FetchTakeout> = (
+  input: FetchTakeout,
+) => ({
+  ...input,
+  type: FETCH_TAKEOUT,
+});
+
+export interface FetchTakeoutSuccess
+  extends Action<typeof FETCH_TAKEOUT_SUCCESS> {
+  takeout: Takeout;
+}
+
+export const fetchTakeoutSuccess: ActionCreator<FetchTakeoutSuccess> = (
+  input: FetchTakeoutSuccess,
+) => ({
+  ...input,
+  type: FETCH_TAKEOUT_SUCCESS,
+});
+
+export interface FetchTakeoutFailure
+  extends Action<typeof FETCH_TAKEOUT_FAILURE> {
+  message: string;
+}
+
+export const fetchTakeoutFailure: ActionCreator<FetchTakeoutFailure> = (
+  input: FetchTakeoutFailure,
+) => ({
+  ...input,
+  type: FETCH_TAKEOUT_FAILURE,
+});
+
+export type CreateOrderAction =
+  | CreateOrder
+  | CreateOrderSuccess
+  | CreateOrderFailure
+  | FetchMeals
+  | FetchMealsSuccess
+  | FetchMealsFailure;

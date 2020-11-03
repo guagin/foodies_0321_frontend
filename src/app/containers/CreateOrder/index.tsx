@@ -1,22 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, CssBaseline, Grid, TextField } from '@material-ui/core';
-import { Helmet } from 'react-helmet-async';
-import { useTranslation } from 'react-i18next';
-import { useTypedSelector } from 'store/reducers';
-import { useDispatch, useSelector } from 'react-redux';
-import { TakeOutCards } from './take-out-cards';
-import { fetchTakeOutByPartialTitle, pickTakeOut } from './action';
-import { createStructuredSelector } from 'reselect';
+import React, { useEffect, ReactElement } from 'react';
 import {
   makeSelectIsRequest,
-  makeSelectTakeOuts,
   makeSelectMessage,
+  makeSelectProviderId,
+  makeSelectMeals,
+  makeSelectPickedMeals,
+  makeSelectTakeout,
 } from './selector';
+
+import { makeStyles } from '@material-ui/core/styles';
+import { createStructuredSelector } from 'reselect';
 import { useInjectReducer } from 'redux-injectors';
-import { useInjectSaga } from 'utils/redux-injectors';
-import { pickTakeOutFlow } from './saga';
 import { createOrderReducer } from './reducer';
-import { TakeOut } from '../TakeOutList/take-out';
+import { useInjectSaga } from 'utils/redux-injectors';
+import { createOrderFlow } from './saga';
+import { useSelector, useDispatch } from 'react-redux';
+import { Helmet } from 'react-helmet-async';
+import {
+  Button,
+  CircularProgress,
+  CssBaseline,
+  Grid,
+  TextField,
+} from '@material-ui/core';
+
+import {
+  createOrder,
+  fetchMeals,
+  fetchTakeout,
+  pickMeal,
+  RemovePickedMeal,
+  UpdatePickedMealAmount,
+} from './action';
+import { useTypedSelector } from 'store/reducers';
+import { MealCards } from './meal-cards';
+import { PickedMeal } from './picked-meals';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -33,89 +51,113 @@ const useStyle = makeStyles(theme => ({
   },
 }));
 
+interface Props {
+  computedMatch: ComputedMatch;
+}
+
+interface ComputedMatch {
+  params: { takeoutId: string };
+}
+
 const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   message: makeSelectMessage(),
-  takeOuts: makeSelectTakeOuts(),
+  providerId: makeSelectProviderId(),
+  meals: makeSelectMeals(),
+  pickedMeals: makeSelectPickedMeals(),
+  takeout: makeSelectTakeout(),
 });
 
-export function CreateOrder() {
-  useInjectReducer({
-    key: 'createOrder',
-    reducer: createOrderReducer,
-  });
-
-  useInjectSaga({
-    key: 'createOrder',
-    saga: pickTakeOutFlow,
-  });
-
+export const CreateOrder: (props: Props) => ReactElement = ({
+  computedMatch: {
+    params: { takeoutId },
+  },
+}) => {
   const classes = useStyle();
-
-  const { t } = useTranslation();
-  const { token } = useTypedSelector(state => state.me);
-
-  const { isRequest, message, takeOuts } = useSelector(stateSelector);
+  useInjectReducer({ key: 'createOrder', reducer: createOrderReducer });
+  useInjectSaga({ key: 'createOrder', saga: createOrderFlow });
 
   const dispatch = useDispatch();
 
-  const [title, setTitle] = useState('');
+  const { token } = useTypedSelector(state => state.me);
 
-  const handleNameChange = (title: string) => {
-    setTitle(title);
-  };
+  const {
+    isRequest,
+    message,
+    providerId,
+    meals,
+    pickedMeals,
+    takeout,
+  } = useSelector(stateSelector);
 
-  const handleSubmmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
+    dispatch(
+      createOrder({
+        token,
+        takeOutId: takeoutId,
+        meals: pickedMeals,
+      }),
+    );
   };
 
-  const handleChoose = ({ id, providerId }: TakeOut) => {
-    console.log({ id, providerId });
-    dispatch(pickTakeOut({ takeOutId: id, providerId }));
+  const handleChoose = meal => {
+    dispatch(pickMeal({ token, meal }));
+  };
+
+  const updateAmount = (id, amount) => {
+    dispatch(UpdatePickedMealAmount({ id, amount }));
+  };
+
+  const remove = id => {
+    dispatch(RemovePickedMeal({ id }));
   };
 
   useEffect(() => {
-    dispatch(fetchTakeOutByPartialTitle({ token, title }));
-  }, [dispatch, title, token]);
+    dispatch(fetchTakeout({ token, id: takeoutId }));
+  }, [dispatch, takeoutId, token]);
+
+  if (!takeout) {
+    return (
+      <>
+        <CircularProgress />
+      </>
+    );
+  }
 
   return (
     <>
       <Helmet>
-        <title>Pick TakeOut Page</title>
-        <meta name="description" content="foodies pick TakeOut page." />
+        <title>Create Order Page</title>
+        <meta name="description" content="foodies Create Order page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
-        {message}
-        <Grid container spacing={2} justify="center">
-          <Grid item xs={4} sm={4}>
-            <form className={classes.form} onSubmit={handleSubmmit}>
-              <TextField
-                autoComplete="title"
-                name="title"
-                variant="outlined"
-                required
-                fullWidth
-                id="title"
-                label={t('takeOut.title')}
-                autoFocus
-                placeholder={t('takeOut.titlePlaceholder')}
-                value={title}
-                onChange={e => {
-                  handleNameChange(e.target.value);
-                }}
-              />
-            </form>
+        <Grid container spacing={2} justify="flex-start">
+          <Grid item xs={12} sm={12}>
+            <PickedMeal
+              meals={pickedMeals}
+              updateAmount={updateAmount}
+              remove={remove}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} justify="flex-end">
+          <Grid item xs={1} sm={1}>
+            <Button size="large" onClick={handleSubmit}>
+              submit
+            </Button>
           </Grid>
         </Grid>
       </div>
+
       <div className={classes.paper}>
-        <TakeOutCards
-          takeOuts={takeOuts}
+        <MealCards
+          meals={meals}
           isRequest={isRequest}
           onClickChoose={handleChoose}
         />
       </div>
     </>
   );
-}
+};

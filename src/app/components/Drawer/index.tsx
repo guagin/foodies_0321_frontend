@@ -20,7 +20,6 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import LocalDining from '@material-ui/icons/LocalDining';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
@@ -98,16 +97,8 @@ export const AppDrawer = ({ children }) => {
     setOpen(false);
   };
 
-  // const handleMealItemClick = () => {
-  //   dispatch(push('/meal-list'));
-  // };
-
   const handleProviderClick = () => {
     dispatch(push('/provider-list'));
-  };
-
-  const handleOrderClick = () => {
-    dispatch(push('/order-list'));
   };
 
   const handleTakeOutClick = () => {
@@ -179,18 +170,6 @@ export const AppDrawer = ({ children }) => {
         </div>
         <Divider />
         <List onClick={toggleDrawer(false)}>
-          {/* <ListItem
-            button
-            key={'meal'}
-            onClick={() => {
-              handleMealItemClick();
-            }}
-          >
-            <ListItemIcon>
-              <LocalDining />
-            </ListItemIcon>
-            <ListItemText primary={'meal'} />
-          </ListItem> */}
           <ListItem
             button
             key={'provider'}
@@ -204,18 +183,6 @@ export const AppDrawer = ({ children }) => {
             <ListItemText primary={'provider'} />
           </ListItem>
 
-          <ListItem
-            button
-            key={'order'}
-            onClick={() => {
-              handleOrderClick();
-            }}
-          >
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary={'order'} />
-          </ListItem>
           <ListItem
             button
             key={'takeOut'}

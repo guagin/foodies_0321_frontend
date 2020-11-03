@@ -7,7 +7,7 @@ import {
   Fab,
 } from '@material-ui/core';
 import { push } from 'connected-react-router';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';

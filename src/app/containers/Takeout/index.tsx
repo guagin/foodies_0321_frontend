@@ -35,6 +35,7 @@ import { getDateTimeString } from 'utils/datetime-string';
 import { push } from 'connected-react-router';
 import { some } from 'lodash';
 import moment from 'moment';
+import red from '@material-ui/core/colors/red';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -53,11 +54,6 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  fab: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
   title: {
     fontSize: 26,
   },
@@ -74,6 +70,11 @@ const useStyles = makeStyles(theme => ({
   divier: {
     marginBottom: theme.spacing(2),
   },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
+  },
 }));
 
 const BasicInfo = ({
@@ -86,6 +87,51 @@ const BasicInfo = ({
   user: { name: string };
 }) => {
   const classes = useStyles();
+
+  const current = new Date();
+
+  const startedAt = () => {
+    if (moment(takeout.startedAt).toDate().getTime() <= current.getTime()) {
+      return (
+        <Typography className={classes.subTitle} gutterBottom>
+          {getDateTimeString(moment(takeout.startedAt).toDate())}
+        </Typography>
+      );
+    }
+
+    return (
+      <Typography
+        className={classes.subTitle}
+        style={{
+          color: 'red',
+        }}
+        gutterBottom
+      >
+        {getDateTimeString(moment(takeout.startedAt).toDate())}
+      </Typography>
+    );
+  };
+
+  const endAt = () => {
+    if (moment(takeout.endAt).toDate().getTime() < current.getTime()) {
+      return (
+        <Typography
+          className={classes.subTitle}
+          style={{
+            color: 'red',
+          }}
+          gutterBottom
+        >
+          {getDateTimeString(moment(takeout.endAt).toDate())}
+        </Typography>
+      );
+    }
+    return (
+      <Typography className={classes.subTitle} gutterBottom>
+        {getDateTimeString(moment(takeout.endAt).toDate())}
+      </Typography>
+    );
+  };
 
   return (
     <>
@@ -120,20 +166,8 @@ const BasicInfo = ({
                 >
                   {user ? user.name : ''}
                 </Typography>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {getDateTimeString(moment(takeout.startedAt).toDate())}
-                </Typography>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {getDateTimeString(moment(takeout.endAt).toDate())}
-                </Typography>
+                {startedAt()}
+                {endAt()}
                 <Typography
                   className={classes.subTitle}
                   color="textSecondary"
@@ -216,7 +250,7 @@ export const AddFab = ({
   userId: string;
 }) => {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const isTakeoutAvailable = () => {
     if (!takeout) {
       return false;
@@ -236,17 +270,21 @@ export const AddFab = ({
     return !some(orders, e => e.createdBy === userId);
   };
 
-  if (isTakeoutAvailable() && isNoOrderBelongsTo()) {
-    return (
-      <>
-        <Fab className={classes.fab} color="primary" aria-label="add">
-          <AddIcon />
-        </Fab>
-      </>
-    );
-  }
-
-  return <></>;
+  return (
+    <>
+      <Fab
+        className={classes.fab}
+        color="primary"
+        aria-label="add"
+        disabled={!(isTakeoutAvailable() && isNoOrderBelongsTo())}
+        onClick={() => {
+          dispatch(push(`/order/create/${takeout.id}`));
+        }}
+      >
+        <AddIcon />
+      </Fab>
+    </>
+  );
 };
 
 export const TakeoutPage: (props: Props) => ReactElement = ({
@@ -254,6 +292,8 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     params: { id },
   },
 }) => {
+  const classes = useStyles();
+
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 

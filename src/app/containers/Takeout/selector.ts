@@ -1,4 +1,4 @@
-import { initTakeoutState } from './reducer';
+import { initTakeoutState, Takeout } from './reducer';
 import { createSelector } from 'reselect';
 
 const selectTakeoutDomain = state => state.takeout || initTakeoutState;
@@ -7,7 +7,7 @@ export const makeSelectMessage = () =>
   createSelector(selectTakeoutDomain, subState => subState.message);
 
 export const makeSelectTakeout = () =>
-  createSelector(selectTakeoutDomain, subState => subState.takeout);
+  createSelector(selectTakeoutDomain, subState => subState.takeout as Takeout);
 
 export const makeSelectOrders = () =>
   createSelector(selectTakeoutDomain, subState => subState.orders);
