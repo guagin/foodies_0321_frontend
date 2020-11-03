@@ -1,5 +1,4 @@
 import { Status } from './status';
-import { UpdateMeal } from 'app/containers/Meal/action';
 
 export interface Meal {
   id: string;

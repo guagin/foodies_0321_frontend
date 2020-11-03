@@ -98,6 +98,7 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
       ...state,
       isRequest: false,
       message: '',
+      pickedMeals: [],
     };
   },
 

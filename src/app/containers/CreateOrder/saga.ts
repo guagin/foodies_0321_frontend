@@ -106,11 +106,11 @@ function* createOrderSaga({ token, takeOutId, meals }: CreateOrder) {
 
     if (status.code === 'ERROR') {
       yield put(createOrderFailure({ message: status.msg }));
-      yield put(push('/order-list'));
       return;
     }
 
     yield put(createOrderSuccess({ ...data }));
+    yield put(push(`/takeout/ofId/${takeOutId}`));
   } catch (e) {
     yield put(createOrderFailure({ messge: e.messge }));
   }
