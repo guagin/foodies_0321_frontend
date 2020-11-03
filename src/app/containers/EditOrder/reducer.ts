@@ -16,6 +16,9 @@ import {
 } from './actions';
 import {
   APPEND_MEAL,
+  FETCH_MEALS,
+  FETCH_MEALS_FAILURE,
+  FETCH_MEALS_SUCCESS,
   FETCH_ORDER,
   FETCH_ORDER_FAILURE,
   FETCH_ORDER_SUCCESS,
@@ -28,6 +31,12 @@ import {
   REMOVE_MEAL,
   UPDATE_MEAL_AMOUNT,
 } from './constants';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
 export interface Order {
   id: string;
@@ -76,6 +85,7 @@ export type EditOrderState = {
   takeout?: Takeout;
   provider?: Provider;
   meal?: Meal[];
+  user?: User;
 };
 
 export const initEditOrderState: EditOrderState = {};
@@ -224,4 +234,9 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       message,
     };
   },
+  [FETCH_MEALS]: () => {},
+
+  [FETCH_MEALS_SUCCESS]: () => {},
+
+  [FETCH_MEALS_FAILURE]: () => {},
 });

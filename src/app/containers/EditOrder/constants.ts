@@ -18,3 +18,12 @@ export const FETCH_PROVIDER_FAILURE = 'editOrder/FetchProviderFailure';
 export const UPDATE_ORDER = 'editorOrder/updateOrder';
 export const UPDATE_ORDER_SUCCESS = 'editorOrder/updateOrderSuccess';
 export const UDPATE_ORDER_FAILURE = 'editorOrder/updateOrderFailure';
+
+export const FETCH_USER = 'editOrder/fetchUser';
+export const FETCH_USER_SUCCESS = 'editor/fetchUserSuccess';
+export const FETCH_USER_FAILURE = 'editor/fetchUserFailure';
+
+// TODO: fetch meals of providers
+export const FETCH_MEALS = 'editOrder/fetchMeals';
+export const FETCH_MEALS_SUCCESS = 'editOrder/fetchMealsSuccess';
+export const FETCH_MEALS_FAILURE = 'editOrder/fetchMealsFailure';

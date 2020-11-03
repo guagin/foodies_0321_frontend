@@ -35,7 +35,6 @@ import { getDateTimeString } from 'utils/datetime-string';
 import { push } from 'connected-react-router';
 import { some } from 'lodash';
 import moment from 'moment';
-import red from '@material-ui/core/colors/red';
 
 interface Props {
   computedMatch: ComputedMatch;

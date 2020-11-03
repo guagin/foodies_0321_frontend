@@ -1,4 +1,4 @@
-import { CssBaseline, Grid, makeStyles } from '@material-ui/core';
+import { CssBaseline, Fab, Grid, makeStyles } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,8 @@ import {
   makeSelectTakeOut,
   makeSelectUsers,
 } from './selector';
+import AddIcon from '@material-ui/icons/Add';
+import { push } from 'connected-react-router';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -26,6 +28,11 @@ const useStyle = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   },
 }));
 
@@ -86,6 +93,14 @@ export const OrderDetail = ({
             <OrderDeatailCard order={order} meals={meals} users={users} />
           </Grid>
         </Grid>
+        <Fab
+          className={classes.fab}
+          onClick={() => {
+            dispatch(push(`/order/edit/${order.id}`));
+          }}
+        >
+          <AddIcon />
+        </Fab>
       </div>
     </>
   );

@@ -2,23 +2,29 @@ import { Action, ActionCreator } from '@reduxjs/toolkit';
 
 import {
   APPEND_MEAL,
+  REMOVE_MEAL,
   UPDATE_MEAL_AMOUNT,
   FETCH_ORDER,
   FETCH_ORDER_FAILURE,
   FETCH_ORDER_SUCCESS,
   FETCH_PROVIDER,
   FETCH_PROVIDER_SUCCESS,
+  FETCH_PROVIDER_FAILURE,
   FETCH_TAKEOUT,
   FETCH_TAKEOUT_FAILURE,
   FETCH_TAKEOUT_SUCCESS,
-  REMOVE_MEAL,
-  FETCH_PROVIDER_FAILURE,
+  FETCH_USER,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE,
+  FETCH_MEALS,
+  FETCH_MEALS_SUCCESS,
+  FETCH_MEALS_FAILURE,
 } from './constants';
-import { Meal, Order, Provider, Takeout } from './reducer';
+import { Meal, Order, Provider, Takeout, User } from './reducer';
 
 export interface FetchOrder extends Action<typeof FETCH_ORDER> {
   token: string;
-  oderId: string;
+  orderId: string;
 }
 
 export const fetchOrder: ActionCreator<FetchOrder> = (input: FetchOrder) => ({
@@ -107,7 +113,7 @@ export interface FetchTakeoutFailure
   message: string;
 }
 
-export const FetchTakeoutFailure: ActionCreator<FetchTakeoutFailure> = (
+export const fetchTakeoutFailure: ActionCreator<FetchTakeoutFailure> = (
   input: FetchTakeoutFailure,
 ) => ({
   ...input,
@@ -135,7 +141,7 @@ export const fetchProviderSuccess: ActionCreator<FetchProviderSuccess> = (
   input: FetchProviderSuccess,
 ) => ({
   ...input,
-  typeof: FETCH_PROVIDER_SUCCESS,
+  type: FETCH_PROVIDER_SUCCESS,
 });
 
 export interface FetchProviderFailure
@@ -148,4 +154,68 @@ export const fetchProviderFailure: ActionCreator<FetchProviderFailure> = (
 ) => ({
   ...input,
   type: FETCH_PROVIDER_FAILURE,
+});
+
+export interface FetchUser extends Action<typeof FETCH_USER> {
+  token: string;
+  userId: string;
+}
+
+export const fetchUser: ActionCreator<FetchUser> = (input: FetchUser) => ({
+  ...input,
+  type: FETCH_USER,
+});
+
+export interface FetchUserSuccess extends Action<typeof FETCH_USER_SUCCESS> {
+  user: User;
+}
+
+export const fetchUserSuccess: ActionCreator<FetchUserSuccess> = (
+  input: FetchUserSuccess,
+) => ({
+  ...input,
+  type: FETCH_USER_SUCCESS,
+});
+
+export interface FetchUserFailure extends Action<typeof FETCH_USER_FAILURE> {
+  message: string;
+}
+
+export const fetchUserFailure: ActionCreator<FetchUserFailure> = (
+  input: FetchUserFailure,
+) => ({
+  ...input,
+  type: FETCH_USER_FAILURE,
+});
+
+export interface FetchMeals extends Action<typeof FETCH_MEALS> {
+  token: string;
+  providerId: string;
+}
+
+export const fetchMeals: ActionCreator<FetchMeals> = (input: FetchMeals) => ({
+  ...input,
+  type: FETCH_MEALS,
+});
+
+export interface FetchMealsSuccess extends Action<typeof FETCH_MEALS_SUCCESS> {
+  meals: Meal[];
+}
+
+export const fetchMealsSuccess: ActionCreator<FetchMealsSuccess> = (
+  input: FetchMealsSuccess,
+) => ({
+  ...input,
+  type: FETCH_MEALS_SUCCESS,
+});
+
+export interface FetchMealsFailure extends Action<typeof FETCH_MEALS_FAILURE> {
+  message: string;
+}
+
+export const fetchMealsFailure: ActionCreator<FetchMealsFailure> = (
+  input: FetchMealsFailure,
+) => ({
+  ...input,
+  type: FETCH_MEALS_FAILURE,
 });
