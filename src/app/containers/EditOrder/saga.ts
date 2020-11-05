@@ -5,10 +5,22 @@ import {
   fetchTakeoutOfId,
   fetchProviderOfId,
   Provider,
+  Meal,
+  mealsOfProvider,
+  fetchUserOfIds,
+  User,
 } from 'api';
 import { Status } from 'api/status';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { put, takeLatest } from 'redux-saga/effects';
+import * as Effects from 'redux-saga/effects';
 import {
+  FetchCreateMealUsers,
+  fetchCreateMealUsersFailure,
+  fetchCreateMealUserSuccess,
+  fetchMeals,
+  FetchMeals,
+  fetchMealsFailure,
+  fetchMealsSuccess,
   FetchOrder,
   fetchOrderFailure,
   fetchOrderSuccess,
@@ -21,12 +33,22 @@ import {
   fetchTakeoutFailure,
   fetchTakeoutSuccess,
 } from './actions';
-import { FETCH_ORDER, FETCH_PROVIDER, FETCH_TAKEOUT } from './constants';
+import {
+  FETCH_MEALS,
+  FETCH_MEALS_FAILURE,
+  FETCH_ORDER,
+  FETCH_PROVIDER,
+  FETCH_TAKEOUT,
+} from './constants';
+
+const call: any = Effects.call;
 
 export function* editOrderFlow() {
   yield takeLatest(FETCH_ORDER, fetchOrderSaga);
   yield takeLatest(FETCH_TAKEOUT, fetchTakeoutSaga);
   yield takeLatest(FETCH_PROVIDER, fetchProviderSaga);
+  yield takeLatest(FETCH_MEALS, fetchMealsSaga);
+  yield takeLatest(FETCH_MEALS_FAILURE, fetchCreateMealUsersSaga);
 }
 
 export function* fetchOrderSaga({ token, orderId }: FetchOrder) {
@@ -97,7 +119,70 @@ export function* fetchProviderSaga({ token, providerId }: FetchProvider) {
     }
 
     yield put(fetchProviderSuccess({ ...data }));
+    yield put(fetchMeals({ token, providerId }));
   } catch (e) {
     yield put(fetchProviderFailure({ message: e.message }));
+  }
+}
+
+export function* fetchMealsSaga({ token, providerId }: FetchMeals) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {
+        meals: Meal[];
+        hasNext: boolean;
+        hasPrevious: boolean;
+        totalPages: number;
+        page: number;
+        totalCount: number;
+      };
+      status: Status;
+    } = yield call(mealsOfProvider, {
+      token,
+      page: 1,
+      count: 500,
+      providerId,
+    });
+
+    if (status.code !== 'SUCCESS' || !data) {
+      yield put(fetchMealsFailure({ message: status.msg }));
+      return;
+    }
+
+    yield put(fetchMealsSuccess({ ...data }));
+  } catch (e) {
+    yield put(fetchMealsFailure({ message: e.message }));
+  }
+}
+
+export function* fetchCreateMealUsersSaga({
+  token,
+  userIds,
+}: FetchCreateMealUsers) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {
+        users: User[];
+      };
+      status: Status;
+    } = yield call(fetchUserOfIds, {
+      token,
+      userIds,
+    });
+
+    if (status.code === 'ERROR' || !data) {
+      yield put(fetchCreateMealUsersFailure({ message: status.msg }));
+      return;
+    }
+
+    yield put(fetchCreateMealUserSuccess({ ...data }));
+  } catch (e) {
+    yield put(fetchCreateMealUsersFailure({ message: e.message }));
   }
 }

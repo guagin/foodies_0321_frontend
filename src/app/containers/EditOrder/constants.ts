@@ -23,7 +23,12 @@ export const FETCH_USER = 'editOrder/fetchUser';
 export const FETCH_USER_SUCCESS = 'editor/fetchUserSuccess';
 export const FETCH_USER_FAILURE = 'editor/fetchUserFailure';
 
-// TODO: fetch meals of providers
 export const FETCH_MEALS = 'editOrder/fetchMeals';
 export const FETCH_MEALS_SUCCESS = 'editOrder/fetchMealsSuccess';
 export const FETCH_MEALS_FAILURE = 'editOrder/fetchMealsFailure';
+
+export const FETCH_CREATE_MEAL_USERS = 'editOrder/fetchCreateMealUsers';
+export const FETCH_CREATE_MEAL_USERS_SUCCESS =
+  'editOrder/fetchCreateMealUsersSuccess';
+export const FETCH_CREATE_MEAL_USERS_FAILURE =
+  'editOrder/fetchCreateMealUsersFailure';

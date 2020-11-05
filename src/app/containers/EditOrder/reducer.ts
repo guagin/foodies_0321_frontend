@@ -2,6 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 import { find, reduce } from 'lodash';
 import {
   AppendMeal,
+  FetchCreateMealUsers,
+  FetchCreateMealUsersFailure,
+  FetchCreateMealUsersSuccess,
+  FetchMeals,
+  FetchMealsFailure,
+  FetchMealsSuccess,
   FetchOrder,
   FetchOrderFailure,
   FetchOrderSuccess,
@@ -16,6 +22,9 @@ import {
 } from './actions';
 import {
   APPEND_MEAL,
+  FETCH_CREATE_MEAL_USERS,
+  FETCH_CREATE_MEAL_USERS_FAILURE,
+  FETCH_CREATE_MEAL_USERS_SUCCESS,
   FETCH_MEALS,
   FETCH_MEALS_FAILURE,
   FETCH_MEALS_SUCCESS,
@@ -84,11 +93,15 @@ export type EditOrderState = {
   order?: Order;
   takeout?: Takeout;
   provider?: Provider;
-  meal?: Meal[];
+  meals: Meal[];
   user?: User;
+  createMealUsers: User[];
 };
 
-export const initEditOrderState: EditOrderState = {};
+export const initEditOrderState: EditOrderState = {
+  meals: [],
+  createMealUsers: [],
+};
 
 export const editOrderReducer = createReducer(initEditOrderState, {
   [FETCH_ORDER]: (state, action: FetchOrder) => {
@@ -119,7 +132,7 @@ export const editOrderReducer = createReducer(initEditOrderState, {
     if (found) {
       return {
         ...rest,
-        products,
+        order,
       };
     }
 
@@ -234,9 +247,45 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       message,
     };
   },
-  [FETCH_MEALS]: () => {},
+  [FETCH_MEALS]: (state, action: FetchMeals) => {
+    return { ...state };
+  },
 
-  [FETCH_MEALS_SUCCESS]: () => {},
+  [FETCH_MEALS_SUCCESS]: (state, { meals }: FetchMealsSuccess) => {
+    return {
+      ...state,
+      meals,
+    };
+  },
 
-  [FETCH_MEALS_FAILURE]: () => {},
+  [FETCH_MEALS_FAILURE]: (state, { message }: FetchMealsFailure) => {
+    return {
+      ...state,
+      message,
+    };
+  },
+
+  [FETCH_CREATE_MEAL_USERS]: (state, action: FetchCreateMealUsers) => {
+    return {
+      ...state,
+    };
+  },
+  [FETCH_CREATE_MEAL_USERS_SUCCESS]: (
+    state,
+    { users }: FetchCreateMealUsersSuccess,
+  ) => {
+    return {
+      ...state,
+      users,
+    };
+  },
+  [FETCH_CREATE_MEAL_USERS_FAILURE]: (
+    state,
+    { message }: FetchCreateMealUsersFailure,
+  ) => {
+    return {
+      ...state,
+      message,
+    };
+  },
 });

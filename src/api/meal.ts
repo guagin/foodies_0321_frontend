@@ -52,12 +52,15 @@ export const mealsOfProvider: (input: {
   count: number;
   providerId: string;
 }) => Promise<{
-  meals: Meal[];
-  hasNext: boolean;
-  hasPrevious: boolean;
-  totalPages: number;
-  page: number;
-  totalCount: number;
+  data?: {
+    meals: Meal[];
+    hasNext: boolean;
+    hasPrevious: boolean;
+    totalPages: number;
+    page: number;
+    totalCount: number;
+  };
+  status: Status;
 }> = async ({ token, page = 1, count, providerId }) => {
   try {
     const response = await fetch(

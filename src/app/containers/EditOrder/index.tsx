@@ -7,11 +7,14 @@ import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
 
 import { fetchOrder } from './actions';
+import { MealCards } from './meal-cards';
 import { OrderBasicInfo } from './order-basic-info';
 import { Products } from './products';
 import { editOrderReducer } from './reducer';
 import { editOrderFlow } from './saga';
 import {
+  makeSelectCreateMealUsers,
+  makeSelectMeals,
   makeSelectOrder,
   makeSelectProvider,
   makeSelectTakeout,
@@ -42,6 +45,8 @@ const stateSelector = createStructuredSelector({
   takeout: makeSelectTakeout(),
   provider: makeSelectProvider(),
   user: makeSelectUser(),
+  meals: makeSelectMeals(),
+  createMealUsers: makeSelectCreateMealUsers(),
 });
 
 export const EditOrder: (props: Props) => React.ReactElement = ({
@@ -55,7 +60,9 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   const classes = useStyle();
   const dispatch = useDispatch();
   const { token } = useTypedSelector(state => state.me);
-  const { order, takeout, provider, user } = useSelector(stateSelector);
+  const { order, takeout, provider, meals, createMealUsers } = useSelector(
+    stateSelector,
+  );
 
   useEffect(() => {
     dispatch(
@@ -83,11 +90,16 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
             />
           </Grid>
         </Grid>
+      </div>
+      <div className={classes.paper}>
         <Grid container justify={'center'}>
           <Grid item xs={8} sm={8}>
-            <Products products={order ? order.products : []} meals={[]} />
+            <Products products={order ? order.products : []} meals={meals} />
           </Grid>
         </Grid>
+      </div>
+      <div className={classes.paper}>
+        <MealCards meals={meals} users={createMealUsers} />
       </div>
     </>
   );

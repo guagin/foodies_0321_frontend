@@ -14,3 +14,9 @@ export const makeSelectProvider = () =>
 
 export const makeSelectUser = () =>
   createSelector(selectEditOrderDomain, subState => subState.user);
+
+export const makeSelectMeals = () =>
+  createSelector(selectEditOrderDomain, subState => subState.meals);
+
+export const makeSelectCreateMealUsers = () =>
+  createSelector(selectEditOrderDomain, subState => subState.createMealUsers);

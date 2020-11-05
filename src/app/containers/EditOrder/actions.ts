@@ -19,6 +19,9 @@ import {
   FETCH_MEALS,
   FETCH_MEALS_SUCCESS,
   FETCH_MEALS_FAILURE,
+  FETCH_CREATE_MEAL_USERS,
+  FETCH_CREATE_MEAL_USERS_SUCCESS,
+  FETCH_CREATE_MEAL_USERS_FAILURE,
 } from './constants';
 import { Meal, Order, Provider, Takeout, User } from './reducer';
 
@@ -218,4 +221,41 @@ export const fetchMealsFailure: ActionCreator<FetchMealsFailure> = (
 ) => ({
   ...input,
   type: FETCH_MEALS_FAILURE,
+});
+
+export interface FetchCreateMealUsers
+  extends Action<typeof FETCH_CREATE_MEAL_USERS> {
+  token: string;
+  userIds: string[];
+}
+
+export const fetchCreateMealUsers: ActionCreator<FetchCreateMealUsers> = (
+  input: FetchCreateMealUsers,
+) => ({
+  ...input,
+  type: FETCH_CREATE_MEAL_USERS,
+});
+
+export interface FetchCreateMealUsersSuccess
+  extends Action<typeof FETCH_CREATE_MEAL_USERS_SUCCESS> {
+  users: User[];
+}
+
+export const fetchCreateMealUserSuccess: ActionCreator<FetchCreateMealUsersSuccess> = (
+  input: FetchCreateMealUsersSuccess,
+) => ({
+  ...input,
+  type: FETCH_CREATE_MEAL_USERS_SUCCESS,
+});
+
+export interface FetchCreateMealUsersFailure
+  extends Action<typeof FETCH_CREATE_MEAL_USERS_FAILURE> {
+  message: string;
+}
+
+export const fetchCreateMealUsersFailure: ActionCreator<FetchCreateMealUsersFailure> = (
+  input: FetchCreateMealUsersFailure,
+) => ({
+  ...input,
+  type: FETCH_CREATE_MEAL_USERS_FAILURE,
 });
