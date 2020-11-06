@@ -22,6 +22,17 @@ import {
   FETCH_USERS_SUCCESS,
 } from './constants';
 
+export interface Takeout {
+  id: string;
+  title: string;
+  createdBy: string;
+  description: string;
+  startedAt: Date;
+  endAt: Date;
+  enabled: boolean;
+  providerId: string;
+}
+
 export interface Order {
   id: string;
   createdBy: string;
@@ -58,6 +69,7 @@ export type OrderDetailState = {
   takeOut?: TakeOut;
   meals: Meal[];
   users: User[];
+  Takeout?: Takeout;
 };
 
 export const initOrderDetailState: OrderDetailState = {

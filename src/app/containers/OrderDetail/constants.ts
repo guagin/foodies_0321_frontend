@@ -9,3 +9,7 @@ export const FETCH_MEALS_FAILURE = 'orderDetail/fetchMealsFailure';
 export const FETCH_USERS = 'orderDetail/fetchUsers';
 export const FETCH_USERS_SUCCESS = 'orderDetail/fetchUsersSuccess';
 export const FETCH_USERS_FAILURE = 'orderDetail/fetchUsersFailure';
+
+export const FETCH_TAKEOUT = 'orderDetail/fetchTakeout';
+export const FETCH_TAKEOUT_SUCCESS = 'orderDetail/fetchTakeoutSuccess';
+export const FETCH_TAKEOUT_FAILURE = 'orderDetail/fetchTakeoutFailure';
