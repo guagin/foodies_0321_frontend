@@ -1,44 +1,21 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 
 import { Meal, Order, User } from './reducer';
+import {
+  FETCH_ORDER,
+  FETCH_MEALS,
+  FETCH_ORDER_SUCCESS,
+  FETCH_ORDER_FAILURE,
+  FETCH_MEALS_SUCCESS,
+  FETCH_MEALS_FAILURE,
+  FETCH_USERS,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
+} from './constants';
 
-export interface FetchOrderOfId extends Action<'FetchOrderOfId'> {
+export interface FetchOrderOfId extends Action<typeof FETCH_ORDER> {
   token: string;
   id: string;
-}
-
-export interface FetchOrderOfIdSuccess extends Action<'FetchOrderOfIdSuccess'> {
-  order: Order;
-}
-
-export interface FetchOrderOfIdFailure extends Action<'FetchOrderOfIdFailure'> {
-  message: string;
-}
-
-export interface FetchMealOfIds extends Action<'FetchMealOfIds'> {
-  token: string;
-  ids: string[];
-}
-
-export interface FetchMealOfIdsSuccess extends Action<'FetchMealOfIdsSuccess'> {
-  meals: Meal[];
-}
-
-export interface FetchMealOfIdsFailure extends Action<'FetchMealOfIdsFailure'> {
-  message: string;
-}
-
-export interface FetchUserOfIds extends Action<'FetchUserOfIds'> {
-  token: string;
-  ids: string[];
-}
-
-export interface FetchUserOfIdsSuccess extends Action<'FetchUserOfIdsSuccess'> {
-  users: User[];
-}
-
-export interface FetchUserOfIdsFailure extends Action<'FetchUserOfIdsFailure'> {
-  message: string;
 }
 
 export const fetchOrderOfId: ActionCreator<FetchOrderOfId> = ({
@@ -46,11 +23,16 @@ export const fetchOrderOfId: ActionCreator<FetchOrderOfId> = ({
   id,
 }: FetchOrderOfId) => {
   return {
-    type: 'FetchOrderOfId',
+    type: FETCH_ORDER,
     token,
     id,
   };
 };
+
+export interface FetchOrderOfIdSuccess
+  extends Action<typeof FETCH_ORDER_SUCCESS> {
+  order: Order;
+}
 
 export const fetchOrderOfIdSuccess: ActionCreator<FetchOrderOfIdSuccess> = ({
   order,
@@ -58,10 +40,15 @@ export const fetchOrderOfIdSuccess: ActionCreator<FetchOrderOfIdSuccess> = ({
   order: Order;
 }) => {
   return {
-    type: 'FetchOrderOfIdSuccess',
+    type: FETCH_ORDER_SUCCESS,
     order,
   };
 };
+
+export interface FetchOrderOfIdFailure
+  extends Action<typeof FETCH_ORDER_FAILURE> {
+  message: string;
+}
 
 export const fetchOrderOfIdFailure: ActionCreator<FetchOrderOfIdFailure> = ({
   message,
@@ -69,65 +56,95 @@ export const fetchOrderOfIdFailure: ActionCreator<FetchOrderOfIdFailure> = ({
   message: string;
 }) => {
   return {
-    type: 'FetchOrderOfIdFailure',
+    type: FETCH_ORDER_FAILURE,
     message,
   };
 };
+
+export interface FetchMealOfIds extends Action<typeof FETCH_MEALS> {
+  token: string;
+  ids: string[];
+}
 
 export const fetchMealOfIds: ActionCreator<FetchMealOfIds> = ({
   token,
   ids,
 }: FetchMealOfIds) => {
   return {
-    type: 'FetchMealOfIds',
+    type: FETCH_MEALS,
     token,
     ids,
   };
 };
 
+export interface FetchMealOfIdsSuccess
+  extends Action<typeof FETCH_MEALS_SUCCESS> {
+  meals: Meal[];
+}
+
 export const fetchMealOfIdsSuccess: ActionCreator<FetchMealOfIdsSuccess> = ({
   meals,
 }: FetchMealOfIdsSuccess) => {
   return {
-    type: 'FetchMealOfIdsSuccess',
+    type: FETCH_MEALS_SUCCESS,
     meals,
   };
 };
+
+export interface FetchMealOfIdsFailure
+  extends Action<typeof FETCH_MEALS_FAILURE> {
+  message: string;
+}
 
 export const fetchMealOfIdsFailure: ActionCreator<FetchMealOfIdsFailure> = ({
   message,
 }: FetchMealOfIdsFailure) => {
   return {
-    type: 'FetchMealOfIdsFailure',
+    type: FETCH_MEALS_FAILURE,
     message,
   };
 };
+
+export interface FetchUserOfIds extends Action<typeof FETCH_USERS> {
+  token: string;
+  ids: string[];
+}
 
 export const fetchUserOfIds: ActionCreator<FetchUserOfIds> = ({
   token,
   ids,
 }: FetchUserOfIds) => {
   return {
-    type: 'FetchUserOfIds',
+    type: FETCH_USERS,
     token,
     ids,
   };
 };
 
+export interface FetchUserOfIdsSuccess
+  extends Action<typeof FETCH_USERS_SUCCESS> {
+  users: User[];
+}
+
 export const fetchUserOfIdsSuccess: ActionCreator<FetchUserOfIdsSuccess> = ({
   users,
 }: FetchUserOfIdsSuccess) => {
   return {
-    type: 'FetchUserOfIdsSuccess',
+    type: FETCH_USERS_SUCCESS,
     users,
   };
 };
+
+export interface FetchUserOfIdsFailure
+  extends Action<typeof FETCH_USERS_FAILURE> {
+  message: string;
+}
 
 export const fetchUserOfIdsFailure: ActionCreator<FetchUserOfIdsFailure> = ({
   message,
 }: FetchUserOfIdsFailure) => {
   return {
-    type: 'FetchUserOfIdsFailure',
+    type: FETCH_USERS_FAILURE,
     message,
   };
 };
