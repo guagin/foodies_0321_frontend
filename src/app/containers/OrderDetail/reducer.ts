@@ -10,6 +10,17 @@ import {
   FetchUserOfIdsFailure,
   FetchUserOfIdsSuccess,
 } from './action';
+import {
+  FETCH_ORDER,
+  FETCH_ORDER_SUCCESS,
+  FETCH_ORDER_FAILURE,
+  FETCH_MEALS,
+  FETCH_MEALS_SUCCESS,
+  FETCH_MEALS_FAILURE,
+  FETCH_USERS,
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_SUCCESS,
+} from './constants';
 
 export interface Order {
   id: string;
@@ -57,7 +68,7 @@ export const initOrderDetailState: OrderDetailState = {
 };
 
 export const orderDetailReducer = createReducer(initOrderDetailState, {
-  FetchOrderOfId: (state, { id }: FetchOrderOfId) => {
+  [FETCH_ORDER]: (state, { id }: FetchOrderOfId) => {
     return {
       ...state,
       isRequest: true,
@@ -65,7 +76,7 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchOrderOfIdSuccess: (state, { order }: FetchOrderOfIdSuccess) => {
+  [FETCH_ORDER_SUCCESS]: (state, { order }: FetchOrderOfIdSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -73,7 +84,7 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchOrderOfIdFailure: (state, { message }) => {
+  [FETCH_ORDER_FAILURE]: (state, { message }) => {
     return {
       ...state,
       isRequest: false,
@@ -81,14 +92,14 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchMealOfIds: (state, action: FetchMealOfIds) => {
+  [FETCH_MEALS]: (state, action: FetchMealOfIds) => {
     return {
       ...state,
       isRequest: true,
     };
   },
 
-  FetchMealOfIdsSuccess: (state, { meals }: FetchMealOfIdsSuccess) => {
+  [FETCH_MEALS_SUCCESS]: (state, { meals }: FetchMealOfIdsSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -96,7 +107,7 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchMealOfIdFailure: (state, { message }: FetchMealOfIdsFailure) => {
+  [FETCH_MEALS_FAILURE]: (state, { message }: FetchMealOfIdsFailure) => {
     return {
       ...state,
       isRequest: false,
@@ -104,14 +115,14 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchUserOfIds: (state, action: FetchUserOfIds) => {
+  [FETCH_USERS]: (state, action: FetchUserOfIds) => {
     return {
       ...state,
       isRequest: true,
     };
   },
 
-  FetchUserOfIdsSuccess: (state, { users }: FetchUserOfIdsSuccess) => {
+  [FETCH_USERS_SUCCESS]: (state, { users }: FetchUserOfIdsSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -119,7 +130,7 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     };
   },
 
-  FetchUserOfIdsFailure: (state, { message }: FetchUserOfIdsFailure) => {
+  [FETCH_USERS_FAILURE]: (state, { message }: FetchUserOfIdsFailure) => {
     return {
       ...state,
       isRequest: false,

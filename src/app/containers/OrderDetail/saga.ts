@@ -19,11 +19,12 @@ import {
   fetchUserOfIdsSuccess,
 } from './action';
 import { Order, User } from './reducer';
+import { FETCH_ORDER, FETCH_USERS, FETCH_MEALS } from './constants';
 
 export function* fetchOrderDetailFlow() {
-  yield takeLatest('FetchOrderOfId', fetchOrderDetailSaga);
-  yield takeLatest('FetchMealOfIds', fetchMealOfIdsSaga);
-  yield takeLatest('FetchUserOfIds', fetchUserOfIdsSaga);
+  yield takeLatest(FETCH_ORDER, fetchOrderDetailSaga);
+  yield takeLatest(FETCH_MEALS, fetchMealOfIdsSaga);
+  yield takeLatest(FETCH_USERS, fetchUserOfIdsSaga);
   // yield takeLatest('FtechTakeout');
 }
 
