@@ -19,6 +19,8 @@ import {
 } from './selector';
 import AddIcon from '@material-ui/icons/Add';
 import { push } from 'connected-react-router';
+import { Takeout } from '../Takeout/reducer';
+import moment from 'moment';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -40,7 +42,7 @@ const stateSelector = createStructuredSelector({
   isRequest: makeSelectIsRequest(),
   message: makeSelectMessage(),
   order: makeSelectOrder(),
-  takeOut: makeSelectTakeOut(),
+  takeout: makeSelectTakeOut(),
   meals: makeSelectMeals(),
   users: makeSelectUsers(),
 });
@@ -65,8 +67,21 @@ export const OrderDetail = ({
   const dispatch = useDispatch();
 
   const { token } = useTypedSelector(state => state.me);
-  const { order, meals, users } = useSelector(stateSelector);
+  const { order, meals, users, takeout } = useSelector(stateSelector);
   const { orderId: id } = computedMatch.params;
+
+  const isTakeoutAvailable = () => {
+    if (!takeout) {
+      return false;
+    }
+    const current = new Date();
+    const statedAt = moment(takeout.startedAt).toDate();
+    const endAt = moment(takeout.endAt).toDate();
+    return (
+      statedAt.getTime() <= current.getTime() &&
+      current.getTime() < endAt.getTime()
+    );
+  };
 
   useEffect(() => {
     dispatch(
@@ -98,6 +113,7 @@ export const OrderDetail = ({
           onClick={() => {
             dispatch(push(`/order/edit/${order.id}`));
           }}
+          disabled={!isTakeoutAvailable()}
         >
           <AddIcon />
         </Fab>

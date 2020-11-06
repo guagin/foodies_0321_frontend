@@ -24,6 +24,7 @@ export function* fetchOrderDetailFlow() {
   yield takeLatest('FetchOrderOfId', fetchOrderDetailSaga);
   yield takeLatest('FetchMealOfIds', fetchMealOfIdsSaga);
   yield takeLatest('FetchUserOfIds', fetchUserOfIdsSaga);
+  // yield takeLatest('FtechTakeout');
 }
 
 export function* fetchOrderDetailSaga({ token, id }: FetchOrderOfId) {
