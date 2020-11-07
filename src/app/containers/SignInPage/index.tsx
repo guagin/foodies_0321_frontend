@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import {
   Container,
@@ -21,7 +21,7 @@ import { useInjectReducer } from 'redux-injectors';
 import { signInReducer } from './reducer';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { signInFlow, signInByTokenFlow } from './saga';
-import { SignInByToken } from './action';
+import { signInByToken } from './action';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -70,14 +70,15 @@ export function SignInPage() {
   const { from } = { from: { pathname: '/' }, ...location.state };
 
   const token = localStorage.getItem('token');
-  if (token) {
+
+  useEffect(() => {
     dipatch(
-      SignInByToken({
+      signInByToken({
         from,
         token,
       }),
     );
-  }
+  }, [dipatch, from, token]);
 
   const progressCirlcle = () => {
     if (isRequest) {

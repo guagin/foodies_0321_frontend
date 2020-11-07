@@ -3,7 +3,7 @@ import { Typography, Grid, TextField, Button } from '@material-ui/core';
 
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { SignInCreator } from './action';
+import { signIn } from './action';
 
 export function SignInForm(input: {
   classes: { [index: string]: any };
@@ -30,7 +30,7 @@ export function SignInForm(input: {
     event.preventDefault();
 
     dispatch(
-      SignInCreator({
+      signIn({
         name,
         password,
         from,

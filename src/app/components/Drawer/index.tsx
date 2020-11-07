@@ -10,7 +10,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -24,10 +23,17 @@ import LocalShipping from '@material-ui/icons/LocalShipping';
 import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
-import { SwipeableDrawer, Avatar, Box } from '@material-ui/core';
+import {
+  SwipeableDrawer,
+  Avatar,
+  Box,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { useTypedSelector } from 'store/reducers';
 import { brotliCompress } from 'zlib';
+import { signOut } from 'app/containers/SignInPage/action';
 
 const drawerWidth = 240;
 
@@ -93,12 +99,49 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+const UserAvatar = () => {
+  const classes = useStyles();
+  const { name } = useTypedSelector(state => state.me);
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    handleClose();
+    dispatch(signOut());
+  };
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <Avatar className={classes.purple} onClick={handleClick}>
+        {name[0]}
+      </Avatar>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
+    </>
+  );
+};
+
 export const AppDrawer = ({ children }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const theme = useTheme();
 
-  const { name } = useTypedSelector(state => state.me);
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerClose = () => {
@@ -135,6 +178,7 @@ export const AppDrawer = ({ children }) => {
       }}
     >
       <CssBaseline />
+
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
@@ -155,7 +199,7 @@ export const AppDrawer = ({ children }) => {
               </IconButton>
             </Box>
             <Box>
-              <Avatar className={classes.purple}>{name[0]}</Avatar>
+              <UserAvatar />
             </Box>
           </Box>
         </Toolbar>

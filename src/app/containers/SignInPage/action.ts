@@ -1,64 +1,71 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
+import {
+  SIGN_IN,
+  SIGN_IN_FAILURE,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_BY_TOKEN,
+  SIGN_OUT,
+} from './constants';
 
-export interface SignIn extends Action<'SignIn'> {
+export interface SignIn extends Action<typeof SIGN_IN> {
   name: string;
   password: string;
   from: { pathname: string };
 }
 
-export interface SignInFailed extends Action<'SignInFailed'> {
-  message: string;
-}
-
-export interface SignInSuccess extends Action<'SignInSuccess'> {
-  token: string;
-}
-
-export interface SignInByToken extends Action<'SignInByToken'> {
-  token: string;
-  from: { pathname: string };
-}
-
-export type SignInAction =
-  | SignIn
-  | SignInFailed
-  | SignInSuccess
-  | SignInByToken;
-
-export const SignInCreator: ActionCreator<SignIn> = (input: {
+export const signIn: ActionCreator<SignIn> = (input: {
   name: string;
   password: string;
   from: { pathname: string };
 }) => {
   return {
     ...input,
-    type: 'SignIn',
+    type: SIGN_IN,
   };
 };
 
-export const SignInFailedCreator: ActionCreator<SignInFailed> = (input: {
+export interface SignInFailure extends Action<typeof SIGN_IN_FAILURE> {
+  message: string;
+}
+
+export const signInFailure: ActionCreator<SignInFailure> = (input: {
   message: string;
 }) => {
   return {
     ...input,
-    type: 'SignInFailed',
+    type: SIGN_IN_FAILURE,
   };
 };
 
-export const SignInSuccessCreator: ActionCreator<SignInSuccess> = (input: {
+export interface SignInSuccess extends Action<typeof SIGN_IN_SUCCESS> {
+  token: string;
+}
+
+export const signInSuccess: ActionCreator<SignInSuccess> = (input: {
   token: string;
 }) => {
   return {
     ...input,
-    type: 'SignInSuccess',
+    type: SIGN_IN_SUCCESS,
   };
 };
 
-export const SignInByToken: ActionCreator<SignInByToken> = (
+export interface SignInByToken extends Action<typeof SIGN_IN_BY_TOKEN> {
+  token: string;
+  from: { pathname: string };
+}
+
+export const signInByToken: ActionCreator<SignInByToken> = (
   input: SignInByToken,
 ) => {
   return {
     ...input,
-    type: 'SignInByToken',
+    type: SIGN_IN_BY_TOKEN,
   };
 };
+
+export interface SignOut extends Action<typeof SIGN_OUT> {}
+
+export const signOut: ActionCreator<SignOut> = () => ({
+  type: SIGN_OUT,
+});

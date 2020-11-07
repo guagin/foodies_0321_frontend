@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SignIn, SignInSuccess, SignInFailed } from './action';
+import { SignIn, SignInSuccess, SignInFailure } from './action';
+import { SIGN_IN, SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from './constants';
 
 export type SignInState = {
   name: string;
@@ -16,14 +17,14 @@ export const initState: SignInState = {
 };
 
 export const signInReducer = createReducer(initState, {
-  SignIn: (state, action: SignIn) => {
+  [SIGN_IN]: state => {
     return {
       ...state,
       isRequest: true,
     };
   },
 
-  SignInSuccess: (state, { token }: SignInSuccess) => {
+  [SIGN_IN_SUCCESS]: (state, { token }: SignInSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -31,7 +32,7 @@ export const signInReducer = createReducer(initState, {
     };
   },
 
-  SignInFailed: (state, { message }: SignInFailed) => {
+  [SIGN_IN_FAILURE]: (state, { message }: SignInFailure) => {
     return {
       ...state,
       isRequest: false,
