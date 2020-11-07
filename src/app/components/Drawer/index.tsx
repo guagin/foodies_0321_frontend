@@ -24,7 +24,10 @@ import LocalShipping from '@material-ui/icons/LocalShipping';
 import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
 import { useDispatch } from 'react-redux';
-import { SwipeableDrawer } from '@material-ui/core';
+import { SwipeableDrawer, Avatar, Box } from '@material-ui/core';
+import { deepPurple } from '@material-ui/core/colors';
+import { useTypedSelector } from 'store/reducers';
+import { brotliCompress } from 'zlib';
 
 const drawerWidth = 240;
 
@@ -83,6 +86,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
       marginLeft: 0,
     },
+    purple: {
+      color: theme.palette.getContrastText(deepPurple[500]),
+      backgroundColor: deepPurple[500],
+    },
   }),
 );
 
@@ -91,6 +98,7 @@ export const AppDrawer = ({ children }) => {
   const classes = useStyles();
   const theme = useTheme();
 
+  const { name } = useTypedSelector(state => state.me);
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerClose = () => {
@@ -134,18 +142,22 @@ export const AppDrawer = ({ children }) => {
         })}
       >
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={toggleDrawer(true)}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Persistent drawer
-          </Typography>
+          <Box display="flex" style={{ width: '100%' }}>
+            <Box flexGrow={1}>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={toggleDrawer(true)}
+                edge="start"
+                className={clsx(classes.menuButton)}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+            <Box>
+              <Avatar className={classes.purple}>{name[0]}</Avatar>
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
@@ -182,7 +194,6 @@ export const AppDrawer = ({ children }) => {
             </ListItemIcon>
             <ListItemText primary={'provider'} />
           </ListItem>
-
           <ListItem
             button
             key={'takeOut'}
