@@ -9,6 +9,9 @@ import {
   FetchUserOfIds,
   FetchUserOfIdsFailure,
   FetchUserOfIdsSuccess,
+  FetchTakeout,
+  FetchTakeoutSuccess,
+  FetchTakeoutFailure,
 } from './action';
 import {
   FETCH_ORDER,
@@ -20,6 +23,9 @@ import {
   FETCH_USERS,
   FETCH_USERS_FAILURE,
   FETCH_USERS_SUCCESS,
+  FETCH_TAKEOUT,
+  FETCH_TAKEOUT_SUCCESS,
+  FETCH_TAKEOUT_FAILURE,
 } from './constants';
 
 export interface Takeout {
@@ -146,6 +152,27 @@ export const orderDetailReducer = createReducer(initOrderDetailState, {
     return {
       ...state,
       isRequest: false,
+      message,
+    };
+  },
+
+  //TODO: fetch takeout
+  [FETCH_TAKEOUT]: (state, action: FetchTakeout) => {
+    return {
+      ...state,
+    };
+  },
+
+  [FETCH_TAKEOUT_SUCCESS]: (state, { takeout }: FetchTakeoutSuccess) => {
+    return {
+      ...state,
+      takeout,
+    };
+  },
+
+  [FETCH_TAKEOUT_FAILURE]: (state, { message }: FetchTakeoutFailure) => {
+    return {
+      ...state,
       message,
     };
   },

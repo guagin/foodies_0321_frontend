@@ -12,6 +12,7 @@ import {
 
 import { Meal, Order, Product } from './reducer';
 import { User } from 'store/users-of-ids/reducer';
+import { Takeout } from '../EditOrder/reducer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -36,14 +37,28 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const statusMap = ['pended', 'placed', 'canceled'];
 
+const TakeoutTitle = ({ takeout }: { takeout?: Takeout }) => {
+  const classes = useStyles();
+  if (!takeout) {
+    return <></>;
+  }
+  return (
+    <Typography className={classes.inline} color="textSecondary">
+      {takeout.title}
+    </Typography>
+  );
+};
+
 export const OrderDeatailCard = ({
   order,
   meals,
   users,
+  takeout,
 }: {
   order?: Order;
   meals: Meal[];
   users: User[];
+  takeout?: Takeout;
 }) => {
   const classes = useStyles();
 
@@ -90,18 +105,11 @@ export const OrderDeatailCard = ({
           <Typography className={classes.inline} color="textSecondary">
             {getUserName()}
           </Typography>
-          <Typography className={classes.inline} color="textSecondary">
-            status
-          </Typography>
+
           <Typography className={classes.inline} color="textSecondary">
             {statusMap[order.status]}
           </Typography>
-          <Typography className={classes.inline} color="textSecondary">
-            takeOutId
-          </Typography>
-          <Typography className={classes.inline} color="textSecondary">
-            {order.takeOutId}
-          </Typography>
+          <TakeoutTitle takeout={takeout} />
         </CardContent>
       </Card>
       <Typography className={classes.inline} color="textSecondary">

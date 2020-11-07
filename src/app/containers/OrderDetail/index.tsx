@@ -17,9 +17,8 @@ import {
   makeSelectTakeOut,
   makeSelectUsers,
 } from './selector';
-import AddIcon from '@material-ui/icons/Add';
+import EditIcon from '@material-ui/icons/Edit';
 import { push } from 'connected-react-router';
-import { Takeout } from '../Takeout/reducer';
 import moment from 'moment';
 
 const useStyle = makeStyles(theme => ({
@@ -66,7 +65,7 @@ export const OrderDetail = ({
 
   const dispatch = useDispatch();
 
-  const { token } = useTypedSelector(state => state.me);
+  const { token, id: selfId } = useTypedSelector(state => state.me);
   const { order, meals, users, takeout } = useSelector(stateSelector);
   const { orderId: id } = computedMatch.params;
 
@@ -81,6 +80,34 @@ export const OrderDetail = ({
       statedAt.getTime() <= current.getTime() &&
       current.getTime() < endAt.getTime()
     );
+  };
+
+  const isTakeoutOwner = () => {
+    if (!takeout) {
+      return false;
+    }
+
+    return takeout.createdBy === selfId;
+  };
+
+  const isOrderOwner = () => {
+    if (!order) {
+      return false;
+    }
+
+    return order.created === selfId;
+  };
+
+  const isEditable = () => {
+    if (isTakeoutOwner()) {
+      return true;
+    }
+
+    if (isTakeoutAvailable() && isOrderOwner()) {
+      return true;
+    }
+
+    return false;
   };
 
   useEffect(() => {
@@ -105,17 +132,23 @@ export const OrderDetail = ({
       <div className={classes.paper}>
         <Grid container justify={'center'}>
           <Grid item xs={8} sm={8}>
-            <OrderDeatailCard order={order} meals={meals} users={users} />
+            <OrderDeatailCard
+              order={order}
+              meals={meals}
+              users={users}
+              takeout={takeout}
+            />
           </Grid>
         </Grid>
         <Fab
+          color="primary"
           className={classes.fab}
           onClick={() => {
             dispatch(push(`/order/edit/${order.id}`));
           }}
-          disabled={!isTakeoutAvailable()}
+          disabled={!isEditable()}
         >
-          <AddIcon />
+          <EditIcon />
         </Fab>
       </div>
     </>
