@@ -26,6 +26,7 @@ import {
   makeSelectMessage,
   makeSelectProvider,
 } from './selector';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -76,6 +77,8 @@ export const Provider: (props: Props) => ReactElement = ({
   const { users } = useTypedSelector(state => state.userOfIds);
   const { isRequest, provider, message, meals } = useSelector(stateSelector);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     dispatch(
       fetchProviderOfId({
@@ -104,24 +107,24 @@ export const Provider: (props: Props) => ReactElement = ({
   return (
     <>
       <Helmet>
-        <title>Provider Detail Page</title>
-        <meta name="provider page" content="foodies provider page." />
+        <title>{t('ProviderDetailPage')}</title>
+        <meta
+          name="provider detail page"
+          content="foodies provider detail page."
+        />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
-        <Grid container justify={'center'}>
-          <Grid item xs={8} sm={8}>
+        <Grid container justify={'flex-start'}>
+          <Grid item xs={12} sm={12}>
             <ProviderCard provider={provider} users={users} />
           </Grid>
         </Grid>
       </div>
       <div className={classes.paper}>
-        <Typography className={classes.title} color="textSecondary">
-          meal
-        </Typography>
         <Grid container justify={'flex-start'} spacing={2}>
           {meals.map(e => (
-            <Grid item xs={2} sm={2}>
+            <Grid item xs={4} sm={2}>
               <MealCard meal={e} handleOnClick={handleMealDetailOnlick} />
             </Grid>
           ))}

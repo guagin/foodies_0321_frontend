@@ -20,6 +20,7 @@ import { providerListReducer } from './reducer';
 import { useInjectReducer } from 'redux-injectors';
 import { useInjectSaga } from 'utils/redux-injectors';
 import { providerListFlow } from './saga';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -58,6 +59,7 @@ export const ProviderListPage = () => {
   const me = useTypedSelector(state => state.me);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
+  const { t } = useTranslation();
 
   const handleClickAddIcon = () => {
     dispatch(push('/create-provider'));
@@ -99,10 +101,10 @@ export const ProviderListPage = () => {
     return (
       <>
         <Helmet>
-          <title>Provider Management Page</title>
+          <title>{t('ProviderListPage')}</title>
           <meta
-            name="provider management page"
-            content="foodies provider management page."
+            name="provider list page"
+            content="foodies provider list page."
           />
         </Helmet>
         <CssBaseline />
@@ -116,11 +118,8 @@ export const ProviderListPage = () => {
   return (
     <>
       <Helmet>
-        <title>Provider Management Page</title>
-        <meta
-          name="provider management page"
-          content="foodies provider management page."
-        />
+        <title>{t('ProviderListPage')}</title>
+        <meta name="provider list page" content="foodies provider list page." />
       </Helmet>
       <CssBaseline />
 

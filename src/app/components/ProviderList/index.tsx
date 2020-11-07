@@ -15,6 +15,7 @@ import {
 
 import { useTypedSelector } from 'store/reducers';
 import { Provider } from 'store/model/provider';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -43,6 +44,7 @@ export const ProviderList = ({
 }) => {
   const classes = useStyles();
   const userOfIds = useTypedSelector(state => state.userOfIds);
+  const { t } = useTranslation();
 
   const showUserName = (userId: string) => {
     if (userOfIds.isRequest) {
@@ -59,10 +61,9 @@ export const ProviderList = ({
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell> name </TableCell>
-              <TableCell> description </TableCell>
-              <TableCell> phone </TableCell>
-              <TableCell> createdBy </TableCell>
+              <TableCell> {t('provider.name')} </TableCell>
+              <TableCell> {t('provider.description')} </TableCell>
+              <TableCell> {t('provider.phone')} </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,7 +76,6 @@ export const ProviderList = ({
                 <TableCell>{data.name}</TableCell>
                 <TableCell>{data.description}</TableCell>
                 <TableCell>{data.phone}</TableCell>
-                <TableCell>{showUserName(data.createdBy)}</TableCell>
               </TableRow>
             ))}
           </TableBody>

@@ -25,6 +25,7 @@ import {
   makeSelectProvider,
 } from './selector';
 import { push } from 'connected-react-router';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -74,6 +75,7 @@ export const Meal: (props: Props) => React.ReactElement = ({
   const { token } = useTypedSelector(state => state.me);
   const { users } = useTypedSelector(state => state.userOfIds);
   const { isRequest, message, meal, provider } = useSelector(stateSelector);
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(
@@ -88,7 +90,7 @@ export const Meal: (props: Props) => React.ReactElement = ({
     return (
       <>
         <Helmet>
-          <title>Provider Detail Page</title>
+          <title>Meal Detail Page</title>
           <meta name="meal detail page" content="foodies meal detail page." />
         </Helmet>
         <CssBaseline />
@@ -106,13 +108,13 @@ export const Meal: (props: Props) => React.ReactElement = ({
   return (
     <>
       <Helmet>
-        <title>Provider Detail Page</title>
+        <title>{t('MealDetailPage')}</title>
         <meta name="meal detail page" content="foodies meal detail page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
-        <Grid container justify={'center'}>
-          <Grid item xs={8} sm={8}>
+        <Grid container justify={'flex-start'}>
+          <Grid item xs={12} sm={12}>
             <MealCard meal={meal} users={users} provider={provider} />
           </Grid>
         </Grid>

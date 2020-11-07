@@ -6,5 +6,9 @@
     "email": "email address",
     "emailPlaceholder": "address of ur email"
   },
-  "submit": "submit"
+  "submit": "submit",
+  "detail": "detail",
+  "ProviderDetailPage": "Provider Detail Page",
+  "ProviderListPage": "Provider List Page",
+  "MealDetailPage": "meal detail page"
 }

@@ -1,4 +1,4 @@
-import { Card, CardContent, makeStyles, Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { User } from 'store/users-of-ids/reducer';
 import { Meal, Provider } from './reducer';
@@ -53,47 +53,26 @@ export const MealCard = ({
   };
   return (
     <>
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            {meal.name}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {getUserName()}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {meal.description}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {meal.price}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {provider.name}
-          </Typography>
-        </CardContent>
-      </Card>
+      <Typography
+        className={classes.subTitle}
+        gutterBottom
+        variant="h5"
+        component="h2"
+      >
+        {meal.name}
+      </Typography>
+      <Typography className={classes.subTitle} gutterBottom>
+        {getUserName()}
+      </Typography>
+      <Typography className={classes.inline} gutterBottom>
+        {meal.description}
+      </Typography>
+      <Typography className={classes.inline} gutterBottom>
+        {meal.price}
+      </Typography>
+      <Typography className={classes.inline} gutterBottom>
+        {provider.name}
+      </Typography>
     </>
   );
 };

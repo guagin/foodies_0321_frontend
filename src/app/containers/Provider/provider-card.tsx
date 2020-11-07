@@ -1,11 +1,4 @@
-import {
-  Card,
-  CardContent,
-  createStyles,
-  makeStyles,
-  Theme,
-  Typography,
-} from '@material-ui/core';
+import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
 import { find } from 'lodash';
 import React, { ReactElement } from 'react';
 import { User } from 'store/users-of-ids/reducer';
@@ -47,36 +40,17 @@ export const ProviderCard: ({
   };
   return (
     <>
-      <Typography className={classes.title} color="textSecondary">
-        provider
+      <Typography
+        className={classes.subTitle}
+        gutterBottom
+        variant="h5"
+        component="h2"
+      >
+        {provider.name}
       </Typography>
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            {provider.name}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {getName(provider.createdBy)}
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
-            {provider.phone}
-          </Typography>
-        </CardContent>
-      </Card>
+      <Typography className={classes.inline} gutterBottom>
+        {provider.phone}
+      </Typography>
     </>
   );
 };

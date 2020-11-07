@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { Meal } from './reducer';
+import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,37 +40,28 @@ export const MealCard = ({
   handleOnClick: (id: string) => void;
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   return (
     <>
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Typography
             className={classes.subTitle}
-            color="textSecondary"
             gutterBottom
             variant="h5"
             component="h2"
           >
             {meal.name}
           </Typography>
-
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography className={classes.subTitle} gutterBottom>
             {meal.description}
           </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-          >
+          <Typography className={classes.subTitle} gutterBottom>
             {meal.price}
           </Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={() => handleOnClick(meal.id)}>detail</Button>
+          <Button onClick={() => handleOnClick(meal.id)}>{t('detail')}</Button>
         </CardActions>
       </Card>
     </>

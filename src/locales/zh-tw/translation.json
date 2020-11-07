@@ -13,5 +13,9 @@
     "name": "供應店家名稱",
     "description": "敘述",
     "phone": "聯絡電話"
-  }
+  },
+  "detail": "詳細資料",
+  "ProviderDetailPage": "店家詳細資料",
+  "ProviderListPage": "店家列表",
+  "MealDetailPage": "餐點詳細資料"
 }
