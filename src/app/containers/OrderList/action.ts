@@ -1,5 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
-import { TakeOut } from '../TakeOutList/take-out';
+import { Takeout } from '../TakeoutList/take-out';
 import { Order } from './reducer';
 
 export interface FetchOrderOfPage extends Action<'FetchOrderOfPage'> {
@@ -30,7 +30,7 @@ export interface FetchTakeOutOfIds extends Action<'FetchTakeOutOfIds'> {
 
 export interface FetchTakeOutOfIdsSuccess
   extends Action<'FetchTakeOutOfIdsSuccess'> {
-  takeOuts: TakeOut[];
+  takeOuts: Takeout[];
 }
 
 export interface FetchTakeOutOfIdsFailure
@@ -109,7 +109,7 @@ export const fetchTakeOutOfIds: ActionCreator<FetchTakeOutOfIds> = ({
 export const fetchTakeOutOfIdsSuccess: ActionCreator<FetchTakeOutOfIdsSuccess> = ({
   takeOuts,
 }: {
-  takeOuts: TakeOut[];
+  takeOuts: Takeout[];
 }) => {
   return {
     type: 'FetchTakeOutOfIdsSuccess',

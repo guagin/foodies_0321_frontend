@@ -18,7 +18,7 @@ import { CreateProviderPage } from './containers/CreateProvider/Loadable';
 import { DetailInfo } from './containers/CreateTakeOut/detail-info';
 import { OrderListPage } from './containers/OrderList';
 import { CreateTakeOut } from './containers/CreateTakeOut/Loadable';
-import { TakeOutList } from './containers/TakeOutList';
+import { TakeOutList } from './containers/TakeoutList';
 import { OrderDetail } from './containers/OrderDetail';
 import { PickProvider } from './containers/CreateMeal/pick-provider';
 import { CreateMealForm } from './containers/CreateMeal/create-meal-form';

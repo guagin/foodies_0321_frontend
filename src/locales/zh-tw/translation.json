@@ -17,5 +17,16 @@
   "detail": "詳細資料",
   "ProviderDetailPage": "店家詳細資料",
   "ProviderListPage": "店家列表",
-  "MealDetailPage": "餐點詳細資料"
+  "MealDetailPage": "餐點詳細資料",
+  "takeout": {
+    "title": "標題",
+    "createdBy": "發起人",
+    "description": "敘述",
+    "startedAt": "開始",
+    "endAt": "結束"
+  },
+  "order": {
+    "createdBy": "下單人"
+  },
+  "TakeoutDetailPage": "揪團詳細資料"
 }

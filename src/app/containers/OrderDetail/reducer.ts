@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { TakeOut } from '../TakeOutList/take-out';
+import { Takeout } from '../TakeoutList/take-out';
 import {
   FetchMealOfIds,
   FetchMealOfIdsFailure,
@@ -72,7 +72,7 @@ export type OrderDetailState = {
   isRequest: boolean;
   order?: Order;
   message: string;
-  takeOut?: TakeOut;
+  takeOut?: Takeout;
   meals: Meal[];
   users: User[];
   Takeout?: Takeout;

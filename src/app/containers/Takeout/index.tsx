@@ -35,6 +35,7 @@ import { getDateTimeString } from 'utils/datetime-string';
 import { push } from 'connected-react-router';
 import { some } from 'lodash';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   computedMatch: ComputedMatch;
@@ -135,54 +136,47 @@ const BasicInfo = ({
   return (
     <>
       <div className={classes.paper}>
-        <Grid container justify={'center'}>
+        <Grid container justify={'flex-start'}>
           <Grid item>
-            <Typography className={classes.title} color="textSecondary">
-              takeout
+            <Typography
+              className={classes.subTitle}
+              color="textSecondary"
+              gutterBottom
+              variant="h5"
+              component="h2"
+            >
+              {takeout.title}
             </Typography>
-            <Card className={classes.root} variant="outlined">
-              <CardContent>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                >
-                  {takeout.title}
-                </Typography>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {provider ? provider.name : ''}
-                </Typography>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {user ? user.name : ''}
-                </Typography>
-                {startedAt()}
-                {endAt()}
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {takeout.description}
-                </Typography>
-                <Typography
-                  className={classes.subTitle}
-                  color="textSecondary"
-                  gutterBottom
-                >
-                  {takeout.enabled}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Typography
+              className={classes.subTitle}
+              color="textSecondary"
+              gutterBottom
+            >
+              {provider ? provider.name : ''}
+            </Typography>
+            <Typography
+              className={classes.subTitle}
+              color="textSecondary"
+              gutterBottom
+            >
+              {user ? user.name : ''}
+            </Typography>
+            {startedAt()}
+            {endAt()}
+            <Typography
+              className={classes.subTitle}
+              color="textSecondary"
+              gutterBottom
+            >
+              {takeout.description}
+            </Typography>
+            <Typography
+              className={classes.subTitle}
+              color="textSecondary"
+              gutterBottom
+            >
+              {takeout.enabled}
+            </Typography>
           </Grid>
         </Grid>
       </div>
@@ -191,6 +185,9 @@ const BasicInfo = ({
 };
 
 const OrderTable = ({ orders, users }: { orders: Order[]; users: User[] }) => {
+  const classes = useStyles();
+
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const handleClickOnOrder = (id: string) => {
@@ -203,14 +200,15 @@ const OrderTable = ({ orders, users }: { orders: Order[]; users: User[] }) => {
   };
 
   return (
-    <>
-      <Grid container justify={'center'}>
-        <Grid item sm={10} xs={10}>
+    <div className={classes.paper}>
+      <Grid container justify={'flex-start'}>
+        <Grid item sm={12} xs={12}>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>createdBy</TableCell>
+                <TableCell>{t('order.createdBy')}</TableCell>
               </TableRow>
+
             </TableHead>
             <TableBody>
               {orders.map(e => (
@@ -226,7 +224,7 @@ const OrderTable = ({ orders, users }: { orders: Order[]; users: User[] }) => {
           </Table>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };
 
@@ -291,8 +289,6 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     params: { id },
   },
 }) => {
-  const classes = useStyles();
-
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
@@ -301,6 +297,8 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   );
   const { token, id: selfUserId } = useTypedSelector(state => state.me);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
 
   useEffect(() => {
     dispatch(fetchTakeoutOfId({ token, id }));
@@ -317,7 +315,7 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   return (
     <>
       <Helmet>
-        <title>Takeout Detail Page</title>
+        <title>{t('TakeoutDetailPage')}</title>
         <meta name="takeout page" content="foodies takeout page." />
       </Helmet>
       <CssBaseline />

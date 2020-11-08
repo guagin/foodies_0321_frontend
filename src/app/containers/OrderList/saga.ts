@@ -5,7 +5,7 @@ import {
 } from 'api';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
-import { TakeOut } from '../TakeOutList/take-out';
+import { Takeout } from '../TakeoutList/take-out';
 import {
   FetchOrderOfPage,
   fetchOrderOfPageFailure,
@@ -85,7 +85,7 @@ export function* fetchTakeOutOfIdsSaga({ token, ids }: FetchTakeOutOfIds) {
       status,
     }: {
       data?: {
-        takeOuts: TakeOut[];
+        takeOuts: Takeout[];
       };
       status: Status;
     } = yield call(fetchTakeOutOfIdsApi, { token, ids });

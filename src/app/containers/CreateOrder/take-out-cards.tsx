@@ -10,7 +10,7 @@ import {
   Button,
   Card,
 } from '@material-ui/core';
-import { TakeOut } from '../TakeOutList/take-out';
+import { Takeout } from '../TakeoutList/take-out';
 
 const useStyles = makeStyles({
   root: {
@@ -29,9 +29,9 @@ export function TakeOutCards({
   isRequest,
   onClickChoose,
 }: {
-  takeOuts: TakeOut[];
+  takeOuts: Takeout[];
   isRequest: boolean;
-  onClickChoose: (takeOut: TakeOut) => void;
+  onClickChoose: (takeOut: Takeout) => void;
 }) {
   const takeOutRows = chunk(takeOuts, 3);
 
@@ -58,8 +58,8 @@ function TakeOutCardRows({
   takeOuts,
   onClickChoose,
 }: {
-  takeOuts: TakeOut[];
-  onClickChoose: (takeOut: TakeOut) => void;
+  takeOuts: Takeout[];
+  onClickChoose: (takeOut: Takeout) => void;
 }) {
   const classes = useStyles();
 

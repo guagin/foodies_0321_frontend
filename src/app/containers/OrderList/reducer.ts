@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { TakeOut } from '../TakeOutList/take-out';
+import { Takeout } from '../TakeoutList/take-out';
 import {
   FetchOrderOfPage,
   FetchOrderOfPageFailure,
@@ -33,7 +33,7 @@ export type OrderOfPageState = {
   totalPage: number;
   totalCount: number;
   message: string;
-  takeOuts: TakeOut[];
+  takeOuts: Takeout[];
 };
 
 export const initialOrderOfPageState: OrderOfPageState = {

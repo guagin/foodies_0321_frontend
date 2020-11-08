@@ -13,9 +13,10 @@ import {
 } from '@material-ui/core';
 import { Order } from 'app/containers/OrderList/reducer';
 import { User } from 'store/users-of-ids/reducer';
-import { TakeOut } from 'app/containers/TakeOutList/take-out';
+
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
+import { Takeout } from 'app/containers/TakeOutList/take-out';
 
 const useStyles = makeStyles({
   table: {
@@ -39,7 +40,7 @@ export const OrderList = ({
   isRequest: boolean;
   orders: Order[];
   users: User[];
-  takeOuts: TakeOut[];
+  takeOuts: Takeout[];
   totalCount: number;
   page: number;
   rowsPerPage: number;
@@ -62,7 +63,7 @@ export const OrderList = ({
     return found;
   };
 
-  const getTakeOutTitle = (takeOut?: TakeOut) => {
+  const getTakeOutTitle = (takeOut?: Takeout) => {
     return takeOut ? takeOut.title : '';
   };
 
