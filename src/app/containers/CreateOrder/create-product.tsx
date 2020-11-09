@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Card,
+  CardMedia,
   Grid,
   makeStyles,
   Typography,
@@ -70,11 +71,17 @@ const useStyle = makeStyles(theme => ({
     fontSize: '18',
     padding: theme.spacing(1),
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
 }));
 
 export const CreateProduct = ({ meal }: { meal: Meal }) => {
   const classes = useStyle();
   const { t } = useTranslation();
+
+  // https://d1ralsognjng37.cloudfront.net/268f5d45-6b27-4405-8e6e-e0b3d43e01dc.jpeg
 
   const [amount, setAmount] = useState(1);
 
@@ -94,6 +101,11 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
   return (
     <div>
       <Card className={classes.paper}>
+        <CardMedia
+          className={classes.media}
+          image="logo192.png"
+          title="coffee"
+        />
         <Typography variant="h4" component="h4" className={classes.name}>
           {meal.name}
         </Typography>
@@ -101,9 +113,15 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
           <Typography>{meal.description}</Typography>
         </div>
         <div className={classes.priceCalculation}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} justify="space-between">
             <Grid item sm={4}>
-              <Grid container spacing={2} alignItems="center">
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+                spacing={2}
+              >
                 <Grid item sm={4}>
                   <IconButton
                     className={classes.removeIcon}
@@ -112,7 +130,7 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
                     <RemoveIcon />
                   </IconButton>
                 </Grid>
-                <Grid item sm={4}>
+                <Grid item sm={3}>
                   <Typography>
                     <Box display="flex" justifyContent="center">
                       {amount}
