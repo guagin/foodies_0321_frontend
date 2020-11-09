@@ -14,7 +14,7 @@ import {
   FetchTakeoutFailure,
 } from './action';
 import { find, reduce } from 'lodash';
-import { Meal } from '../MealList/reducer';
+
 import {
   CREATE_ORDER,
   CREATE_ORDER_FAILURE,
@@ -29,6 +29,15 @@ import {
   REMOVE_PICKED_MEAL,
   UPDATE_PICKED_MEAL_AMOUNT,
 } from './constants';
+
+export interface Meal {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  provider: string;
+  createdBy: string;
+}
 
 export interface Takeout {
   id: string;

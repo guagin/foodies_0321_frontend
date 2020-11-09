@@ -109,23 +109,45 @@ export const DetailInfo = () => {
       <CssBaseline />
       <div className={classes.paper}>
         <form className={classes.form} noValidate onSubmit={handleSubmmit}>
-          <Grid container spacing={2} justify="center">
-            <Grid item xs={12}>
+          <Grid container spacing={2} justify="flex-start">
+            <Grid item xs={4}>
               <TextField
-                id="description"
-                label={t('takeOut.providerId')}
+                id="title"
+                label={t('takeout.title')}
                 className={classes.textField}
                 InputLabelProps={{
                   shrink: true,
                 }}
-                value={providerId}
-                disabled={true}
+                required={true}
+                value={title}
+                onChange={event => {
+                  handleTitleChange(event.target.value);
+                }}
               />
             </Grid>
-            <Grid item xs={6} sm={6}>
+          </Grid>
+          <Grid container spacing={2} justify="flex-start">
+            <Grid item xs={4}>
+              <TextField
+                id="description"
+                label={t('takeout.description')}
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                required={true}
+                value={description}
+                onChange={event => {
+                  handleDescriptionChange(event.target.value);
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={2} justify="flex-start">
+            <Grid item xs={3} sm={3}>
               <TextField
                 id="datetime-local"
-                label={t('takeOut.startedAt')}
+                label={t('takeout.startedAt')}
                 type="datetime-local"
                 defaultValue={startedAt}
                 value={startedAt}
@@ -138,10 +160,12 @@ export const DetailInfo = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6} sm={6}>
+          </Grid>
+          <Grid container spacing={2} justify="flex-start">
+            <Grid item xs={3} sm={3}>
               <TextField
                 id="datetime-local"
-                label={t('takeOut.endAt')}
+                label={t('takeout.endAt')}
                 type="datetime-local"
                 defaultValue={endAt}
                 value={endAt}
@@ -154,35 +178,9 @@ export const DetailInfo = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="title"
-                label={t('takeOut.title')}
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={title}
-                onChange={event => {
-                  handleTitleChange(event.target.value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                id="description"
-                label={t('takeOut.description')}
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                value={description}
-                onChange={event => {
-                  handleDescriptionChange(event.target.value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={4}>
+          </Grid>
+          <Grid container spacing={2} justify="flex-end">
+            <Grid item xs={2}>
               <Button
                 type="submit"
                 fullWidth

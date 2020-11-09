@@ -10,7 +10,8 @@
   },
   "submit": "送出",
   "provider": {
-    "name": "供應店家名稱",
+    "name": "店家名稱",
+    "namePlaceholder": "輸入店家名稱",
     "description": "敘述",
     "phone": "聯絡電話"
   },
@@ -28,5 +29,8 @@
   "order": {
     "createdBy": "下單人"
   },
-  "TakeoutDetailPage": "揪團詳細資料"
+  "TakeoutDetailPage": "揪團詳細資料",
+  "createOrder": {
+    "appendAProduct": "新增%s份餐點至訂單"
+  }
 }
