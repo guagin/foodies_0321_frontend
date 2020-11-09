@@ -1,5 +1,4 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Takeout } from '../TakeoutList/take-out';
 import {
   FetchMealOfIds,
   FetchMealOfIdsFailure,

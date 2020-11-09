@@ -18,3 +18,6 @@ export const makeTotalSelectTotalCount = () =>
 
 export const makeProviders = () =>
   createSelector(selectorFetchMealsDomain, subState => subState.providers);
+
+export const makeSelectTotalCount = () =>
+  createSelector(selectorFetchMealsDomain, subState => subState.totalCount);

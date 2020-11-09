@@ -1,4 +1,5 @@
-import { takeLatest, put, call } from 'redux-saga/effects';
+import { takeLatest, put } from 'redux-saga/effects';
+import * as Effects from 'redux-saga/effects';
 import {
   FetchTakeout,
   fetchTakeoutFailure,
@@ -8,6 +9,8 @@ import {
 import { Status, fetchTakeOutList } from 'api';
 import { Takeout } from './take-out';
 import { FETCH_TAKEOUT } from './constants';
+
+const call: any = Effects.call;
 
 export function* FetchTakeOutFlow() {
   yield takeLatest(FETCH_TAKEOUT, FetchTakeOutSaga);

@@ -16,7 +16,7 @@ import { User } from 'store/users-of-ids/reducer';
 
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import { Takeout } from 'app/containers/TakeOutList/take-out';
+import { Takeout } from 'app/containers/TakeoutList/take-out';
 
 const useStyles = makeStyles({
   table: {

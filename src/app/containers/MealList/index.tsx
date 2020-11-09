@@ -21,10 +21,11 @@ import {
   makeSelectMessage,
   makeSelectMeals,
   makeProviders,
+  makeSelectTotalCount,
 } from './selector';
 import { useTypedSelector } from 'store/reducers';
 import { fetchMealsFlow } from './saga';
-import { makeSelectTotalCount } from '../TakeoutList/selector';
+
 import { useTranslation } from 'react-i18next';
 
 const useStyles = makeStyles(theme => ({

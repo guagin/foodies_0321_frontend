@@ -208,7 +208,6 @@ const OrderTable = ({ orders, users }: { orders: Order[]; users: User[] }) => {
               <TableRow>
                 <TableCell>{t('order.createdBy')}</TableCell>
               </TableRow>
-
             </TableHead>
             <TableBody>
               {orders.map(e => (
@@ -289,6 +288,8 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     params: { id },
   },
 }) => {
+  const classes = useStyles();
+
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
@@ -298,7 +299,6 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
   const { token, id: selfUserId } = useTypedSelector(state => state.me);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
 
   useEffect(() => {
     dispatch(fetchTakeoutOfId({ token, id }));

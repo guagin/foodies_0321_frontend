@@ -5,6 +5,11 @@ import {
   FetchTakeoutSuccess,
   FetchTakeoutFailure,
 } from './action';
+import {
+  FETCH_TAKEOUT,
+  FETCH_TAKEOUT_FAILURE,
+  FETCH_TAKEOUT_SUCCESS,
+} from './constants';
 
 export interface FetchTakeOutState {
   isRequest: boolean;
@@ -29,14 +34,14 @@ export const initFetchTakeOutState: FetchTakeOutState = {
 };
 
 export const fetchTakeOutReducer = createReducer(initFetchTakeOutState, {
-  FetchTakeOut: (state, action: FetchTakeout) => {
+  [FETCH_TAKEOUT]: (state, action: FetchTakeout) => {
     return {
       ...state,
       isRequest: true,
       message: '',
     };
   },
-  FetchTakeOutSuccess: (
+  [FETCH_TAKEOUT_SUCCESS]: (
     state,
     {
       takeOuts,
@@ -59,7 +64,7 @@ export const fetchTakeOutReducer = createReducer(initFetchTakeOutState, {
       page,
     };
   },
-  FetchTakeOutFailed: (state, { message }: FetchTakeoutFailure) => {
+  [FETCH_TAKEOUT_FAILURE]: (state, { message }: FetchTakeoutFailure) => {
     return {
       ...state,
       isRequest: false,

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { Takeout } from '../TakeoutList/take-out';
+
 import {
   FetchOrderOfPage,
   FetchOrderOfPageFailure,
@@ -8,6 +8,17 @@ import {
   FetchTakeOutOfIdsFailure,
   FetchTakeOutOfIdsSuccess,
 } from './action';
+
+export interface Takeout {
+  id: string;
+  title: string;
+  createdBy: string;
+  description: string;
+  startedAt: Date;
+  endAt: Date;
+  enabled: boolean;
+  providerId: string;
+}
 
 export interface Order {
   id: string;

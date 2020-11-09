@@ -1,7 +1,4 @@
-import {
-  Action,
-  ActionCreator,
-} from 'app/containers/TakeoutList/node_modules/@reduxjs/toolkit';
+import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Takeout } from './take-out';
 import {
   FETCH_TAKEOUT,

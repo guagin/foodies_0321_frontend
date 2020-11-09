@@ -11,8 +11,9 @@ import {
   makeSelectIsRequest,
   makeSelectMessage,
   makeSelectProviders,
+  makeSelectTotalCount,
 } from './selector';
-import { makeSelectTotalCount } from '../TakeoutList/selector';
+
 import { fetchProviderOfPage } from './action';
 import { fetchUserOfIdsCreator } from 'store/users-of-ids/action/fetch-users-of-id';
 
