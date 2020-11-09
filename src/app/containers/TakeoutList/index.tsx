@@ -20,6 +20,7 @@ import {
   makeSelectTakeOuts,
   makeSelectMessage,
   makeSelectTotalCount,
+  makeSelectUsers,
 } from './selector';
 import { createStructuredSelector } from 'reselect';
 import { fetchTakeout } from './action';
@@ -33,6 +34,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
 import { getDateTimeString } from 'utils/datetime-string';
+import { find } from 'lodash';
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -58,6 +60,7 @@ const stateSelector = createStructuredSelector({
   takeOuts: makeSelectTakeOuts(),
   totalCount: makeSelectTotalCount(),
   message: makeSelectMessage(),
+  users: makeSelectUsers(),
 });
 
 const StartedAt = ({ date }: { date: Date }) => {
@@ -86,7 +89,7 @@ export const TakeOutList = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
 
-  const { isRequest, takeOuts, totalCount, message } = useSelector(
+  const { isRequest, takeOuts, totalCount, message, users } = useSelector(
     stateSelector,
   );
 
@@ -127,6 +130,12 @@ export const TakeOutList = () => {
 
   const { t } = useTranslation();
 
+  const getUserName = (id: string) => {
+    const user = find(users, e => e.id);
+
+    return user ? user.name : '';
+  };
+
   return (
     <>
       <Helmet>
@@ -156,13 +165,13 @@ export const TakeOutList = () => {
                   onClick={() => handleOnClick(data.id)}
                 >
                   <TableCell>{data.title}</TableCell>
-                  <TableCell>{data.createdBy}</TableCell>
+                  <TableCell>{getUserName(data.createdBy)}</TableCell>
                   <TableCell>{data.description}</TableCell>
                   <TableCell>
                     <StartedAt date={data.startedAt} />
                   </TableCell>
                   <TableCell>
-                    <StartedAt date={data.endAt} />
+                    <EndAt date={data.endAt} />
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,35 +1,38 @@
 import { initFetchTakeOutState } from './reducer';
 import { createSelector } from 'reselect';
 
-const selectFetchTakeOutPageDomain = state =>
+const selectFetchTakeoutPageDomain = state =>
   state.fetchTakeOut || initFetchTakeOutState;
 
 export const makeSelectIsRequest = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.isRequest);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.isRequest);
 
 export const makeSelectMessage = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.message);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.message);
 
 export const makeSelectTakeOuts = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.takeOuts);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.takeOuts);
 
 export const makeSelectHasPrevious = () =>
   createSelector(
-    selectFetchTakeOutPageDomain,
+    selectFetchTakeoutPageDomain,
     subState => subState.hasPrevious,
   );
 
 export const makeSelectHasNext = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.hasNext);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.hasNext);
 
 export const makeSelectTotalCount = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.totalCount);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.totalCount);
 
 export const makeSelectTotalPages = () =>
   createSelector(
-    selectFetchTakeOutPageDomain,
+    selectFetchTakeoutPageDomain,
     subState => subState.selectTotalPages,
   );
 
 export const makeSelectPage = () =>
-  createSelector(selectFetchTakeOutPageDomain, subState => subState.page);
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.page);
+
+export const makeSelectUsers = () =>
+  createSelector(selectFetchTakeoutPageDomain, subState => subState.users);

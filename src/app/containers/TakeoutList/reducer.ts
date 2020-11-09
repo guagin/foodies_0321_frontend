@@ -4,12 +4,24 @@ import {
   FetchTakeout,
   FetchTakeoutSuccess,
   FetchTakeoutFailure,
+  FetchUsers,
+  FetchUsersSuccess,
+  FetchUsersFailure,
 } from './action';
 import {
   FETCH_TAKEOUT,
   FETCH_TAKEOUT_FAILURE,
   FETCH_TAKEOUT_SUCCESS,
+  FETCH_USERS,
+  FETCH_USERS_FAILURE,
+  FETCH_USERS_SUCCESS,
 } from './constants';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
 export interface FetchTakeOutState {
   isRequest: boolean;
@@ -20,6 +32,7 @@ export interface FetchTakeOutState {
   totalPages: number;
   page: number;
   totalCount: number;
+  users: User[];
 }
 
 export const initFetchTakeOutState: FetchTakeOutState = {
@@ -31,6 +44,7 @@ export const initFetchTakeOutState: FetchTakeOutState = {
   totalPages: 0,
   totalCount: 0,
   page: 0,
+  users: [],
 };
 
 export const fetchTakeOutReducer = createReducer(initFetchTakeOutState, {
@@ -68,6 +82,24 @@ export const fetchTakeOutReducer = createReducer(initFetchTakeOutState, {
     return {
       ...state,
       isRequest: false,
+      message,
+    };
+  },
+
+  [FETCH_USERS]: (state, action: FetchUsers) => {
+    return {
+      ...state,
+    };
+  },
+  [FETCH_USERS_SUCCESS]: (state, { users }: FetchUsersSuccess) => {
+    return {
+      ...state,
+      users,
+    };
+  },
+  [FETCH_USERS_FAILURE]: (state, { message }: FetchUsersFailure) => {
+    return {
+      ...state,
       message,
     };
   },
