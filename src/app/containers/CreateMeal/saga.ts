@@ -6,12 +6,12 @@ import {
   FetchProviderOfPartialName,
   fetchProviderOfPartialNameFailure,
   fetchProviderOfPartialNameSuccess,
+  PickProvider,
 } from './action';
 import { Status, createMeal } from 'api';
 import { push } from 'connected-react-router';
 import { Provider } from './reducer';
 import { fetchProvidersByPartialName } from 'api/provider';
-import { PickProvider } from '../CreateTakeOut/action';
 
 export function* createMealFlow() {
   yield takeLatest(

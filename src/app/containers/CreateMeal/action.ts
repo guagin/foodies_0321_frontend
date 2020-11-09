@@ -17,6 +17,10 @@ export interface FetchProviderOfPartialNameFailure
   message: string;
 }
 
+export interface PickProvider extends Action<'PickProvider'> {
+  providerId: string;
+}
+
 export interface CreateMeal extends Action<'CreateMeal'> {
   name: string;
   provider: string;

@@ -12,14 +12,19 @@ import {
 import { createTakeOut, Status, fetchProvidersByPartialName } from 'api';
 import { push } from 'connected-react-router';
 import { Provider } from 'store/model/provider';
+import {
+  CREATE_TAKEOUT,
+  FETCH_PROVIDER_BY_PARTIALNAME,
+  PICK_PROVIDER,
+} from './constants';
 
 export function* createTakeOutFlow() {
   yield takeLatest(
-    'FetchProvidersByPartialName',
+    FETCH_PROVIDER_BY_PARTIALNAME,
     fetchProvidersByPartialNameSaga,
   );
-  yield takeLatest('PickProvider', pickProviderSaga);
-  yield takeLatest('CreateTakeOut', createTakeOutSaga);
+  yield takeLatest(PICK_PROVIDER, pickProviderSaga);
+  yield takeLatest(CREATE_TAKEOUT, createTakeOutSaga);
 }
 
 function* fetchProvidersByPartialNameSaga(action: FetchProvidersByPartialName) {

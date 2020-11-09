@@ -9,6 +9,15 @@ import {
   FetchProvidersByPartialNameFailed,
 } from './action';
 import { Provider } from 'store/model/provider';
+import {
+  CREATE_TAKEOUT,
+  CREATE_TAKEOUT_FAILURE,
+  CREATE_TAKEOUT_SUCCESS,
+  FETCH_PROVIDER_BY_PARTIALNAME,
+  FETCH_PROVIDER_BY_PARTIALNAME_FAILURE,
+  FETCH_PROVIDER_BY_PARTIALNAME_SUCCESS,
+  PICK_PROVIDER,
+} from './constants';
 
 export type CreateTakeOutState = {
   isRequest: boolean;
@@ -25,7 +34,10 @@ export const initCreateTakeOutState: CreateTakeOutState = {
 };
 
 export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
-  FetchProvidersByPartialName: (state, action: FetchProvidersByPartialName) => {
+  [FETCH_PROVIDER_BY_PARTIALNAME]: (
+    state,
+    action: FetchProvidersByPartialName,
+  ) => {
     return {
       ...state,
       isRequest: true,
@@ -33,7 +45,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
     };
   },
 
-  FetchProvidersByPartialNameSuccess: (
+  [FETCH_PROVIDER_BY_PARTIALNAME_SUCCESS]: (
     state,
     { providers }: FetchProvidersByPartialNameSuccess,
   ) => {
@@ -45,7 +57,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
     };
   },
 
-  FetchProvidersByPartialNameFailed: (
+  [FETCH_PROVIDER_BY_PARTIALNAME_FAILURE]: (
     state,
     { message }: FetchProvidersByPartialNameFailed,
   ) => {
@@ -56,7 +68,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
     };
   },
 
-  PickProvider: (state, { providerId }: PickProvider) => {
+  [PICK_PROVIDER]: (state, { providerId }: PickProvider) => {
     return {
       ...state,
       isReqeust: false,
@@ -64,7 +76,8 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
       providerId,
     };
   },
-  CreateTake: (state, action: CreateTakeOut) => {
+
+  [CREATE_TAKEOUT]: (state, action: CreateTakeOut) => {
     return {
       ...state,
       isRequest: true,
@@ -72,7 +85,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
     };
   },
 
-  CreateTakeOutSuccess: (state, action: CreateTakeOutSuccess) => {
+  [CREATE_TAKEOUT_SUCCESS]: (state, action: CreateTakeOutSuccess) => {
     return {
       ...state,
       isRequest: false,
@@ -80,7 +93,7 @@ export const createTakeOutReducer = createReducer(initCreateTakeOutState, {
     };
   },
 
-  CreateTakeOutFailed: (state, { message }: CreateTakeOutFailed) => {
+  [CREATE_TAKEOUT_FAILURE]: (state, { message }: CreateTakeOutFailed) => {
     return {
       ...state,
       isRequest: false,
