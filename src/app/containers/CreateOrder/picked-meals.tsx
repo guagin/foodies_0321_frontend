@@ -1,15 +1,36 @@
 import React from 'react';
+
 import {
-  Button,
-  Paper,
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  makeStyles,
+  MenuItem,
+  Select,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
+
+import { map, range } from 'lodash';
+import { useTranslation } from 'react-i18next';
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    flexBasis: '33.33%',
+    flexShrink: 0,
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(0),
+  },
+}));
 
 export const PickedMeal = ({
   meals,
@@ -21,53 +42,62 @@ export const PickedMeal = ({
     name: string;
     price: number;
     amount: number;
+    description: string;
+    note: string;
   }[];
-  updateAmount: (id: string, amount: number) => void;
-  remove: (id: string) => void;
+  updateAmount: (idx: number, amount: number) => void;
+  remove: (id: number) => void;
 }) => {
+  const classes = useStyles();
+
+  const { t } = useTranslation();
+
+  const amountMenuItems = [
+    <MenuItem value={0}>{t('remove')}</MenuItem>,
+    ...map(range(1, 100), e => <MenuItem value={e}>{e}</MenuItem>),
+  ];
   return (
     <>
-      <TableContainer>
-        <Table component={Paper}>
-          <TableHead>
-            <TableRow>
-              <TableCell>name</TableCell>
-              <TableCell>price</TableCell>
-              <TableCell>amount</TableCell>
-            </TableRow>
-          </TableHead>
-          {meals.map(meal => (
-            <TableRow>
-              <TableCell>{meal.name}</TableCell>
-              <TableCell>{meal.price}</TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  onClick={() => {
-                    if (meal.amount > 1) {
-                      updateAmount(meal.id, meal.amount - 1);
-                      return;
-                    }
+      <div className={classes.root}>
+        <List>
+          {meals.map((meal, index) => (
+            <ListItem key={index}>
+              <ListItemText
+                primary={
+                  <Box display="flex">
+                    <Box flexGrow={1} alignContent="center">
+                      {meal.name}
+                    </Box>
+                    <Box>
+                      <Box>
+                        <Select
+                          labelId="meal-amount-select-required-label"
+                          id="meal-amount-select-required"
+                          value={meal.amount}
+                          onChange={(
+                            event: React.ChangeEvent<{ value: unknown }>,
+                          ) => {
+                            const amount = event.target.value as number;
+                            if (amount > 0) {
+                              updateAmount(index, amount);
+                              return;
+                            }
 
-                    remove(meal.id);
-                  }}
-                >
-                  <RemoveIcon />
-                </Button>
-                {meal.amount}
-                <Button
-                  size="small"
-                  onClick={() => {
-                    updateAmount(meal.id, meal.amount + 1);
-                  }}
-                >
-                  <AddIcon />
-                </Button>
-              </TableCell>
-            </TableRow>
+                            remove(index);
+                          }}
+                          className={classes.selectEmpty}
+                        >
+                          {amountMenuItems}
+                        </Select>
+                      </Box>
+                    </Box>
+                  </Box>
+                }
+              />
+            </ListItem>
           ))}
-        </Table>
-      </TableContainer>
+        </List>
+      </div>
     </>
   );
 };

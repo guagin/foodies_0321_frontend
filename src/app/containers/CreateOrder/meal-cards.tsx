@@ -34,13 +34,11 @@ export function MealCards({
     return <CircularProgress />;
   }
 
-  console.log(meals);
-
   return (
     <>
       <Grid container spacing={2}>
         {meals.map(meal => (
-          <MealCard meal={meal} handleOnClick={handleOnClick} />
+          <MealCard key={meal.id} meal={meal} handleOnClick={handleOnClick} />
         ))}
       </Grid>
     </>

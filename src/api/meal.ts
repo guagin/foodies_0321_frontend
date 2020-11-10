@@ -72,7 +72,7 @@ export const mealsOfProvider: (input: {
       },
     );
     const json = await response.json();
-    console.log(json);
+
     return json;
   } catch (e) {
     return {

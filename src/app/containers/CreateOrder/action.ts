@@ -89,6 +89,8 @@ export const fetchMealsFailed: ActionCreator<FetchMealsFailure> = (
 
 export interface PickMeal extends Action<typeof PICK_MEAL> {
   meal: Meal;
+  amount: number;
+  note: string;
 }
 
 export const pickMeal: ActionCreator<PickMeal> = (input: PickMeal) => ({
@@ -98,7 +100,7 @@ export const pickMeal: ActionCreator<PickMeal> = (input: PickMeal) => ({
 
 export interface UpdatePickedMealAmount
   extends Action<typeof UPDATE_PICKED_MEAL_AMOUNT> {
-  id: string;
+  index: number;
   amount: number;
 }
 
@@ -110,7 +112,7 @@ export const UpdatePickedMealAmount: ActionCreator<UpdatePickedMealAmount> = (
 });
 
 export interface RemovePickedMeal extends Action<typeof REMOVE_PICKED_MEAL> {
-  id: string;
+  index: number;
 }
 
 export const RemovePickedMeal: ActionCreator<RemovePickedMeal> = (

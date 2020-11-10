@@ -7,7 +7,7 @@ import {
   makeSelectPickedMeals,
   makeSelectTakeout,
 } from './selector';
-
+import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import { createStructuredSelector } from 'reselect';
 import { useInjectReducer } from 'redux-injectors';
@@ -21,20 +21,19 @@ import {
   CssBaseline,
   Dialog,
   DialogContent,
+  Fab,
 } from '@material-ui/core';
 
 import {
   createOrder,
-  fetchMeals,
   fetchTakeout,
-  pickMeal,
   RemovePickedMeal,
   UpdatePickedMealAmount,
 } from './action';
 import { useTypedSelector } from 'store/reducers';
 import { MealCards } from './meal-cards';
-import { PickedMeal } from './picked-meals';
 import { CreateProduct } from './create-product';
+import { PickedMeal } from './picked-meals';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -51,6 +50,11 @@ const useStyle = makeStyles(theme => ({
   },
   dialogContent: {
     padding: '0px 0px 0px 0px',
+  },
+  fab: {
+    position: 'absolute',
+    top: theme.spacing(2),
+    left: theme.spacing(2),
   },
 }));
 
@@ -118,12 +122,12 @@ export const CreateOrder: (props: Props) => ReactElement = ({
     setOpenDialog(false);
   };
 
-  const updateAmount = (id, amount) => {
-    dispatch(UpdatePickedMealAmount({ id, amount }));
+  const updateAmount = (index, amount) => {
+    dispatch(UpdatePickedMealAmount({ index, amount }));
   };
 
-  const remove = id => {
-    dispatch(RemovePickedMeal({ id }));
+  const remove = index => {
+    dispatch(RemovePickedMeal({ index }));
   };
 
   useEffect(() => {
@@ -146,18 +150,40 @@ export const CreateOrder: (props: Props) => ReactElement = ({
       </Helmet>
       <CssBaseline />
 
+      {/* https://stackoverflow.com/questions/61220424/material-ui-drawer-finddomnode-is-deprecated-in-strictmode */}
       <Dialog
         open={openDialog}
         onClose={handleDialogClose}
         maxWidth="sm"
         fullWidth={true}
       >
-        <DialogContent className={classes.dialogContent}>
-          <CreateProduct meal={pickedMeal as Meal} />
+        <Fab
+          color="secondary"
+          aria-label="close"
+          className={classes.fab}
+          onClick={handleDialogClose}
+        >
+          <CloseIcon />
+        </Fab>
+        <DialogContent
+          className={classes.dialogContent}
+          style={{ paddingTop: '0px' }}
+        >
+          <CreateProduct
+            meal={pickedMeal as Meal}
+            onAppendProduct={() => {
+              handleDialogClose();
+            }}
+          />
         </DialogContent>
       </Dialog>
 
       <div className={classes.paper}>
+        <PickedMeal
+          meals={pickedMeals}
+          updateAmount={updateAmount}
+          remove={remove}
+        />
         {/* PROVIDER INFO */}
 
         {/* <Grid container spacing={2} justify="flex-start">

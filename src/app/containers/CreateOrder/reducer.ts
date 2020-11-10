@@ -29,6 +29,7 @@ import {
   REMOVE_PICKED_MEAL,
   UPDATE_PICKED_MEAL_AMOUNT,
 } from './constants';
+import { idText } from 'typescript';
 
 export interface Meal {
   id: string;
@@ -61,6 +62,8 @@ export type CreateOrderState = {
     name: string;
     price: number;
     amount: number;
+    description: string;
+    note: string;
   }[];
 };
 
@@ -142,21 +145,16 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
     };
   },
 
-  [PICK_MEAL]: ({ pickedMeals, ...rest }, { meal }: PickMeal) => {
-    const found = find(pickedMeals, e => e.id === meal.id);
-
-    if (found) {
-      return {
-        ...rest,
-        pickedMeals,
-      };
-    }
+  [PICK_MEAL]: ({ pickedMeals, ...rest }, { meal, amount, note }: PickMeal) => {
+    // const found = find(pickedMeals, e => e.id === meal.id);
 
     const pickedMeal = {
       id: meal.id,
       name: meal.name,
       price: meal.price,
-      amount: 1,
+      description: meal.description,
+      amount,
+      note,
     };
 
     return {
@@ -167,10 +165,10 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
 
   [UPDATE_PICKED_MEAL_AMOUNT]: (
     { pickedMeals, ...rest },
-    { id, amount }: UpdatePickedMealAmount,
+    { index, amount }: UpdatePickedMealAmount,
   ) => {
-    const updatedMeals = pickedMeals.map(e => {
-      if (e.id === id) {
+    const updatedMeals = pickedMeals.map((e, idx) => {
+      if (index === idx) {
         return {
           ...e,
           amount,
@@ -190,12 +188,12 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
 
   [REMOVE_PICKED_MEAL]: (
     { pickedMeals, ...rest },
-    { id }: RemovePickedMeal,
+    { index }: RemovePickedMeal,
   ) => {
     const pickedMealAfterRemoving = reduce(
       pickedMeals,
-      (accu, curr) => {
-        if (curr.id === id) {
+      (accu, curr, idx) => {
+        if (index === idx) {
           return accu;
         }
 
@@ -207,6 +205,8 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
         name: string;
         price: number;
         amount: number;
+        note: string;
+        description: string;
       }[],
     );
 

@@ -18,7 +18,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import Motorcycle from '@material-ui/icons/Motorcycle';
 import { push } from 'connected-react-router';
@@ -29,6 +29,7 @@ import {
   Box,
   Menu,
   MenuItem,
+  Badge,
 } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { useTypedSelector } from 'store/reducers';
@@ -168,6 +169,8 @@ export const AppDrawer = ({ children }) => {
     setOpen(open);
   };
 
+  const openCart = open => () => {};
+
   return (
     <div
       className={classes.root}
@@ -198,6 +201,7 @@ export const AppDrawer = ({ children }) => {
                 <MenuIcon />
               </IconButton>
             </Box>
+
             <Box>
               <UserAvatar />
             </Box>

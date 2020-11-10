@@ -8,22 +8,25 @@ import {
   Typography,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+
 import RemoveIcon from '@material-ui/icons/Remove';
-import { grey } from '@material-ui/core/colors';
+import { blue, grey, yellow } from '@material-ui/core/colors';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Meal } from './reducer';
 import IconButton from '@material-ui/core/IconButton/IconButton';
+import { useDispatch } from 'react-redux';
+import { pickMeal } from './action';
 
 const useStyle = makeStyles(theme => ({
   paper: {
     paddingBottom: theme.spacing(2),
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'start',
   },
   name: {
+    marginTop: theme.spacing(2),
     paddingLeft: theme.spacing(2),
   },
   description: {
@@ -38,22 +41,16 @@ const useStyle = makeStyles(theme => ({
     paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    width: '100%',
   },
   price: {
-    background: grey[200],
-    color: grey[500],
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    width: '100%',
   },
   appendAProduct: {
-    background: grey[200],
-    color: grey[500],
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     width: '100%',
@@ -77,10 +74,16 @@ const useStyle = makeStyles(theme => ({
   },
 }));
 
-export const CreateProduct = ({ meal }: { meal: Meal }) => {
+export const CreateProduct = ({
+  meal,
+  onAppendProduct,
+}: {
+  meal: Meal;
+  onAppendProduct?: () => void;
+}) => {
   const classes = useStyle();
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   // https://d1ralsognjng37.cloudfront.net/268f5d45-6b27-4405-8e6e-e0b3d43e01dc.jpeg
 
   const [amount, setAmount] = useState(1);
@@ -95,15 +98,28 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
     }
   };
 
+  const appendProduct = () => {
+    dispatch(pickMeal({ meal, amount }));
+    if (onAppendProduct) {
+      onAppendProduct();
+    }
+  };
+
+  const isAllOptionFullfill = () => {
+    return true;
+  };
+
   if (!meal) {
     return <></>;
   }
+
   return (
     <div>
       <Card className={classes.paper}>
+        {/* TODO:　using meal picture path. */}
         <CardMedia
           className={classes.media}
-          image="logo192.png"
+          image="/coffee.jpeg"
           title="coffee"
         />
         <Typography variant="h4" component="h4" className={classes.name}>
@@ -131,11 +147,9 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
                   </IconButton>
                 </Grid>
                 <Grid item sm={3}>
-                  <Typography>
-                    <Box display="flex" justifyContent="center">
-                      {amount}
-                    </Box>
-                  </Typography>
+                  <Box display="flex" justifyContent="center">
+                    <Typography>{amount}</Typography>
+                  </Box>
                 </Grid>
                 <Grid item sm={4}>
                   <IconButton
@@ -148,9 +162,24 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
               </Grid>
             </Grid>
             <Grid item sm={8}>
-              <Grid container spacing={2} className={classes.appendAProduct}>
-                <Grid item sm={8}>
-                  <Box display="flex" justifyContent="flex-end">
+              <Button
+                className={classes.appendAProduct}
+                style={{
+                  background: isAllOptionFullfill() ? blue[900] : grey[200],
+                  color: isAllOptionFullfill() ? yellow[50] : grey[500],
+                }}
+                onClick={() => {
+                  appendProduct();
+                }}
+              >
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  style={{
+                    width: '100%',
+                  }}
+                >
+                  <Box flexGrow={1} alignContent="center">
                     <Typography>
                       {t('createOrder.appendAProduct').replace(
                         '%s',
@@ -158,13 +187,11 @@ export const CreateProduct = ({ meal }: { meal: Meal }) => {
                       )}
                     </Typography>
                   </Box>
-                </Grid>
-                <Grid item sm={4} className={classes.price}>
-                  <Box display="flex" justifyContent="flex-end">
+                  <Box alignContent="center">
                     <Typography>${meal.price * amount}</Typography>
                   </Box>
-                </Grid>
-              </Grid>
+                </Box>
+              </Button>
             </Grid>
           </Grid>
         </div>
