@@ -31,6 +31,7 @@
   },
   "TakeoutDetailPage": "揪團詳細資料",
   "createOrder": {
+    "title": "你的訂單",
     "appendAProduct": "新增%s份餐點至訂單"
   },
   "remove": "移除"

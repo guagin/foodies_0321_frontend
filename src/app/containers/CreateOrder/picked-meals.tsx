@@ -2,16 +2,19 @@ import React from 'react';
 
 import {
   Box,
+  Button,
   List,
   ListItem,
   ListItemText,
   makeStyles,
   MenuItem,
   Select,
+  Typography,
 } from '@material-ui/core';
 
 import { map, range } from 'lodash';
 import { useTranslation } from 'react-i18next';
+import { blue, grey, yellow } from '@material-ui/core/colors';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +32,12 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
+  },
+  submitButton: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -59,6 +68,9 @@ export const PickedMeal = ({
   return (
     <>
       <div className={classes.root}>
+        <Typography variant="h4" component="h4">
+          {t('createOrder.title')}
+        </Typography>
         <List>
           {meals.map((meal, index) => (
             <ListItem key={index}>
@@ -67,6 +79,20 @@ export const PickedMeal = ({
                   <Box display="flex">
                     <Box flexGrow={1} alignContent="center">
                       {meal.name}
+                    </Box>
+                    <Box
+                      flexGrow={1}
+                      alignContent="center"
+                      className={classes.secondaryHeading}
+                    >
+                      {meal.description}
+                    </Box>
+                    <Box
+                      flexGrow={1}
+                      alignContent="center"
+                      className={classes.secondaryHeading}
+                    >
+                      ${meal.price * meal.amount}
                     </Box>
                     <Box>
                       <Box>
@@ -97,6 +123,18 @@ export const PickedMeal = ({
             </ListItem>
           ))}
         </List>
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            className={classes.submitButton}
+            disabled={meals.length === 0}
+            style={{
+              background: meals.length === 0 ? grey[200] : blue[900],
+              color: meals.length === 0 ? grey[500] : yellow[50],
+            }}
+          >
+            <Typography>{t('submit')}</Typography>
+          </Button>
+        </Box>
       </div>
     </>
   );
