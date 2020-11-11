@@ -29,7 +29,6 @@ import {
   REMOVE_PICKED_MEAL,
   UPDATE_PICKED_MEAL_AMOUNT,
 } from './constants';
-import { idText } from 'typescript';
 
 export interface Meal {
   id: string;
@@ -146,8 +145,6 @@ export const createOrderReducer = createReducer(initCreateOrderState, {
   },
 
   [PICK_MEAL]: ({ pickedMeals, ...rest }, { meal, amount, note }: PickMeal) => {
-    // const found = find(pickedMeals, e => e.id === meal.id);
-
     const pickedMeal = {
       id: meal.id,
       name: meal.name,

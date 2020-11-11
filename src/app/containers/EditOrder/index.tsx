@@ -1,7 +1,17 @@
-import { CssBaseline, Grid, makeStyles, Typography } from '@material-ui/core';
+import {
+  CssBaseline,
+  Dialog,
+  DialogContent,
+  Fab,
+  Grid,
+  makeStyles,
+} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import { CreateProduct } from 'app/components/CreateProduct';
+import { MealCards } from 'app/components/MealCards';
 import { PickedMeal } from 'app/components/PickedMeal';
 import { find, reduce } from 'lodash';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +19,14 @@ import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
 
-import { fetchOrder, removeMeal, updateMealAmount } from './actions';
-import { MealCards } from './meal-cards';
-import { editOrderReducer } from './reducer';
+import {
+  appendMeal,
+  fetchOrder,
+  removeMeal,
+  updateMealAmount,
+} from './actions';
+
+import { editOrderReducer, Meal } from './reducer';
 import { editOrderFlow } from './saga';
 import {
   makeSelectCreateMealUsers,
@@ -34,6 +49,14 @@ const useStyle = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     width: '100%',
+  },
+  fab: {
+    position: 'absolute',
+    top: theme.spacing(2),
+    left: theme.spacing(2),
+  },
+  dialogContent: {
+    padding: '0px 0px 0px 0px',
   },
 }));
 
@@ -69,6 +92,8 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
     stateSelector,
   );
   const { t } = useTranslation();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [pickedMeal, setPickedMeal] = useState<Meal | undefined>(undefined);
 
   useEffect(() => {
     dispatch(
@@ -87,6 +112,11 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
     dispatch(removeMeal({ index }));
   };
 
+  const appendProduct = (meal: Meal, amount: number) => {
+    dispatch(appendMeal({ meal, amount, note: '' }));
+    handleDialogClose();
+  };
+
   const handleSubmit = () => {
     // dispatch(
     //   createOrder({
@@ -95,6 +125,15 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
     //     meals: pickedMeals,
     //   }),
     // );
+  };
+
+  const handleOnClick = meal => {
+    setPickedMeal(meal);
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
   };
 
   const pickedMeals: () => {
@@ -140,6 +179,30 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
         <meta name="edit order page" content="foodies edit order page." />
       </Helmet>
       <CssBaseline />
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        maxWidth="sm"
+        fullWidth={true}
+      >
+        <Fab
+          color="secondary"
+          aria-label="close"
+          className={classes.fab}
+          onClick={handleDialogClose}
+        >
+          <CloseIcon />
+        </Fab>
+        <DialogContent
+          className={classes.dialogContent}
+          style={{ paddingTop: '0px' }}
+        >
+          <CreateProduct
+            meal={pickedMeal as Meal}
+            appendProduct={appendProduct}
+          />
+        </DialogContent>
+      </Dialog>
       <div className={classes.paper}>
         <Grid container justify={'center'}>
           <Grid item xs={12} sm={12}>
@@ -153,7 +216,11 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
         </Grid>
       </div>
       <div className={classes.paper}>
-        <MealCards meals={meals} users={createMealUsers} />
+        <MealCards
+          meals={meals}
+          isRequest={meals ? false : true}
+          handleOnClick={handleOnClick}
+        />
       </div>
     </>
   );

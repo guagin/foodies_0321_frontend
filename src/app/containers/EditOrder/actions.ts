@@ -59,6 +59,8 @@ export const fetchOrderFailure: ActionCreator<FetchOrderFailure> = (
 
 export interface AppendMeal extends Action<typeof APPEND_MEAL> {
   meal: Meal;
+  amount: number;
+  note: string;
 }
 
 export const appendMeal: ActionCreator<AppendMeal> = (input: AppendMeal) => ({

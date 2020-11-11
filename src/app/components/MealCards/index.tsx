@@ -7,7 +7,15 @@ import {
   Typography,
 } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { Meal } from '../MealList/reducer';
+
+interface Meal {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  provider: string;
+  createdBy: string;
+}
 
 const useStyles = makeStyles({
   root: {

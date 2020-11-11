@@ -14,10 +14,16 @@ import { blue, grey, yellow } from '@material-ui/core/colors';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Meal } from './reducer';
 import IconButton from '@material-ui/core/IconButton/IconButton';
-import { useDispatch } from 'react-redux';
-import { pickMeal } from './action';
+
+interface Meal {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  provider: string;
+  createdBy: string;
+}
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -76,14 +82,14 @@ const useStyle = makeStyles(theme => ({
 
 export const CreateProduct = ({
   meal,
-  onAppendProduct,
+  appendProduct,
 }: {
   meal: Meal;
-  onAppendProduct?: () => void;
+  appendProduct: (meal: Meal, amount: number) => void;
 }) => {
   const classes = useStyle();
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+
   // https://d1ralsognjng37.cloudfront.net/268f5d45-6b27-4405-8e6e-e0b3d43e01dc.jpeg
 
   const [amount, setAmount] = useState(1);
@@ -95,13 +101,6 @@ export const CreateProduct = ({
   const handleRemoveClick = () => {
     if (amount > 1) {
       setAmount(amount - 1);
-    }
-  };
-
-  const appendProduct = () => {
-    dispatch(pickMeal({ meal, amount }));
-    if (onAppendProduct) {
-      onAppendProduct();
     }
   };
 
@@ -169,7 +168,7 @@ export const CreateProduct = ({
                   color: isAllOptionFullfill() ? yellow[50] : grey[500],
                 }}
                 onClick={() => {
-                  appendProduct();
+                  appendProduct(meal, amount);
                 }}
               >
                 <Box

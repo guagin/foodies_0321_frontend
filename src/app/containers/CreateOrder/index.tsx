@@ -27,13 +27,15 @@ import {
 import {
   createOrder,
   fetchTakeout,
+  pickMeal,
   RemovePickedMeal,
   UpdatePickedMealAmount,
 } from './action';
 import { useTypedSelector } from 'store/reducers';
-import { MealCards } from './meal-cards';
-import { CreateProduct } from './create-product';
+
 import { PickedMeal } from 'app/components/PickedMeal';
+import { MealCards } from 'app/components/MealCards';
+import { CreateProduct } from 'app/components/CreateProduct';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -127,6 +129,11 @@ export const CreateOrder: (props: Props) => ReactElement = ({
     dispatch(RemovePickedMeal({ index }));
   };
 
+  const appendProduct = (meal: Meal, amount: number) => {
+    dispatch(pickMeal({ meal, amount }));
+    handleDialogClose();
+  };
+
   useEffect(() => {
     dispatch(fetchTakeout({ token, id: takeoutId }));
   }, [dispatch, takeoutId, token]);
@@ -168,9 +175,7 @@ export const CreateOrder: (props: Props) => ReactElement = ({
         >
           <CreateProduct
             meal={pickedMeal as Meal}
-            onAppendProduct={() => {
-              handleDialogClose();
-            }}
+            appendProduct={appendProduct}
           />
         </DialogContent>
       </Dialog>

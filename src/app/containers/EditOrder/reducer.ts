@@ -121,24 +121,16 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       message,
     };
   },
-  [APPEND_MEAL]: (state, { meal }: AppendMeal) => {
+  [APPEND_MEAL]: (state, { meal, amount, note }: AppendMeal) => {
     const { order, ...rest } = state;
     if (!order) {
       return { ...state };
     }
     const { products } = order;
-    const found = find(products, e => e.id === meal.id);
-
-    if (found) {
-      return {
-        ...rest,
-        order,
-      };
-    }
 
     const newProduct = {
       id: meal.id,
-      amount: 1,
+      amount,
       note: '',
     };
 
