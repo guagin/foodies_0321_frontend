@@ -67,7 +67,7 @@ export const appendMeal: ActionCreator<AppendMeal> = (input: AppendMeal) => ({
 });
 
 export interface RemoveMeal extends Action<typeof REMOVE_MEAL> {
-  mealId: string;
+  index: number;
 }
 
 export const removeMeal: ActionCreator<RemoveMeal> = (input: RemoveMeal) => ({
@@ -76,7 +76,7 @@ export const removeMeal: ActionCreator<RemoveMeal> = (input: RemoveMeal) => ({
 });
 
 export interface UpdateMealAmount extends Action<typeof UPDATE_MEAL_AMOUNT> {
-  mealId: string;
+  index: number;
   amount: number;
 }
 

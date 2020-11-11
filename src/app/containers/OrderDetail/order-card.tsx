@@ -6,6 +6,7 @@ import {
   CircularProgress,
   createStyles,
   Divider,
+  Grid,
   makeStyles,
   Theme,
   Typography,
@@ -18,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { green } from '@material-ui/core/colors';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
+import { reduce } from 'lodash';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -146,6 +148,19 @@ const ListProduct = ({
   const classes = useStyles();
 
   const getMeal = (id: string) => meals.find(e => e.id === id);
+  const { t } = useTranslation();
+  const totalCost = reduce(
+    products,
+    (accu, curr) => {
+      const meal = getMeal(curr.id);
+      if (meal) {
+        accu += meal.price * curr.amount;
+      }
+
+      return accu;
+    },
+    0,
+  );
 
   return (
     <>
@@ -160,6 +175,21 @@ const ListProduct = ({
         }
         return <ProductCard product={product} meal={getMeal(product.id)} />;
       })}
+      <Divider className={classes.divier} />
+      <Grid container spacing={2}>
+        <Grid item>
+          <Typography className={classes.inline} color="textSecondary">
+            {t('orderDetailPage.totalCount')}: {products.length}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item>
+          <Typography className={classes.inline} color="textSecondary">
+            {t('orderDetailPage.totalCost')}: ${totalCost}
+          </Typography>
+        </Grid>
+      </Grid>
     </>
   );
 };
@@ -169,24 +199,35 @@ const ProductCard = ({ product, meal }: { product: Product; meal?: Meal }) => {
 
   const getName = (id: string) => (meal ? meal.name : '');
 
-  const getDes = (id: string) => (meal ? meal.description : '');
-
+  const cost = () => {
+    return meal ? meal.price * product.amount : 0;
+  };
   return (
     <>
       <div key={product.id}>
-        <Typography className={classes.inline} color="textSecondary">
-          {getName(product.id)}
-        </Typography>
-
-        <Typography className={classes.inline} color="textSecondary">
-          {product.amount}
-        </Typography>
-        <Typography className={classes.inline} color="textSecondary">
-          {product.note}
-        </Typography>
-        <Typography className={classes.inline} color="textSecondary">
-          {product.note}
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item sm={4}>
+            <Typography className={classes.inline} color="textSecondary">
+              {`${getName(product.id)} x ${product.amount}`}
+            </Typography>
+          </Grid>
+          <Grid item sm={6}>
+            <Typography className={classes.inline} color="textSecondary">
+              {product.note}
+            </Typography>
+          </Grid>
+          <Grid item sm={2}>
+            <Box
+              display="flex"
+              justifyContent="flex-end"
+              style={{ marginRight: '10px' }}
+            >
+              <Typography className={classes.inline} color="textSecondary">
+                ${cost()}
+              </Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </div>
     </>
   );

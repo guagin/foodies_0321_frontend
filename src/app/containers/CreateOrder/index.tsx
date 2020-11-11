@@ -33,7 +33,7 @@ import {
 import { useTypedSelector } from 'store/reducers';
 import { MealCards } from './meal-cards';
 import { CreateProduct } from './create-product';
-import { PickedMeal } from './picked-meals';
+import { PickedMeal } from 'app/components/PickedMeal';
 
 const useStyle = makeStyles(theme => ({
   paper: {

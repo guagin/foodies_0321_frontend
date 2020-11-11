@@ -150,7 +150,7 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       },
     };
   },
-  [REMOVE_MEAL]: (state, { mealId }: RemoveMeal) => {
+  [REMOVE_MEAL]: (state, { index }: RemoveMeal) => {
     const { order } = state;
     if (!order) {
       return {
@@ -161,8 +161,8 @@ export const editOrderReducer = createReducer(initEditOrderState, {
 
     const productsAfterRemoving = reduce(
       products,
-      (accu, curr) => {
-        if (curr.id === mealId) {
+      (accu, curr, idx) => {
+        if (idx === index) {
           return accu;
         }
 
@@ -184,7 +184,7 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       },
     };
   },
-  [UPDATE_MEAL_AMOUNT]: (state, { mealId, amount }: UpdateMealAmount) => {
+  [UPDATE_MEAL_AMOUNT]: (state, { index, amount }: UpdateMealAmount) => {
     const { order } = state;
     if (!order) {
       return {
@@ -194,18 +194,22 @@ export const editOrderReducer = createReducer(initEditOrderState, {
 
     const { products } = order;
 
-    const updatedProducts = products.map(e => {
-      if (e.id === mealId) {
-        return {
-          ...e,
-          amount,
-        };
-      }
+    const updatedProducts = reduce(
+      products,
+      (accu, curr, idx) => {
+        if (idx === index) {
+          accu.push({
+            ...curr,
+            amount,
+          });
+          return accu;
+        }
 
-      return {
-        ...e,
-      };
-    });
+        accu.push(curr);
+        return accu;
+      },
+      [] as Product[],
+    );
 
     return {
       ...state,

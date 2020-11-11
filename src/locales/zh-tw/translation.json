@@ -40,6 +40,12 @@
     "pageTitle": "訂單詳細資訊頁面",
     "head": "訂單基本資訊",
     "ofTakeout": "所屬外送",
-    "products": "訂單內餐點"
+    "products": "訂單內餐點",
+    "totalCount": "餐點總數量",
+    "totalCost": "餐點總金額"
+  },
+  "orderEditPage": {
+    "title": "訂單編輯頁",
+    "yourOrder": "你的訂單"
   }
 }

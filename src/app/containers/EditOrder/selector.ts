@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { initEditOrderState } from './reducer';
+import { initEditOrderState, Meal } from './reducer';
 
 const selectEditOrderDomain = state => state.editOrder || initEditOrderState;
 
@@ -16,7 +16,7 @@ export const makeSelectUser = () =>
   createSelector(selectEditOrderDomain, subState => subState.user);
 
 export const makeSelectMeals = () =>
-  createSelector(selectEditOrderDomain, subState => subState.meals);
+  createSelector(selectEditOrderDomain, subState => subState.meals as Meal[]);
 
 export const makeSelectCreateMealUsers = () =>
   createSelector(selectEditOrderDomain, subState => subState.createMealUsers);

@@ -1,15 +1,16 @@
-import { CssBaseline, Grid, makeStyles } from '@material-ui/core';
+import { CssBaseline, Grid, makeStyles, Typography } from '@material-ui/core';
+import { PickedMeal } from 'app/components/PickedMeal';
+import { find, reduce } from 'lodash';
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
 
-import { fetchOrder } from './actions';
+import { fetchOrder, removeMeal, updateMealAmount } from './actions';
 import { MealCards } from './meal-cards';
-import { OrderBasicInfo } from './order-basic-info';
-import { Products } from './products';
 import { editOrderReducer } from './reducer';
 import { editOrderFlow } from './saga';
 import {
@@ -29,6 +30,10 @@ const useStyle = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  root: {
+    backgroundColor: theme.palette.background.paper,
+    width: '100%',
   },
 }));
 
@@ -63,6 +68,7 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   const { order, takeout, provider, meals, createMealUsers } = useSelector(
     stateSelector,
   );
+  const { t } = useTranslation();
 
   useEffect(() => {
     dispatch(
@@ -73,28 +79,76 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
     );
   }, [dispatch, token, orderId]);
 
+  const updateAmount = (index, amount) => {
+    dispatch(updateMealAmount({ index, amount }));
+  };
+
+  const remove = index => {
+    dispatch(removeMeal({ index }));
+  };
+
+  const handleSubmit = () => {
+    // dispatch(
+    //   createOrder({
+    //     token,
+    //     takeOutId: takeoutId,
+    //     meals: pickedMeals,
+    //   }),
+    // );
+  };
+
+  const pickedMeals: () => {
+    id: string;
+    name: string;
+    price: number;
+    amount: number;
+    description: string;
+    note: string;
+  }[] = () => {
+    if (!order) {
+      return [];
+    }
+
+    return reduce(
+      order.products,
+      (accu, product) => {
+        const meal = find(meals, e => e.id === product.id);
+        if (meal) {
+          accu.push({
+            ...meal,
+            ...product,
+          });
+        }
+
+        return accu;
+      },
+      [] as {
+        id: string;
+        name: string;
+        price: number;
+        amount: number;
+        description: string;
+        note: string;
+      }[],
+    );
+  };
+
   return (
     <>
       <Helmet>
-        <title>Edit order Page</title>
+        <title>{t('orderEditPage.title')}</title>
         <meta name="edit order page" content="foodies edit order page." />
       </Helmet>
       <CssBaseline />
       <div className={classes.paper}>
         <Grid container justify={'center'}>
-          <Grid item xs={8} sm={8}>
-            <OrderBasicInfo
-              order={order}
-              takeout={takeout}
-              provider={provider}
+          <Grid item xs={12} sm={12}>
+            <PickedMeal
+              meals={pickedMeals()}
+              updateAmount={updateAmount}
+              remove={remove}
+              onSubmit={handleSubmit}
             />
-          </Grid>
-        </Grid>
-      </div>
-      <div className={classes.paper}>
-        <Grid container justify={'center'}>
-          <Grid item xs={8} sm={8}>
-            <Products products={order ? order.products : []} meals={meals} />
           </Grid>
         </Grid>
       </div>
