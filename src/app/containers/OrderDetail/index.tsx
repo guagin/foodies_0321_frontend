@@ -20,6 +20,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import { push } from 'connected-react-router';
 import moment from 'moment';
+import { useTranslation } from 'react-i18next';
 
 const useStyle = makeStyles(theme => ({
   paper: {
@@ -68,6 +69,7 @@ export const OrderDetail = ({
   const { token, id: selfId } = useTypedSelector(state => state.me);
   const { order, meals, users, takeout } = useSelector(stateSelector);
   const { orderId: id } = computedMatch.params;
+  const { t } = useTranslation();
 
   const isTakeoutAvailable = () => {
     if (!takeout) {
@@ -122,7 +124,7 @@ export const OrderDetail = ({
   return (
     <>
       <Helmet>
-        <title>Provider Management Page</title>
+        <title>{t('orderDetailPage.pageTitle')}</title>
         <meta
           name="provider management page"
           content="foodies provider management page."

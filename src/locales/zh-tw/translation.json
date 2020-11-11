@@ -34,5 +34,12 @@
     "title": "你的訂單",
     "appendAProduct": "新增%s份餐點至訂單"
   },
-  "remove": "移除"
+  "remove": "移除",
+
+  "orderDetailPage": {
+    "pageTitle": "訂單詳細資訊頁面",
+    "head": "訂單基本資訊",
+    "ofTakeout": "所屬外送",
+    "products": "訂單內餐點"
+  }
 }

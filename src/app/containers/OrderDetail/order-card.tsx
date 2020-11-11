@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Box,
   Card,
   CardContent,
   CircularProgress,
@@ -13,6 +14,10 @@ import {
 import { Meal, Order, Product } from './reducer';
 import { User } from 'store/users-of-ids/reducer';
 import { Takeout } from '../EditOrder/reducer';
+import { useTranslation } from 'react-i18next';
+import { green } from '@material-ui/core/colors';
+import { useDispatch } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,14 +43,39 @@ const useStyles = makeStyles((theme: Theme) =>
 const statusMap = ['pended', 'placed', 'canceled'];
 
 const TakeoutTitle = ({ takeout }: { takeout?: Takeout }) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   if (!takeout) {
     return <></>;
   }
+
+  const handleClickOnTitle = () => {
+    dispatch(push(`/takeout/ofId/${takeout.id}`));
+  };
+
   return (
-    <Typography className={classes.inline} color="textSecondary">
-      {takeout.title}
-    </Typography>
+    <Box display="flex" flexDirection="row">
+      <Box>
+        <Typography className={classes.inline} color="textSecondary">
+          {`${t('orderDetailPage.ofTakeout')}`}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography
+          className={classes.inline}
+          style={{
+            paddingLeft: '10px',
+            color: green[500],
+            textDecoration: 'underline',
+          }}
+          onClick={() => handleClickOnTitle()}
+        >
+          {takeout.title}
+        </Typography>
+      </Box>
+    </Box>
   );
 };
 
@@ -61,6 +91,7 @@ export const OrderDeatailCard = ({
   takeout?: Takeout;
 }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
 
   if (!order) {
     return (
@@ -77,49 +108,30 @@ export const OrderDeatailCard = ({
   return (
     <div>
       <Typography className={classes.title} color="textSecondary">
-        basicInfo
+        {t('orderDetailPage.head')}
       </Typography>
       <Card className={classes.root} variant="outlined">
         <CardContent>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            orderId
-          </Typography>
-          <Typography
-            className={classes.subTitle}
-            color="textSecondary"
-            gutterBottom
-            variant="h5"
-            component="h2"
-          >
-            {order.id}
-          </Typography>
-          <Typography className={classes.inline} color="textSecondary">
-            createdBy
-          </Typography>
           <Typography className={classes.inline} color="textSecondary">
             {getUserName()}
-          </Typography>
-
-          <Typography className={classes.inline} color="textSecondary">
-            {statusMap[order.status]}
           </Typography>
           <TakeoutTitle takeout={takeout} />
         </CardContent>
       </Card>
-      <Typography className={classes.inline} color="textSecondary">
-        products
-      </Typography>
-      <Card className={classes.root} variant="outlined">
-        <CardContent>
-          <ListProduct products={order.products} meals={meals} />
-        </CardContent>
-      </Card>
+      <div
+        style={{
+          marginTop: '20px',
+        }}
+      >
+        <Typography className={classes.inline} color="textSecondary">
+          {t('orderDetailPage.products')}
+        </Typography>
+        <Card className={classes.root} variant="outlined">
+          <CardContent>
+            <ListProduct products={order.products} meals={meals} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
@@ -165,20 +177,12 @@ const ProductCard = ({ product, meal }: { product: Product; meal?: Meal }) => {
         <Typography className={classes.inline} color="textSecondary">
           {getName(product.id)}
         </Typography>
-        <Typography className={classes.inline} color="textSecondary">
-          description
-        </Typography>
-        <Typography className={classes.inline} color="textSecondary">
-          {getDes(product.id)}
-        </Typography>
-        <Typography className={classes.inline} color="textSecondary">
-          amount
-        </Typography>
+
         <Typography className={classes.inline} color="textSecondary">
           {product.amount}
         </Typography>
         <Typography className={classes.inline} color="textSecondary">
-          note
+          {product.note}
         </Typography>
         <Typography className={classes.inline} color="textSecondary">
           {product.note}
