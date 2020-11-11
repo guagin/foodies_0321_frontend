@@ -100,8 +100,7 @@ export const CreateOrder: (props: Props) => ReactElement = ({
     takeout,
   } = useSelector(stateSelector);
 
-  const handleSubmit = event => {
-    event.preventDefault();
+  const handleSubmit = () => {
     dispatch(
       createOrder({
         token,
@@ -112,8 +111,6 @@ export const CreateOrder: (props: Props) => ReactElement = ({
   };
 
   const handleOnClick = meal => {
-    // SHOW DIALOG.
-    // dispatch(pickMeal({ token, meal }));
     setPickedMeal(meal);
     setOpenDialog(true);
   };
@@ -183,25 +180,8 @@ export const CreateOrder: (props: Props) => ReactElement = ({
           meals={pickedMeals}
           updateAmount={updateAmount}
           remove={remove}
+          onSubmit={handleSubmit}
         />
-        {/* PROVIDER INFO */}
-
-        {/* <Grid container spacing={2} justify="flex-start">
-          <Grid item xs={12} sm={12}>
-            <PickedMeal
-              meals={pickedMeals}
-              updateAmount={updateAmount}
-              remove={remove}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} justify="flex-end">
-          <Grid item xs={1} sm={1}>
-            <Button size="large" onClick={handleSubmit}>
-              submit
-            </Button>
-          </Grid>
-        </Grid> */}
       </div>
 
       <div className={classes.paper}>

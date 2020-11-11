@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Box,
   Button,
+  Grid,
   List,
   ListItem,
   ListItemText,
@@ -45,6 +46,7 @@ export const PickedMeal = ({
   meals,
   updateAmount,
   remove,
+  onSubmit,
 }: {
   meals: {
     id: string;
@@ -56,6 +58,7 @@ export const PickedMeal = ({
   }[];
   updateAmount: (idx: number, amount: number) => void;
   remove: (id: number) => void;
+  onSubmit: () => void;
 }) => {
   const classes = useStyles();
 
@@ -76,25 +79,23 @@ export const PickedMeal = ({
             <ListItem key={index}>
               <ListItemText
                 primary={
-                  <Box display="flex">
-                    <Box flexGrow={1} alignContent="center">
-                      {meal.name}
-                    </Box>
-                    <Box
-                      flexGrow={1}
-                      alignContent="center"
-                      className={classes.secondaryHeading}
-                    >
-                      {meal.description}
-                    </Box>
-                    <Box
-                      flexGrow={1}
-                      alignContent="center"
-                      className={classes.secondaryHeading}
-                    >
-                      ${meal.price * meal.amount}
-                    </Box>
-                    <Box>
+                  <Grid container spacing={2}>
+                    <Grid item sm={4}>
+                      <Typography className={classes.heading}>
+                        {meal.name}
+                      </Typography>
+                    </Grid>
+                    <Grid item sm={5}>
+                      <Typography className={classes.secondaryHeading}>
+                        {meal.note}
+                      </Typography>
+                    </Grid>
+                    <Grid item sm={2}>
+                      <Typography className={classes.secondaryHeading}>
+                        ${meal.price * meal.amount}
+                      </Typography>
+                    </Grid>
+                    <Grid item sm={1}>
                       <Box>
                         <Select
                           labelId="meal-amount-select-required-label"
@@ -116,8 +117,8 @@ export const PickedMeal = ({
                           {amountMenuItems}
                         </Select>
                       </Box>
-                    </Box>
-                  </Box>
+                    </Grid>
+                  </Grid>
                 }
               />
             </ListItem>
@@ -130,6 +131,9 @@ export const PickedMeal = ({
             style={{
               background: meals.length === 0 ? grey[200] : blue[900],
               color: meals.length === 0 ? grey[500] : yellow[50],
+            }}
+            onClick={() => {
+              onSubmit();
             }}
           >
             <Typography>{t('submit')}</Typography>
