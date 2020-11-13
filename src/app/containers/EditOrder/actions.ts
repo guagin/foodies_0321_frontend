@@ -22,8 +22,10 @@ import {
   FETCH_CREATE_MEAL_USERS,
   FETCH_CREATE_MEAL_USERS_SUCCESS,
   FETCH_CREATE_MEAL_USERS_FAILURE,
+  UPDATE_MEAL_AMOUNT_SUCCESS,
+  UPDATE_MEAL_AMOUNT_FAILURE,
 } from './constants';
-import { Meal, Order, Provider, Takeout, User } from './reducer';
+import { Meal, Order, Product, Provider, Takeout, User } from './reducer';
 
 export interface FetchOrder extends Action<typeof FETCH_ORDER> {
   token: string;
@@ -87,6 +89,30 @@ export const updateMealAmount: ActionCreator<UpdateMealAmount> = (
 ) => ({
   ...input,
   type: UPDATE_MEAL_AMOUNT,
+});
+
+export interface UpdateMealAmountSuccess
+  extends Action<typeof UPDATE_MEAL_AMOUNT_SUCCESS> {
+  order: Order;
+}
+
+export const updateMealAmountSuccess: ActionCreator<UpdateMealAmountSuccess> = (
+  input: UpdateMealAmountSuccess,
+) => ({
+  ...input,
+  type: UPDATE_MEAL_AMOUNT_SUCCESS,
+});
+
+export interface UpdateMealAmountFailure
+  extends Action<typeof UPDATE_MEAL_AMOUNT_FAILURE> {
+  message: string;
+}
+
+export const updateMealAmountFailure: ActionCreator<UpdateMealAmountFailure> = (
+  input: UpdateMealAmountFailure,
+) => ({
+  ...input,
+  type: UPDATE_MEAL_AMOUNT_FAILURE,
 });
 
 export interface FetchTakeout extends Action<typeof FETCH_TAKEOUT> {

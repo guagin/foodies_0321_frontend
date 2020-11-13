@@ -19,6 +19,8 @@ import {
   FetchTakeoutSuccess,
   RemoveMeal,
   UpdateMealAmount,
+  UpdateMealAmountFailure,
+  UpdateMealAmountSuccess,
 } from './actions';
 import {
   APPEND_MEAL,
@@ -39,6 +41,8 @@ import {
   FETCH_TAKEOUT_SUCCESS,
   REMOVE_MEAL,
   UPDATE_MEAL_AMOUNT,
+  UPDATE_MEAL_AMOUNT_FAILURE,
+  UPDATE_MEAL_AMOUNT_SUCCESS,
 } from './constants';
 
 export interface User {
@@ -177,40 +181,26 @@ export const editOrderReducer = createReducer(initEditOrderState, {
     };
   },
   [UPDATE_MEAL_AMOUNT]: (state, { index, amount }: UpdateMealAmount) => {
-    const { order } = state;
-    if (!order) {
-      return {
-        ...state,
-      };
-    }
-
-    const { products } = order;
-
-    const updatedProducts = reduce(
-      products,
-      (accu, curr, idx) => {
-        if (idx === index) {
-          accu.push({
-            ...curr,
-            amount,
-          });
-          return accu;
-        }
-
-        accu.push(curr);
-        return accu;
-      },
-      [] as Product[],
-    );
-
     return {
       ...state,
-      order: {
-        ...order,
-        products: updatedProducts,
-      },
     };
   },
+  [UPDATE_MEAL_AMOUNT_SUCCESS]: (state, { order }: UpdateMealAmountSuccess) => {
+    return {
+      ...state,
+      order,
+    };
+  },
+  [UPDATE_MEAL_AMOUNT_FAILURE]: (
+    state,
+    { message }: UpdateMealAmountFailure,
+  ) => {
+    return {
+      ...state,
+      message,
+    };
+  },
+
   [FETCH_TAKEOUT]: (state, action: FetchTakeout) => {
     return {
       ...state,
