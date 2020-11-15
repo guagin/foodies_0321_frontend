@@ -9,6 +9,7 @@ import {
   mealsOfProvider,
   fetchUserOfIds,
   User,
+  updateMeal,
 } from 'api';
 import { Status } from 'api/status';
 import { put, takeLatest } from 'redux-saga/effects';
@@ -32,6 +33,10 @@ import {
   fetchTakeout,
   fetchTakeoutFailure,
   fetchTakeoutSuccess,
+  UpdateMealAmount,
+  updateMealAmountFailure,
+  updateMealAmountSuccess,
+  fetchOrder,
 } from './actions';
 import {
   FETCH_MEALS,
@@ -39,6 +44,7 @@ import {
   FETCH_ORDER,
   FETCH_PROVIDER,
   FETCH_TAKEOUT,
+  UPDATE_MEAL_AMOUNT,
 } from './constants';
 
 const call: any = Effects.call;
@@ -49,6 +55,7 @@ export function* editOrderFlow() {
   yield takeLatest(FETCH_PROVIDER, fetchProviderSaga);
   yield takeLatest(FETCH_MEALS, fetchMealsSaga);
   yield takeLatest(FETCH_MEALS_FAILURE, fetchCreateMealUsersSaga);
+  yield takeLatest(UPDATE_MEAL_AMOUNT, updateMealAmountSaga);
 }
 
 export function* fetchOrderSaga({ token, orderId }: FetchOrder) {
@@ -185,4 +192,38 @@ export function* fetchCreateMealUsersSaga({
   } catch (e) {
     yield put(fetchCreateMealUsersFailure({ message: e.message }));
   }
+}
+
+export function* updateMealAmountSaga({
+  token,
+  id,
+  index,
+  amount,
+}: UpdateMealAmount) {
+  try {
+    const {
+      data,
+      status,
+    }: {
+      data?: {};
+      status: Status;
+    } = yield call(updateMeal, {
+      token,
+      id,
+      index,
+      amount,
+    });
+
+    if (status.code === 'ERROR' || !data) {
+      yield put(
+        updateMealAmountFailure({
+          message: status.msg,
+        }),
+      );
+      return;
+    }
+
+    yield put(updateMealAmountSuccess({}));
+    yield put(fetchOrder({ token, orderId: id }));
+  } catch (e) {}
 }

@@ -1,5 +1,6 @@
 import { Status } from 'api';
 import fetch from 'node-fetch';
+import { number } from 'prop-types';
 
 export interface Order {
   id: string;
@@ -156,6 +157,45 @@ export const fetchOrderOfTakeoutId: (input: {
     return {
       status: {
         code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const updateMeal: (input: {
+  token: string;
+  id: string;
+  index: number;
+  amount: number;
+}) => Promise<{
+  data?: {};
+  status: Status;
+}> = async ({ token, id, index, amount }) => {
+  try {
+    const response = await fetch(
+      'http://localhost:3000/order/order/update/product',
+      {
+        method: 'POST',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          index,
+          amount,
+        }),
+      },
+    );
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        cdoe: 'ERROR',
         message: e.message,
       },
     };

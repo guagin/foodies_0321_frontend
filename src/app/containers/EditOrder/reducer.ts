@@ -185,10 +185,9 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       ...state,
     };
   },
-  [UPDATE_MEAL_AMOUNT_SUCCESS]: (state, { order }: UpdateMealAmountSuccess) => {
+  [UPDATE_MEAL_AMOUNT_SUCCESS]: (state, action: UpdateMealAmountSuccess) => {
     return {
       ...state,
-      order,
     };
   },
   [UPDATE_MEAL_AMOUNT_FAILURE]: (

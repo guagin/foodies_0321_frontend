@@ -80,6 +80,8 @@ export const removeMeal: ActionCreator<RemoveMeal> = (input: RemoveMeal) => ({
 });
 
 export interface UpdateMealAmount extends Action<typeof UPDATE_MEAL_AMOUNT> {
+  token: string;
+  id: string;
   index: number;
   amount: number;
 }
@@ -92,9 +94,7 @@ export const updateMealAmount: ActionCreator<UpdateMealAmount> = (
 });
 
 export interface UpdateMealAmountSuccess
-  extends Action<typeof UPDATE_MEAL_AMOUNT_SUCCESS> {
-  order: Order;
-}
+  extends Action<typeof UPDATE_MEAL_AMOUNT_SUCCESS> {}
 
 export const updateMealAmountSuccess: ActionCreator<UpdateMealAmountSuccess> = (
   input: UpdateMealAmountSuccess,
