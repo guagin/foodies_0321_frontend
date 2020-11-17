@@ -9,6 +9,7 @@
     "passwordPlaceholder": "想要的密碼"
   },
   "submit": "送出",
+  "confirm": "確認",
   "provider": {
     "name": "店家名稱",
     "namePlaceholder": "輸入店家名稱",

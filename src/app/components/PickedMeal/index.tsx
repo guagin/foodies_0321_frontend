@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Box,
@@ -11,6 +11,7 @@ import {
   MenuItem,
   Select,
   Typography,
+  TextField,
 } from '@material-ui/core';
 
 import { map, range } from 'lodash';
@@ -40,11 +41,103 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
   },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: '100%',
+  },
 }));
+
+export const MealRow = ({
+  meal,
+  updateMeal,
+  remove,
+  onSubmit,
+}: {
+  meal: {
+    index: number;
+    id: string;
+    name: string;
+    price: number;
+    amount: number;
+    description: string;
+    note: string;
+  };
+  updateMeal: (idx: number, amount: number, note: string) => void;
+  remove: (id: number) => void;
+  onSubmit: () => void;
+}) => {
+  const classes = useStyles();
+
+  const [note, setNote] = useState(meal.note);
+
+  const { t } = useTranslation();
+
+  const handleChangeNote = (note: string) => {
+    setNote(note);
+  };
+
+  const amountMenuItems = [
+    <MenuItem value={0}>{t('remove')}</MenuItem>,
+    ...map(range(1, 100), e => <MenuItem value={e}>{e}</MenuItem>),
+  ];
+
+  return (
+    <Grid container spacing={2}>
+      <Grid item sm={4}>
+        <Typography className={classes.heading}>{meal.name}</Typography>
+      </Grid>
+      <Grid item sm={5}>
+        <TextField
+          id="title"
+          label={t('takeout.title')}
+          className={classes.textField}
+          InputLabelProps={{
+            shrink: true,
+          }}
+          required={true}
+          value={note}
+          onChange={e => {
+            handleChangeNote(e.target.value);
+          }}
+          onBlur={() => {
+            updateMeal(meal.index, meal.amount, note);
+          }}
+        />
+      </Grid>
+      <Grid item sm={2}>
+        <Typography className={classes.secondaryHeading}>
+          ${meal.price * meal.amount}
+        </Typography>
+      </Grid>
+      <Grid item sm={1}>
+        <Box>
+          <Select
+            labelId="meal-amount-select-required-label"
+            id="meal-amount-select-required"
+            value={meal.amount}
+            onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+              const amount = event.target.value as number;
+              if (amount > 0) {
+                updateMeal(meal.index, amount, meal.note);
+                return;
+              }
+
+              remove(meal.index);
+            }}
+            className={classes.selectEmpty}
+          >
+            {amountMenuItems}
+          </Select>
+        </Box>
+      </Grid>
+    </Grid>
+  );
+};
 
 export const PickedMeal = ({
   meals,
-  updateAmount,
+  updateMeal,
   remove,
   onSubmit,
 }: {
@@ -56,7 +149,7 @@ export const PickedMeal = ({
     description: string;
     note: string;
   }[];
-  updateAmount: (idx: number, amount: number) => void;
+  updateMeal: (idx: number, amount: number, note: string) => void;
   remove: (id: number) => void;
   onSubmit: () => void;
 }) => {
@@ -64,10 +157,6 @@ export const PickedMeal = ({
 
   const { t } = useTranslation();
 
-  const amountMenuItems = [
-    <MenuItem value={0}>{t('remove')}</MenuItem>,
-    ...map(range(1, 100), e => <MenuItem value={e}>{e}</MenuItem>),
-  ];
   return (
     <>
       <div className={classes.root}>
@@ -79,46 +168,15 @@ export const PickedMeal = ({
             <ListItem key={index}>
               <ListItemText
                 primary={
-                  <Grid container spacing={2}>
-                    <Grid item sm={4}>
-                      <Typography className={classes.heading}>
-                        {meal.name}
-                      </Typography>
-                    </Grid>
-                    <Grid item sm={5}>
-                      <Typography className={classes.secondaryHeading}>
-                        {meal.note}
-                      </Typography>
-                    </Grid>
-                    <Grid item sm={2}>
-                      <Typography className={classes.secondaryHeading}>
-                        ${meal.price * meal.amount}
-                      </Typography>
-                    </Grid>
-                    <Grid item sm={1}>
-                      <Box>
-                        <Select
-                          labelId="meal-amount-select-required-label"
-                          id="meal-amount-select-required"
-                          value={meal.amount}
-                          onChange={(
-                            event: React.ChangeEvent<{ value: unknown }>,
-                          ) => {
-                            const amount = event.target.value as number;
-                            if (amount > 0) {
-                              updateAmount(index, amount);
-                              return;
-                            }
-
-                            remove(index);
-                          }}
-                          className={classes.selectEmpty}
-                        >
-                          {amountMenuItems}
-                        </Select>
-                      </Box>
-                    </Grid>
-                  </Grid>
+                  <MealRow
+                    meal={{
+                      ...meal,
+                      index,
+                    }}
+                    updateMeal={updateMeal}
+                    remove={remove}
+                    onSubmit={onSubmit}
+                  />
                 }
               />
             </ListItem>
@@ -136,7 +194,7 @@ export const PickedMeal = ({
               onSubmit();
             }}
           >
-            <Typography>{t('submit')}</Typography>
+            <Typography>{t('confirm')}</Typography>
           </Button>
         </Box>
       </div>

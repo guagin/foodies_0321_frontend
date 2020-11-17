@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { find, reduce } from 'lodash';
+import { reduce } from 'lodash';
 import {
   AppendMeal,
   FetchCreateMealUsers,
@@ -18,9 +18,9 @@ import {
   FetchTakeoutFailure,
   FetchTakeoutSuccess,
   RemoveMeal,
-  UpdateMealAmount,
-  UpdateMealAmountFailure,
-  UpdateMealAmountSuccess,
+  UpdateMeal,
+  UpdateMealSuccess,
+  UpdateMealFailure,
 } from './actions';
 import {
   APPEND_MEAL,
@@ -40,9 +40,9 @@ import {
   FETCH_TAKEOUT_FAILURE,
   FETCH_TAKEOUT_SUCCESS,
   REMOVE_MEAL,
-  UPDATE_MEAL_AMOUNT,
-  UPDATE_MEAL_AMOUNT_FAILURE,
-  UPDATE_MEAL_AMOUNT_SUCCESS,
+  UPDATE_MEAL_SUCCESS,
+  UPDATE_MEAL,
+  UPDATE_MEAL_FAILURE,
 } from './constants';
 
 export interface User {
@@ -180,26 +180,22 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       },
     };
   },
-  [UPDATE_MEAL_AMOUNT]: (state, { index, amount }: UpdateMealAmount) => {
+  [UPDATE_MEAL]: (state, { index, amount }: UpdateMeal) => {
     return {
       ...state,
     };
   },
-  [UPDATE_MEAL_AMOUNT_SUCCESS]: (state, action: UpdateMealAmountSuccess) => {
+  [UPDATE_MEAL_SUCCESS]: (state, action: UpdateMealSuccess) => {
     return {
       ...state,
     };
   },
-  [UPDATE_MEAL_AMOUNT_FAILURE]: (
-    state,
-    { message }: UpdateMealAmountFailure,
-  ) => {
+  [UPDATE_MEAL_FAILURE]: (state, { message }: UpdateMealFailure) => {
     return {
       ...state,
       message,
     };
   },
-
   [FETCH_TAKEOUT]: (state, action: FetchTakeout) => {
     return {
       ...state,

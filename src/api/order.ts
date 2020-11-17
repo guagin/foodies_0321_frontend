@@ -168,10 +168,11 @@ export const updateMeal: (input: {
   id: string;
   index: number;
   amount: number;
+  note: string;
 }) => Promise<{
   data?: {};
   status: Status;
-}> = async ({ token, id, index, amount }) => {
+}> = async ({ token, id, index, amount, note }) => {
   try {
     const response = await fetch(
       'http://localhost:3000/order/order/update/product',
@@ -185,6 +186,7 @@ export const updateMeal: (input: {
           id,
           index,
           amount,
+          note,
         }),
       },
     );

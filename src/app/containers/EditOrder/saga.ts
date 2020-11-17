@@ -33,10 +33,10 @@ import {
   fetchTakeout,
   fetchTakeoutFailure,
   fetchTakeoutSuccess,
-  UpdateMealAmount,
-  updateMealAmountFailure,
-  updateMealAmountSuccess,
   fetchOrder,
+  updateMealFailure,
+  updateMealSuccess,
+  UpdateMeal,
 } from './actions';
 import {
   FETCH_MEALS,
@@ -44,7 +44,7 @@ import {
   FETCH_ORDER,
   FETCH_PROVIDER,
   FETCH_TAKEOUT,
-  UPDATE_MEAL_AMOUNT,
+  UPDATE_MEAL,
 } from './constants';
 
 const call: any = Effects.call;
@@ -55,7 +55,7 @@ export function* editOrderFlow() {
   yield takeLatest(FETCH_PROVIDER, fetchProviderSaga);
   yield takeLatest(FETCH_MEALS, fetchMealsSaga);
   yield takeLatest(FETCH_MEALS_FAILURE, fetchCreateMealUsersSaga);
-  yield takeLatest(UPDATE_MEAL_AMOUNT, updateMealAmountSaga);
+  yield takeLatest(UPDATE_MEAL, updateMealSaga);
 }
 
 export function* fetchOrderSaga({ token, orderId }: FetchOrder) {
@@ -194,12 +194,7 @@ export function* fetchCreateMealUsersSaga({
   }
 }
 
-export function* updateMealAmountSaga({
-  token,
-  id,
-  index,
-  amount,
-}: UpdateMealAmount) {
+export function* updateMealSaga({ token, id, index, amount }: UpdateMeal) {
   try {
     const {
       data,
@@ -216,14 +211,16 @@ export function* updateMealAmountSaga({
 
     if (status.code === 'ERROR' || !data) {
       yield put(
-        updateMealAmountFailure({
+        updateMealFailure({
           message: status.msg,
         }),
       );
       return;
     }
 
-    yield put(updateMealAmountSuccess({}));
+    yield put(updateMealSuccess({}));
     yield put(fetchOrder({ token, orderId: id }));
-  } catch (e) {}
+  } catch (e) {
+    yield put(updateMealFailure({ message: e.message }));
+  }
 }

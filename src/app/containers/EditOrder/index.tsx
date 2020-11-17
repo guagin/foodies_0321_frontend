@@ -19,12 +19,7 @@ import { useInjectReducer, useInjectSaga } from 'redux-injectors';
 import { createStructuredSelector } from 'reselect';
 import { useTypedSelector } from 'store/reducers';
 
-import {
-  appendMeal,
-  fetchOrder,
-  removeMeal,
-  updateMealAmount,
-} from './actions';
+import { appendMeal, fetchOrder, removeMeal, updateMeal } from './actions';
 
 import { editOrderReducer, Meal } from './reducer';
 import { editOrderFlow } from './saga';
@@ -104,8 +99,8 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
     );
   }, [dispatch, token, orderId]);
 
-  const updateAmount = (index, amount) => {
-    dispatch(updateMealAmount({ id: order.id, index, amount, token }));
+  const updateMealInfo = (index, amount, note) => {
+    dispatch(updateMeal({ id: order.id, index, amount, token }));
   };
 
   const remove = index => {
@@ -118,7 +113,6 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   };
 
   const handleSubmit = () => {
-    
     // dispatch(
     //   createOrder({
     //     token,
@@ -209,7 +203,7 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
           <Grid item xs={12} sm={12}>
             <PickedMeal
               meals={pickedMeals()}
-              updateAmount={updateAmount}
+              updateMeal={updateMealInfo}
               remove={remove}
               onSubmit={handleSubmit}
             />

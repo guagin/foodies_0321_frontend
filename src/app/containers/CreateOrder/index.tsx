@@ -121,7 +121,7 @@ export const CreateOrder: (props: Props) => ReactElement = ({
     setOpenDialog(false);
   };
 
-  const updateAmount = (index, amount) => {
+  const updateMeal = (index, amount, note) => {
     dispatch(UpdatePickedMealAmount({ index, amount }));
   };
 
@@ -183,7 +183,7 @@ export const CreateOrder: (props: Props) => ReactElement = ({
       <div className={classes.paper}>
         <PickedMeal
           meals={pickedMeals}
-          updateAmount={updateAmount}
+          updateMeal={updateMeal}
           remove={remove}
           onSubmit={handleSubmit}
         />

@@ -5,9 +5,9 @@ export const FETCH_ORDER_FAILURE = 'editOrder/FetchOrderFailure';
 export const APPEND_MEAL = 'editOrder/AppendMeal';
 export const REMOVE_MEAL = 'editOrder/RemoveMeal';
 
-export const UPDATE_MEAL_AMOUNT = 'editOrder/UpdateMealAmount';
-export const UPDATE_MEAL_AMOUNT_SUCCESS = 'editOrder/UpdateMealAmountSuccess';
-export const UPDATE_MEAL_AMOUNT_FAILURE = 'editOrder/UpdateMealAmountFailure';
+export const UPDATE_MEAL = 'editOrder/UpdateMeal';
+export const UPDATE_MEAL_SUCCESS = 'editOrder/UpdateMealSuccess';
+export const UPDATE_MEAL_FAILURE = 'editOrder/UpdateMealFailure';
 
 export const FETCH_TAKEOUT = 'editOrder/FetchTakeout';
 export const FETCH_TAKEOUT_SUCCESS = 'editor/FetchTakeoutSuccess';

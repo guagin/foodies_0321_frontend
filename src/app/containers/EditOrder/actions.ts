@@ -3,7 +3,6 @@ import { Action, ActionCreator } from '@reduxjs/toolkit';
 import {
   APPEND_MEAL,
   REMOVE_MEAL,
-  UPDATE_MEAL_AMOUNT,
   FETCH_ORDER,
   FETCH_ORDER_FAILURE,
   FETCH_ORDER_SUCCESS,
@@ -22,8 +21,9 @@ import {
   FETCH_CREATE_MEAL_USERS,
   FETCH_CREATE_MEAL_USERS_SUCCESS,
   FETCH_CREATE_MEAL_USERS_FAILURE,
-  UPDATE_MEAL_AMOUNT_SUCCESS,
-  UPDATE_MEAL_AMOUNT_FAILURE,
+  UPDATE_MEAL,
+  UPDATE_MEAL_SUCCESS,
+  UPDATE_MEAL_FAILURE,
 } from './constants';
 import { Meal, Order, Product, Provider, Takeout, User } from './reducer';
 
@@ -79,40 +79,37 @@ export const removeMeal: ActionCreator<RemoveMeal> = (input: RemoveMeal) => ({
   type: REMOVE_MEAL,
 });
 
-export interface UpdateMealAmount extends Action<typeof UPDATE_MEAL_AMOUNT> {
+export interface UpdateMeal extends Action<typeof UPDATE_MEAL> {
   token: string;
   id: string;
   index: number;
   amount: number;
+  note: string;
 }
 
-export const updateMealAmount: ActionCreator<UpdateMealAmount> = (
-  input: UpdateMealAmount,
-) => ({
+export const updateMeal: ActionCreator<UpdateMeal> = (input: UpdateMeal) => ({
   ...input,
-  type: UPDATE_MEAL_AMOUNT,
+  type: UPDATE_MEAL,
 });
 
-export interface UpdateMealAmountSuccess
-  extends Action<typeof UPDATE_MEAL_AMOUNT_SUCCESS> {}
+export interface UpdateMealSuccess extends Action<typeof UPDATE_MEAL_SUCCESS> {}
 
-export const updateMealAmountSuccess: ActionCreator<UpdateMealAmountSuccess> = (
-  input: UpdateMealAmountSuccess,
+export const updateMealSuccess: ActionCreator<UpdateMealSuccess> = (
+  input: UpdateMealSuccess,
 ) => ({
   ...input,
-  type: UPDATE_MEAL_AMOUNT_SUCCESS,
+  type: UPDATE_MEAL_SUCCESS,
 });
 
-export interface UpdateMealAmountFailure
-  extends Action<typeof UPDATE_MEAL_AMOUNT_FAILURE> {
+export interface UpdateMealFailure extends Action<typeof UPDATE_MEAL_FAILURE> {
   message: string;
 }
 
-export const updateMealAmountFailure: ActionCreator<UpdateMealAmountFailure> = (
-  input: UpdateMealAmountFailure,
+export const updateMealFailure: ActionCreator<UpdateMealFailure> = (
+  input: UpdateMealFailure,
 ) => ({
   ...input,
-  type: UPDATE_MEAL_AMOUNT_FAILURE,
+  type: UPDATE_MEAL_FAILURE,
 });
 
 export interface FetchTakeout extends Action<typeof FETCH_TAKEOUT> {
