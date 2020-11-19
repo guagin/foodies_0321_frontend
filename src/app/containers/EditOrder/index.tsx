@@ -104,7 +104,7 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   };
 
   const remove = index => {
-    dispatch(removeMeal({ index }));
+    dispatch(removeMeal({ token, index, id: order.id }));
   };
 
   const appendProduct = (meal: Meal, amount: number) => {

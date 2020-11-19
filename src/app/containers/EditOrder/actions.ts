@@ -24,6 +24,8 @@ import {
   UPDATE_MEAL,
   UPDATE_MEAL_SUCCESS,
   UPDATE_MEAL_FAILURE,
+  REMOVE_MEAL_SUCCESS,
+  REMOVE_MEAL_FAILURE,
 } from './constants';
 import { Meal, Order, Product, Provider, Takeout, User } from './reducer';
 
@@ -71,12 +73,34 @@ export const appendMeal: ActionCreator<AppendMeal> = (input: AppendMeal) => ({
 });
 
 export interface RemoveMeal extends Action<typeof REMOVE_MEAL> {
+  token: string;
   index: number;
+  id: string;
 }
 
 export const removeMeal: ActionCreator<RemoveMeal> = (input: RemoveMeal) => ({
   ...input,
   type: REMOVE_MEAL,
+});
+
+export interface RemoveMealSuccess extends Action<typeof REMOVE_MEAL_SUCCESS> {}
+
+export const removeMealSuccess: ActionCreator<RemoveMealSuccess> = (
+  input: RemoveMealSuccess,
+) => ({
+  ...input,
+  type: REMOVE_MEAL_SUCCESS,
+});
+
+export interface RemoveMealFailure extends Action<typeof REMOVE_MEAL_FAILURE> {
+  message: string;
+}
+
+export const removeMealFailure: ActionCreator<RemoveMealFailure> = (
+  input: RemoveMealFailure,
+) => ({
+  ...input,
+  type: REMOVE_MEAL_FAILURE,
 });
 
 export interface UpdateMeal extends Action<typeof UPDATE_MEAL> {

@@ -3,7 +3,10 @@ export const FETCH_ORDER_SUCCESS = 'editOrder/FetchOrderSuccess';
 export const FETCH_ORDER_FAILURE = 'editOrder/FetchOrderFailure';
 
 export const APPEND_MEAL = 'editOrder/AppendMeal';
+
 export const REMOVE_MEAL = 'editOrder/RemoveMeal';
+export const REMOVE_MEAL_SUCCESS = 'editOrder/RemoveMealSuccess';
+export const REMOVE_MEAL_FAILURE = 'editOrder/RemoveMealFailure';
 
 export const UPDATE_MEAL = 'editOrder/UpdateMeal';
 export const UPDATE_MEAL_SUCCESS = 'editOrder/UpdateMealSuccess';

@@ -203,3 +203,41 @@ export const updateMeal: (input: {
     };
   }
 };
+
+export const removeMeal = async ({
+  token,
+  index,
+  id,
+}: {
+  token: string;
+  index: number;
+  id: string;
+}) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/order/removeProduct`,
+      {
+        method: 'POST',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          id,
+          index,
+        }),
+      },
+    );
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
