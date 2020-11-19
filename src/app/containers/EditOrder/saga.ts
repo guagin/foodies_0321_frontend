@@ -194,7 +194,13 @@ export function* fetchCreateMealUsersSaga({
   }
 }
 
-export function* updateMealSaga({ token, id, index, amount }: UpdateMeal) {
+export function* updateMealSaga({
+  token,
+  id,
+  index,
+  amount,
+  note,
+}: UpdateMeal) {
   try {
     const {
       data,
@@ -207,6 +213,7 @@ export function* updateMealSaga({ token, id, index, amount }: UpdateMeal) {
       id,
       index,
       amount,
+      note,
     });
 
     if (status.code === 'ERROR' || !data) {

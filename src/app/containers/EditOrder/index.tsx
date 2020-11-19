@@ -100,7 +100,7 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   }, [dispatch, token, orderId]);
 
   const updateMealInfo = (index, amount, note) => {
-    dispatch(updateMeal({ id: order.id, index, amount, token }));
+    dispatch(updateMeal({ id: order.id, index, amount, token, note }));
   };
 
   const remove = index => {

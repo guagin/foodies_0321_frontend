@@ -78,8 +78,14 @@ export const MealRow = ({
   };
 
   const amountMenuItems = [
-    <MenuItem value={0}>{t('remove')}</MenuItem>,
-    ...map(range(1, 100), e => <MenuItem value={e}>{e}</MenuItem>),
+    <MenuItem value={0} key={'0'}>
+      {t('remove')}
+    </MenuItem>,
+    ...map(range(1, 100), e => (
+      <MenuItem value={e} key={`${e}`}>
+        {e}
+      </MenuItem>
+    )),
   ];
 
   return (
@@ -89,8 +95,8 @@ export const MealRow = ({
       </Grid>
       <Grid item sm={5}>
         <TextField
-          id="title"
-          label={t('takeout.title')}
+          id="note"
+          label={t('order.note')}
           className={classes.textField}
           InputLabelProps={{
             shrink: true,
@@ -169,6 +175,7 @@ export const PickedMeal = ({
               <ListItemText
                 primary={
                   <MealRow
+                    key={index}
                     meal={{
                       ...meal,
                       index,
