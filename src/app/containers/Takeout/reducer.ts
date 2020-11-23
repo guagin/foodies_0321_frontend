@@ -33,7 +33,6 @@ import {
   FetchOrderUsersSuccess,
   FetchOrderUsersFailure,
 } from './action';
-import moment from 'moment';
 
 export interface User {
   id: string;

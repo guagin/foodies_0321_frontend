@@ -74,7 +74,7 @@ export const Meal: (props: Props) => React.ReactElement = ({
   const dispatch = useDispatch();
   const { token } = useTypedSelector(state => state.me);
   const { users } = useTypedSelector(state => state.userOfIds);
-  const { isRequest, message, meal, provider } = useSelector(stateSelector);
+  const { isRequest,  meal, provider } = useSelector(stateSelector);
   const { t } = useTranslation();
 
   useEffect(() => {

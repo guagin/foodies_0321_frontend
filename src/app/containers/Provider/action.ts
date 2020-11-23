@@ -1,6 +1,5 @@
 import { Action, ActionCreator } from '@reduxjs/toolkit';
 import { Meal, Provider } from './reducer';
-import { Input } from '@material-ui/core';
 
 export interface FetchProviderOfId extends Action<'FetchProviderOfId'> {
   token: string;

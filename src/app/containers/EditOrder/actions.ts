@@ -26,8 +26,10 @@ import {
   UPDATE_MEAL_FAILURE,
   REMOVE_MEAL_SUCCESS,
   REMOVE_MEAL_FAILURE,
+  APPEND_MEAL_SUCCESS,
+  APPEND_MEAL_FAILURE,
 } from './constants';
-import { Meal, Order, Product, Provider, Takeout, User } from './reducer';
+import { Meal, Order, Provider, Takeout, User } from './reducer';
 
 export interface FetchOrder extends Action<typeof FETCH_ORDER> {
   token: string;
@@ -62,14 +64,38 @@ export const fetchOrderFailure: ActionCreator<FetchOrderFailure> = (
 });
 
 export interface AppendMeal extends Action<typeof APPEND_MEAL> {
-  meal: Meal;
-  amount: number;
-  note: string;
+  token: string;
+  orderId: string;
+  meal: {
+    id: string;
+    amount: number;
+    note: string;
+  };
 }
 
 export const appendMeal: ActionCreator<AppendMeal> = (input: AppendMeal) => ({
   ...input,
   type: APPEND_MEAL,
+});
+
+export interface AppendMealSuccess extends Action<typeof APPEND_MEAL_SUCCESS> {}
+
+export const appendMealSuccess: ActionCreator<AppendMealSuccess> = (
+  input: AppendMealSuccess,
+) => ({
+  ...input,
+  type: APPEND_MEAL_SUCCESS,
+});
+
+export interface AppendMealFailure extends Action<typeof APPEND_MEAL_FAILURE> {
+  message: string;
+}
+
+export const appendMealFailure: ActionCreator<AppendMealFailure> = (
+  input: AppendMealFailure,
+) => ({
+  ...input,
+  type: APPEND_MEAL_FAILURE,
 });
 
 export interface RemoveMeal extends Action<typeof REMOVE_MEAL> {

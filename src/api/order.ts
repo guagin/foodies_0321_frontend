@@ -1,6 +1,5 @@
 import { Status } from 'api';
 import fetch from 'node-fetch';
-import { number } from 'prop-types';
 
 export interface Order {
   id: string;
@@ -225,6 +224,48 @@ export const removeMeal = async ({
         body: JSON.stringify({
           id,
           index,
+        }),
+      },
+    );
+
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.error(e);
+    return {
+      status: {
+        code: 'ERROR',
+        message: e.message,
+      },
+    };
+  }
+};
+
+export const appendMeal = async ({
+  token,
+  orderId,
+  meal,
+}: {
+  token: string;
+  orderId: string;
+  meal: {
+    id: string;
+    amount: number;
+    note: string;
+  };
+}) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/order/order/appendProduct`,
+      {
+        method: 'POST',
+        headers: {
+          token,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderId,
+          products: [meal],
         }),
       },
     );

@@ -21,6 +21,8 @@ import {
   UpdateMeal,
   UpdateMealSuccess,
   UpdateMealFailure,
+  AppendMealSuccess,
+  AppendMealFailure,
 } from './actions';
 import {
   APPEND_MEAL,
@@ -43,6 +45,8 @@ import {
   UPDATE_MEAL_SUCCESS,
   UPDATE_MEAL,
   UPDATE_MEAL_FAILURE,
+  APPEND_MEAL_SUCCESS,
+  APPEND_MEAL_FAILURE,
 } from './constants';
 
 export interface User {
@@ -125,27 +129,25 @@ export const editOrderReducer = createReducer(initEditOrderState, {
       message,
     };
   },
-  [APPEND_MEAL]: (state, { meal, amount, note }: AppendMeal) => {
-    const { order, ...rest } = state;
-    if (!order) {
-      return { ...state };
-    }
-    const { products } = order;
-
-    const newProduct = {
-      id: meal.id,
-      amount,
-      note: '',
-    };
-
+  [APPEND_MEAL]: (state, action: AppendMeal) => {
     return {
-      ...rest,
-      order: {
-        ...order,
-        products: [...products, newProduct],
-      },
+      ...state,
     };
   },
+
+  [APPEND_MEAL_SUCCESS]: (state, action: AppendMealSuccess) => {
+    return {
+      ...state,
+    };
+  },
+
+  [APPEND_MEAL_FAILURE]: (state, { message }: AppendMealFailure) => {
+    return {
+      ...state,
+      message,
+    };
+  },
+
   [REMOVE_MEAL]: (state, { index }: RemoveMeal) => {
     const { order } = state;
     if (!order) {

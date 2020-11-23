@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme, Typography } from '@material-ui/core';
-import { find } from 'lodash';
 import React, { ReactElement } from 'react';
 import { User } from 'store/users-of-ids/reducer';
 import { Provider } from './reducer';
@@ -33,11 +32,7 @@ export const ProviderCard: ({
   users: User[];
 }) => ReactElement = ({ provider, users }) => {
   const classes = useStyles();
-  const getName = (id: string) => {
-    const user = find(users, e => e.id === id);
 
-    return user ? user.name : '';
-  };
   return (
     <>
       <Typography

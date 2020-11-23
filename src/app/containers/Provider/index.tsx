@@ -3,7 +3,6 @@ import {
   CssBaseline,
   Grid,
   makeStyles,
-  Typography,
   Fab,
 } from '@material-ui/core';
 import { push } from 'connected-react-router';
@@ -75,7 +74,7 @@ export const Provider: (props: Props) => ReactElement = ({
   const dispatch = useDispatch();
   const { token } = useTypedSelector(state => state.me);
   const { users } = useTypedSelector(state => state.userOfIds);
-  const { isRequest, provider, message, meals } = useSelector(stateSelector);
+  const { isRequest, provider, meals } = useSelector(stateSelector);
 
   const { t } = useTranslation();
 

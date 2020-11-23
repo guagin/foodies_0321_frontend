@@ -10,10 +10,8 @@ import {
   TableCell,
   TableBody,
   TablePagination,
-  CircularProgress,
 } from '@material-ui/core';
 
-import { useTypedSelector } from 'store/reducers';
 import { Provider } from 'store/model/provider';
 import { useTranslation } from 'react-i18next';
 
@@ -43,16 +41,8 @@ export const ProviderList = ({
   handleOnClick: (id: string) => void;
 }) => {
   const classes = useStyles();
-  const userOfIds = useTypedSelector(state => state.userOfIds);
-  const { t } = useTranslation();
 
-  const showUserName = (userId: string) => {
-    if (userOfIds.isRequest) {
-      return <CircularProgress />;
-    }
-    const user = userOfIds.users.find(user => user.id === userId);
-    return user ? user.name : `not found this user's namn: ${userId}`;
-  };
+  const { t } = useTranslation();
 
   return (
     <>

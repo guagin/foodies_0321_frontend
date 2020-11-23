@@ -1,12 +1,9 @@
-import { chunk } from 'lodash';
 import React from 'react';
 import {
   makeStyles,
   Card,
   CardContent,
   Typography,
-  CardActions,
-  Button,
   Grid,
   CircularProgress,
 } from '@material-ui/core';

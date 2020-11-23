@@ -42,8 +42,6 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const statusMap = ['pended', 'placed', 'canceled'];
-
 const TakeoutTitle = ({ takeout }: { takeout?: Takeout }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();

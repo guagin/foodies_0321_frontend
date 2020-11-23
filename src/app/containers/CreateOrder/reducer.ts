@@ -13,7 +13,7 @@ import {
   FetchTakeoutSuccess,
   FetchTakeoutFailure,
 } from './action';
-import { find, reduce } from 'lodash';
+import { reduce } from 'lodash';
 
 import {
   CREATE_ORDER,

@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { SignIn, SignInSuccess, SignInFailure } from './action';
+import { SignInSuccess, SignInFailure } from './action';
 import { SIGN_IN, SIGN_IN_SUCCESS, SIGN_IN_FAILURE } from './constants';
 
 export type SignInState = {

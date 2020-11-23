@@ -10,10 +10,8 @@ import {
   makeStyles,
   Grid,
   Typography,
-  Card,
   CssBaseline,
   CircularProgress,
-  CardContent,
   Table,
   TableHead,
   TableRow,
@@ -288,12 +286,10 @@ export const TakeoutPage: (props: Props) => ReactElement = ({
     params: { id },
   },
 }) => {
-  const classes = useStyles();
-
   useInjectReducer({ key: 'takeout', reducer: takeoutReducer });
   useInjectSaga({ key: 'takeout', saga: TakeoutFlow });
 
-  const { takeout, message, orders, provider, user, orderUsers } = useSelector(
+  const { takeout, orders, provider, user, orderUsers } = useSelector(
     stateSelector,
   );
   const { token, id: selfUserId } = useTypedSelector(state => state.me);

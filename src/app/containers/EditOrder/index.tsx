@@ -108,7 +108,17 @@ export const EditOrder: (props: Props) => React.ReactElement = ({
   };
 
   const appendProduct = (meal: Meal, amount: number) => {
-    dispatch(appendMeal({ meal, amount, note: '' }));
+    dispatch(
+      appendMeal({
+        token,
+        orderId,
+        meal: {
+          id: meal.id,
+          amount,
+          note: '',
+        },
+      }),
+    );
     handleDialogClose();
   };
 

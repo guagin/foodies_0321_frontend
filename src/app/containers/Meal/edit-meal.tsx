@@ -39,7 +39,7 @@ export const EditMeal = () => {
   const classes = useStyles();
 
   const { token } = useTypedSelector(state => state.me);
-  const { isRequest, message, meal, provider } = useSelector(stateSelector);
+  const { meal, provider } = useSelector(stateSelector);
 
   const { t } = useTranslation();
   const dispatch = useDispatch();

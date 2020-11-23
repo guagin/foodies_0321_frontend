@@ -29,11 +29,9 @@ import {
   Box,
   Menu,
   MenuItem,
-  Badge,
 } from '@material-ui/core';
 import { deepPurple } from '@material-ui/core/colors';
 import { useTypedSelector } from 'store/reducers';
-import { brotliCompress } from 'zlib';
 import { signOut } from 'app/containers/SignInPage/action';
 
 const drawerWidth = 240;
@@ -168,8 +166,6 @@ export const AppDrawer = ({ children }) => {
 
     setOpen(open);
   };
-
-  const openCart = open => () => {};
 
   return (
     <div
